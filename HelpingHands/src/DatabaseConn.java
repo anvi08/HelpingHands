@@ -18,6 +18,7 @@ public class DatabaseConn {
         //here sonoo is database name, root is username and password  
         Statement stmt=con.createStatement();  
         ResultSet rs=stmt.executeQuery("Select * from donortable;");  
+        System.out.print(rs);
         while(rs.next())  
         System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
         con.close();  

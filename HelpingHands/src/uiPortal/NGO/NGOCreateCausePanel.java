@@ -4,6 +4,10 @@
  */
 package uiPortal.NGO;
 
+import java.sql.SQLException;
+import model.causes.Cause;
+import model.causes.CauseDirectory;
+
 /**
  *
  * @author abhis
@@ -37,7 +41,7 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         jTextArea1 = new javax.swing.JTextArea();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnCreateCause = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -75,7 +79,12 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("Create");
+        btnCreateCause.setText("Create");
+        btnCreateCause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateCauseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -91,7 +100,7 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addComponent(btnCreateCause)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextField1)
@@ -124,7 +133,7 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
                     .addComponent(jLabel5)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addComponent(jButton1)
+                .addComponent(btnCreateCause)
                 .addContainerGap(60, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -133,9 +142,22 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
+    private void btnCreateCauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateCauseActionPerformed
+        // TODO add your handling code here:
+        Cause cause = new Cause("A","B","C","D","E",true);
+        CauseDirectory causeDirectory = new CauseDirectory(cause);
+        try{
+            causeDirectory.addCause();
+        }catch(SQLException ex){
+            System.out.println("ERROR");
+        }
+
+        
+    }//GEN-LAST:event_btnCreateCauseActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnCreateCause;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

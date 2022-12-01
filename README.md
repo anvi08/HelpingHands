@@ -4,6 +4,7 @@ HELPING Hands
 * Introduction
 * Tech stack
 * Installation
+* UML Diagrams
 * Maintainers
 
 INTRODUCTION

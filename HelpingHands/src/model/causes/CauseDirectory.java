@@ -29,7 +29,7 @@ public class CauseDirectory {
     public void addCause() throws SQLException{
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");  
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/financialaiddb","root","@Fd2556b9dd1997");  
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/financialaiddb","root","root");  
             String sql = "INSERT INTO `cause`(`NGO_Org`, `Cause_Name`,`Cause_Desc`,`R_Category`,`Country`,`Status`) "
                     + "VALUES ('" + cause.getNgoOrg() + "','" + cause.getCauseName() + "','" + cause.getCauseDesc() + "','" + cause.getRecCategory() + "','" + cause.getCountry() + "','" + '1' + "')";
             st = con.createStatement();

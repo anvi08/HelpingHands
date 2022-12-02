@@ -4,6 +4,12 @@
  */
 package uiPortal.NGO;
 
+import utilities.DbConnection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author abhis
@@ -96,11 +102,18 @@ public class NGOLandingPage extends javax.swing.JPanel {
 
     private void btnViewCauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewCauseActionPerformed
         // TODO add your handling code here:
-        NGOViewCausePanel ngoViewCausePanel = new NGOViewCausePanel();
-        cardLayoutPanel.removeAll();
-        cardLayoutPanel.add(ngoViewCausePanel);
-        cardLayoutPanel.repaint();
-        cardLayoutPanel.revalidate();
+        NGOViewCausePanel ngoViewCausePanel;
+        try {
+            ngoViewCausePanel = new NGOViewCausePanel();
+            cardLayoutPanel.removeAll();
+            cardLayoutPanel.add(ngoViewCausePanel);
+            cardLayoutPanel.repaint();
+            cardLayoutPanel.revalidate();            
+        } catch (SQLException ex) {
+            Logger.getLogger(NGOLandingPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+                
     }//GEN-LAST:event_btnViewCauseActionPerformed
 
 

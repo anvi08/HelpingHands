@@ -51,7 +51,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        jLabel1.setText("abcd");
+        jLabel1.setText("Welcome Sys Admin");
 
         jButton2.setText("BANK");
 

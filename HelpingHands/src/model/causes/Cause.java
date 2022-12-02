@@ -101,7 +101,10 @@ public class Cause {
         this.status = status;
     }
     
-
+    @Override  
+    public String toString(){
+        return ngoOrg;
+    }   
 
     
 }

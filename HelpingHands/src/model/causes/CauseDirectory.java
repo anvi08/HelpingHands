@@ -12,13 +12,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import utilities.DbConnection;
+
 /**
  *
  * @author abhis
  */
 public class CauseDirectory {
     private Cause cause;
-    Statement st;
+
     
     public CauseDirectory(Cause cause){
         
@@ -26,18 +28,10 @@ public class CauseDirectory {
         
     }
 
-    public void addCause() throws SQLException{
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");  
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/financialaiddb","root","@Fd2556b9dd1997");  
-            String sql = "INSERT INTO `cause`(`NGO_Org`, `Cause_Name`,`Cause_Desc`,`R_Category`,`Country`,`Status`) "
-                    + "VALUES ('" + cause.getNgoOrg() + "','" + cause.getCauseName() + "','" + cause.getCauseDesc() + "','" + cause.getRecCategory() + "','" + cause.getCountry() + "','" + '1' + "')";
-            st = con.createStatement();
-            st.execute(sql);
-        } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println(ex);
-        }
-//        fetch();
+    public void addCause(){
+        String sql = "INSERT INTO `cause`(`NGO_Org`, `Cause_Name`,`Cause_Desc`,`R_Category`,`Country`,`Status`) "
+                + "VALUES ('" + cause.getNgoOrg() + "','" + cause.getCauseName() + "','" + cause.getCauseDesc() + "','" + cause.getRecCategory() + "','" + cause.getCountry() + "','" + '1' + "')";//        fetch();
+        DbConnection.query(sql);
     }    
     
 }

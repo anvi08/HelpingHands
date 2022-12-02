@@ -28,25 +28,10 @@ public class CauseDirectory {
         
     }
 
-<<<<<<< HEAD
     public void addCause(){
         String sql = "INSERT INTO `cause`(`NGO_Org`, `Cause_Name`,`Cause_Desc`,`R_Category`,`Country`,`Status`) "
                 + "VALUES ('" + cause.getNgoOrg() + "','" + cause.getCauseName() + "','" + cause.getCauseDesc() + "','" + cause.getRecCategory() + "','" + cause.getCountry() + "','" + '1' + "')";//        fetch();
         DbConnection.query(sql);
-=======
-    public void addCause() throws SQLException{
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");  
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/financialaiddb","root","root");  
-            String sql = "INSERT INTO `cause`(`NGO_Org`, `Cause_Name`,`Cause_Desc`,`R_Category`,`Country`,`Status`) "
-                    + "VALUES ('" + cause.getNgoOrg() + "','" + cause.getCauseName() + "','" + cause.getCauseDesc() + "','" + cause.getRecCategory() + "','" + cause.getCountry() + "','" + '1' + "')";
-            st = con.createStatement();
-            st.execute(sql);
-        } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println(ex);
-        }
-//        fetch();
->>>>>>> AnviJain/NUID-002657150
     }    
     
 }

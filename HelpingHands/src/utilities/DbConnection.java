@@ -20,6 +20,7 @@ public class DbConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/financialaiddb";
     private static final String USER_NAME = "root";
     private static final String PASSWORD = "@Fd2556b9dd1997";
+    private static final String SHREYA_PASSWORD = "Friends_1306";
     
     private static Connection connection = null;
     private static Statement statement = null;
@@ -28,7 +29,7 @@ public class DbConnection {
     /* Creating Connection*/
     public static void connection(){
        try{
-            connection = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+            connection = DriverManager.getConnection(URL, USER_NAME, SHREYA_PASSWORD);
             statement = connection.createStatement();
             System.out.println("Connection Opened");
         }catch(SQLException e){            

@@ -9,6 +9,6 @@ package utilities;
  * @author abhis
  */
 public final class Constants {
-     public static String[] enterpriseList = new String[]{"", "NGO"};
+     public static String[] enterpriseList = new String[]{"", "NGO", "Bank"};
      
 }

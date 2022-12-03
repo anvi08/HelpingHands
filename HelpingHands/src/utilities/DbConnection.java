@@ -21,6 +21,7 @@ public class DbConnection {
     private static final String USER_NAME = "root";
     private static final String ABHI_PASSWORD = "@Fd2556b9dd1997";
     private static final String ANVI_PASSWORD = "root";
+    private static final String SHREYA_PASSWORD = "Friends_1306";
     
     private static Connection connection = null;
     private static Statement statement = null;

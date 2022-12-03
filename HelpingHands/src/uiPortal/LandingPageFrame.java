@@ -7,6 +7,7 @@ package uiPortal;
 //import uiPortal.Bank.BankLandingPage;
 import uiPortal.Bank.BankLandingPage;
 import uiPortal.NGO.NGOLandingPage;
+import uiPortal.justiceDepartment.JusticeDepartmentLandingPage;
 
 /**
  *
@@ -63,6 +64,11 @@ public class LandingPageFrame extends javax.swing.JFrame {
         });
 
         jButton3.setText("Justice Dept.");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Service Provider");
 
@@ -158,6 +164,14 @@ public class LandingPageFrame extends javax.swing.JFrame {
         BankLandingPage banklandingpage = new BankLandingPage();
         jSplitPane.setRightComponent(banklandingpage);
     }//GEN-LAST:event_btnBankLinkActionPerformedActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+         JusticeDepartmentLandingPage justiceDepartmentLandingPage = new JusticeDepartmentLandingPage();
+        // ABCD abcd = new ABCD();
+        jSplitPane.setRightComponent(justiceDepartmentLandingPage);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     /**
      * @param args the command line arguments

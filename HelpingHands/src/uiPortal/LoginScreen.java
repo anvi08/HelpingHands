@@ -4,6 +4,9 @@
  */
 package uiPortal;
 
+import java.awt.Component;
+import java.util.Map;
+import javax.swing.JOptionPane;
 import utilities.DbConnection;
 import utilities.Constants;
 
@@ -20,7 +23,14 @@ public class LoginScreen extends javax.swing.JFrame {
         initComponents();
         for (String item :Constants.enterpriseList) {
             dropdownRole1.addItem(item);
+            combobxType.setSelectedIndex(-1);  
+            combobxCountry.setSelectedIndex(-1);
         }
+        for (String item :Constants.donorCountries) {
+            combobxCountry.addItem(item);
+            combobxType.setSelectedIndex(-1);  
+            combobxCountry.setSelectedIndex(-1);
+        }        
         //System.out.println();
     }
 
@@ -41,10 +51,10 @@ public class LoginScreen extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JTextField();
         dropdownRole1 = new javax.swing.JComboBox<>();
         btnLogin = new javax.swing.JButton();
         lblErrMsg = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
         panelRegister = new javax.swing.JPanel();
         txtName = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -104,12 +114,6 @@ public class LoginScreen extends javax.swing.JFrame {
             }
         });
 
-        txtPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPasswordActionPerformed(evt);
-            }
-        });
-
         btnLogin.setBackground(new java.awt.Color(0, 153, 0));
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
@@ -137,17 +141,17 @@ public class LoginScreen extends javax.swing.JFrame {
                         .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblErrMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelLoginLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelLoginLayout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(dropdownRole1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelLoginLayout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelLoginLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(98, Short.MAX_VALUE))
         );
 
@@ -181,7 +185,7 @@ public class LoginScreen extends javax.swing.JFrame {
 
         panelLoginLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel4, jLabel5, jLabel6});
 
-        panelLoginLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {dropdownRole1, txtEmail, txtPassword});
+        panelLoginLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {dropdownRole1, txtEmail});
 
         cardLayoutRegisterLoginPanel.add(panelLogin, "card2");
 
@@ -210,10 +214,6 @@ public class LoginScreen extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel12.setText("Country");
-
-        combobxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        combobxCountry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnRegister.setBackground(new java.awt.Color(0, 153, 0));
         btnRegister.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -248,12 +248,12 @@ public class LoginScreen extends javax.swing.JFrame {
                             .addComponent(txtContact, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                             .addComponent(txtEmailReg, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                             .addComponent(combobxType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPasswordReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtPasswordReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelRegisterLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         panelRegisterLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {combobxCountry, combobxType, txtContact, txtEmailReg, txtName, txtPasswordReg});
@@ -316,11 +316,11 @@ public class LoginScreen extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(123, 123, 123)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLoginTab)
+                    .addComponent(btnLoginTab, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegisterTab))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnLoginTab, btnRegisterTab});
@@ -332,22 +332,18 @@ public class LoginScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
 
-    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordActionPerformed
-
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here: 
         String emailId = txtEmail.getText();
-        String password = txtPassword.getText();
+        String password =String.valueOf(txtPassword.getPassword());
         
         if (emailId == null || emailId.trim().equals("") || password == null || password.equals("")) {
             lblErrMsg.setText("User Name or Password cannot be empty.");
         } else {
-            dispose();
-            LandingPageFrame landingPage =  new LandingPageFrame();
-            landingPage.setTitle("Dashboard");
-            landingPage.setVisible(true);
+            String role = (String)dropdownRole1.getSelectedItem();
+            validateRole(role, emailId, password);
+            
+
         }
       
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -370,18 +366,35 @@ public class LoginScreen extends javax.swing.JFrame {
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         // TODO add your handling code here:
+        
+
         String name = txtName.getText();
         String email = txtEmailReg.getText();
         String pass = String.valueOf(txtPasswordReg.getPassword());       
         String type = combobxType.getSelectedItem().toString();        
         String country = combobxCountry.getSelectedItem().toString();      
-        int contact = Integer.valueOf(txtContact.getText());
-        String sql = "INSERT INTO `donortable`(`Name`, `Email`,`Password`,`Type`,`Contact`,`Country`) "
-                + "VALUES ('" + name + "','" + email + "','" + pass + "','" + type + "','" + contact + "','" + country + "')";//        fetch();
-        DbConnection.query(sql);        
+        Long contact = Long.valueOf(txtContact.getText());
+
+        if(email.contains("@")==false){
+            JOptionPane.showMessageDialog(this,"Please Input a correct Email");
+        }
+        else{
+            String sql = "INSERT INTO `donortable`(`Name`, `Email`,`Password`,`Type`,`Contact`,`Country`) "
+                    + "VALUES ('" + name + "','" + email + "','" + pass + "','" + type + "','" + contact + "','" + country + "')";//        fetch();
+            DbConnection.query(sql);      
+
+
+            JOptionPane.showMessageDialog(this, "New User Has Been Created");            
+        }
         
-        
-        
+        txtName.setText("");
+        txtEmailReg.setText("");
+        txtPasswordReg.setText("");
+        txtContact.setText("");
+        combobxType.setSelectedIndex(-1);  
+        combobxCountry.setSelectedIndex(-1);             
+
+
         
         
     }//GEN-LAST:event_btnRegisterActionPerformed
@@ -446,7 +459,69 @@ public class LoginScreen extends javax.swing.JFrame {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailReg;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JPasswordField txtPasswordReg;
     // End of variables declaration//GEN-END:variables
+    public void validateRole(String role, String email, String password){
+        
+        switch(role){
+            case "":
+                navigateToLandingPage();
+                break;
+                
+            case "NGO":
+                for (Map.Entry<String, String> entry : Constants.ngoOrgAdminList.entrySet()) {
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+                    if(key.equals(email.trim()) && value.equals(password.trim())) {
+                        navigateToNGOLandingPage(email);
+                        return;
+                    }
+                }
+                lblErrMsg.setText("Username not available in DB for this role");
+                break;
+                
+            default:
+                lblErrMsg.setText("Username not available in DB for this role");
+        }
+    }
+
+
+    
+    public void navigateToLandingPage(){
+        dispose();
+        String loggedInUser = null;
+        LandingPageFrame landingPage =  new LandingPageFrame(loggedInUser);
+        landingPage.setTitle("Dashboard");
+        landingPage.setVisible(true);
+        Component[] componentList = landingPage.getComponents();
+
+        //Loop through the components
+        for(Component c : componentList){
+
+            System.out.println(c);
+        }
+
+    }    
+        
+    public void navigateToNGOLandingPage(String role){
+        String loggedInUser = null;        
+        if(role.trim().equals("health")){
+            loggedInUser = "Healthcare";
+        }
+        else if(role.trim().equals("disaster")){
+            loggedInUser = "Natural Disasters";
+        }
+        else{
+            loggedInUser = "Education";
+        }
+        dispose();
+        LandingPageFrame landingPage =  new LandingPageFrame(loggedInUser);
+        landingPage.setTitle("Dashboard");
+        landingPage.setVisible(true);
+        landingPage.remove(this);
+        
+    }    
+    
+    
 }

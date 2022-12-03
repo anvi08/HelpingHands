@@ -6,7 +6,9 @@ package uiPortal;
 
 //import uiPortal.Bank.BankLandingPage;
 import uiPortal.Bank.BankLandingPage;
+import java.util.Map;
 import uiPortal.NGO.NGOLandingPage;
+import utilities.Constants;
 import uiPortal.justiceDepartment.JusticeDepartmentLandingPage;
 
 /**
@@ -14,14 +16,17 @@ import uiPortal.justiceDepartment.JusticeDepartmentLandingPage;
  * @author abhis
  */
 public class LandingPageFrame extends javax.swing.JFrame {
-
+    private String loggedInUser;
     /**
      * Creates new form LandingPageFrame
      */
-    public LandingPageFrame() {
-        initComponents();
+    public LandingPageFrame(String loggedInUser) {
+        initComponents();        
+        validateRole(loggedInUser);
+        this.loggedInUser = loggedInUser;
     }
-
+           
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,10 +40,10 @@ public class LandingPageFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnNGOLink = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        btnBankLinkActionPerformed = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnJusticeLink = new javax.swing.JButton();
+        btnServiceLink = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
+        btnBankLink = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -56,21 +61,19 @@ public class LandingPageFrame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jLabel1.setText("Welcome Sys Admin");
 
-        btnBankLinkActionPerformed.setText("BANK");
-        btnBankLinkActionPerformed.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBankLinkActionPerformedActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Justice Dept.");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnJusticeLink.setText("Justice Dept.");
+        btnJusticeLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Service Provider");
+        btnServiceLink.setText("Service Provider");
+        btnServiceLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnServiceLinkActionPerformed(evt);
+            }
+        });
 
         btnLogout.setBackground(new java.awt.Color(153, 51, 0));
         btnLogout.setForeground(new java.awt.Color(255, 255, 255));
@@ -81,6 +84,13 @@ public class LandingPageFrame extends javax.swing.JFrame {
             }
         });
 
+        btnBankLink.setText("BANK");
+        btnBankLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBankLinkActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -88,15 +98,19 @@ public class LandingPageFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNGOLink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnBankLinkActionPerformed, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnJusticeLink, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnServiceLink, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnNGOLink, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBankLink))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBankLink, btnJusticeLink, btnNGOLink, btnServiceLink});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -104,14 +118,16 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 .addGap(55, 55, 55)
                 .addComponent(btnNGOLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnBankLinkActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+                .addComponent(btnBankLink)
+                .addGap(18, 18, 18)
+                .addComponent(btnJusticeLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(btnServiceLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
                 .addComponent(btnLogout))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBankLink, btnJusticeLink, btnNGOLink, btnServiceLink});
 
         jSplitPane.setLeftComponent(jPanel1);
 
@@ -155,68 +171,87 @@ public class LandingPageFrame extends javax.swing.JFrame {
 
     private void btnNGOLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNGOLinkActionPerformed
         // TODO add your handling code here:
-        NGOLandingPage ngoLandingPage = new NGOLandingPage();
+        NGOLandingPage ngoLandingPage = new NGOLandingPage(loggedInUser);
         jSplitPane.setRightComponent(ngoLandingPage);
     }//GEN-LAST:event_btnNGOLinkActionPerformed
 
-    private void btnBankLinkActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBankLinkActionPerformedActionPerformed
+    private void btnServiceLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiceLinkActionPerformed
         // TODO add your handling code here:
-        BankLandingPage banklandingpage = new BankLandingPage();
-        jSplitPane.setRightComponent(banklandingpage);
-    }//GEN-LAST:event_btnBankLinkActionPerformedActionPerformed
+    }//GEN-LAST:event_btnServiceLinkActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnBankLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBankLinkActionPerformed
         // TODO add your handling code here:
-         JusticeDepartmentLandingPage justiceDepartmentLandingPage = new JusticeDepartmentLandingPage();
-        // ABCD abcd = new ABCD();
-        jSplitPane.setRightComponent(justiceDepartmentLandingPage);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        BankLandingPage bankLandingPage = new BankLandingPage();
+        jSplitPane.setRightComponent(bankLandingPage);
+    }//GEN-LAST:event_btnBankLinkActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        System.out.println("NONE");
+    }                                           
+
+
 
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LandingPageFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LandingPageFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LandingPageFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LandingPageFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LandingPageFrame().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(LandingPageFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(LandingPageFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(LandingPageFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(LandingPageFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new LandingPageFrame().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBankLinkActionPerformed;
+    private javax.swing.JButton btnBankLink;
+    private javax.swing.JButton btnJusticeLink;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnNGOLink;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnServiceLink;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSplitPane jSplitPane;
     // End of variables declaration//GEN-END:variables
+
+    public void validateRole(String loggedInUser){
+
+        if(loggedInUser != null){
+            
+            System.out.println(loggedInUser);
+            // btnBankLink.setVisible(false);
+            btnJusticeLink.setVisible(false);
+            btnServiceLink.setVisible(false);
+            
+        }
+        
+        
+    } 
+
 }

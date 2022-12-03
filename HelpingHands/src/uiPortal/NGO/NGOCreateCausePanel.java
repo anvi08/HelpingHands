@@ -8,21 +8,32 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import model.causes.Cause;
 import model.causes.CauseDirectory;
-
+import utilities.Constants;
 /**
  *
  * @author abhis
  */
 public class NGOCreateCausePanel extends javax.swing.JPanel {
-
+    private String loggedInUser;
     /**
      * Creates new form NGOCreateCausePanel
      */
-    public NGOCreateCausePanel() {
+    public NGOCreateCausePanel(String loggedInUser) {
         initComponents();
-        combobxOrganisation.setSelectedIndex(-1);        
-        combobxCountry.setSelectedIndex(-1);      
-        combobxCategory.setSelectedIndex(-1);
+        
+        for (String item :Constants.receivingCountries) {
+            System.out.println(item);
+            combobxCountry.addItem(item);
+        }
+        
+        if(loggedInUser != null){
+            validateRole(loggedInUser);
+        }else{
+            combobxOrganisation.setSelectedIndex(-1);        
+            combobxCountry.setSelectedIndex(-1);      
+            combobxCategory.setSelectedIndex(-1);            
+        }
+
     }
 
     /**
@@ -72,6 +83,9 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         txtDescription.setRows(5);
         jScrollPane1.setViewportView(txtDescription);
 
+        btnCreateCause.setBackground(new java.awt.Color(0, 153, 0));
+        btnCreateCause.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCreateCause.setForeground(new java.awt.Color(255, 255, 255));
         btnCreateCause.setText("Create");
         btnCreateCause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,7 +93,7 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
             }
         });
 
-        combobxCountry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Uganda", "India", "Ukraine" }));
+        combobxCountry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "India", "Uganda", "Ukraine" }));
 
         combobxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Individual", "Community" }));
 
@@ -130,7 +144,7 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
                     .addComponent(combobxCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(btnCreateCause)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -141,18 +155,18 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         String country = combobxCountry.getSelectedItem().toString();
         String name = txtName.getText();
         String description = txtDescription.getText();
-        String Category = combobxCategory.getSelectedItem().toString();
-        
-        
-        
-        Cause cause = new Cause(name,description,organisation,Category,country,true);
+        String category = combobxCategory.getSelectedItem().toString();
+
+        Cause cause = new Cause(name,description,organisation,category,country,false);
         CauseDirectory causeDirectory = new CauseDirectory(cause);
         causeDirectory.addCause();
-        
+        txtName.setText("");
+        txtDescription.setText("");
+        combobxOrganisation.setSelectedIndex(-1);
+        combobxCountry.setSelectedIndex(-1);
+        combobxCategory.setSelectedIndex(-1);
         JOptionPane.showMessageDialog(this, "Cause Has been Created");
-        
 
-        
     }//GEN-LAST:event_btnCreateCauseActionPerformed
 
 
@@ -170,4 +184,17 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
     private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
+    public void validateRole(String loggedInUser){
+
+        if(loggedInUser != null){
+            
+            System.out.println(loggedInUser);
+            combobxOrganisation.removeAllItems();
+            combobxOrganisation.addItem(loggedInUser); 
+            combobxOrganisation.setEnabled(false);
+        }
+        
+        
+    } 
+
 }

@@ -55,12 +55,14 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" max="32767" attributes="0"/>
-                          <Component id="btnNGOLink" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnBankLinkActionPerformed" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jButton3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton4" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnLogout" min="-2" pref="102" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="btnJusticeLink" linkSize="1" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                                  <Component id="btnServiceLink" linkSize="1" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                                  <Component id="btnNGOLink" linkSize="1" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                                  <Component id="btnLogout" alignment="0" min="-2" pref="102" max="-2" attributes="0"/>
+                                  <Component id="btnBankLink" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -73,14 +75,14 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel1" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                      <Component id="btnNGOLink" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="btnNGOLink" linkSize="2" min="-2" pref="38" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnBankLinkActionPerformed" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton3" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton4" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace pref="161" max="32767" attributes="0"/>
+                      <Component id="btnBankLink" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnJusticeLink" linkSize="2" min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      <Component id="btnServiceLink" linkSize="2" min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace pref="147" max="32767" attributes="0"/>
                       <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -106,15 +108,7 @@
                 <Property name="text" type="java.lang.String" value="Welcome Sys Admin"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnBankLinkActionPerformed">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="BANK"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBankLinkActionPerformedActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="btnJusticeLink">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Justice Dept."/>
               </Properties>
@@ -122,10 +116,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton4">
+            <Component class="javax.swing.JButton" name="btnServiceLink">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Service Provider"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnServiceLinkActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnLogout">
               <Properties>
@@ -139,6 +136,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLogoutActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnBankLink">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="BANK"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBankLinkActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

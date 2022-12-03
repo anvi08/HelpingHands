@@ -15,12 +15,13 @@ import javax.swing.table.DefaultTableModel;
  * @author abhis
  */
 public class NGOLandingPage extends javax.swing.JPanel {
-
+    private String loggedInUser;
     /**
      * Creates new form NGOLandingPage
      */
-    public NGOLandingPage() {
+    public NGOLandingPage(String loggedInUser) {
         initComponents();
+        this.loggedInUser = loggedInUser;
     }
 
     /**
@@ -37,6 +38,9 @@ public class NGOLandingPage extends javax.swing.JPanel {
         btnViewCause = new javax.swing.JButton();
         cardLayoutPanel = new javax.swing.JPanel();
 
+        btnCreateCause.setBackground(new java.awt.Color(0, 153, 0));
+        btnCreateCause.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCreateCause.setForeground(new java.awt.Color(255, 255, 255));
         btnCreateCause.setText("Create Cause");
         btnCreateCause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -44,6 +48,8 @@ public class NGOLandingPage extends javax.swing.JPanel {
             }
         });
 
+        btnViewCause.setBackground(new java.awt.Color(255, 255, 0));
+        btnViewCause.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnViewCause.setText("View Cause");
         btnViewCause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,7 +62,7 @@ public class NGOLandingPage extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(258, Short.MAX_VALUE)
+                .addContainerGap(249, Short.MAX_VALUE)
                 .addComponent(btnCreateCause)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnViewCause)
@@ -93,7 +99,7 @@ public class NGOLandingPage extends javax.swing.JPanel {
 
     private void btnCreateCauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateCauseActionPerformed
         // TODO add your handling code here:
-        NGOCreateCausePanel ngoCreateCausePanel = new NGOCreateCausePanel();
+        NGOCreateCausePanel ngoCreateCausePanel = new NGOCreateCausePanel(loggedInUser);
         cardLayoutPanel.removeAll();
         cardLayoutPanel.add(ngoCreateCausePanel);
         cardLayoutPanel.repaint();
@@ -104,7 +110,7 @@ public class NGOLandingPage extends javax.swing.JPanel {
         // TODO add your handling code here:
         NGOViewCausePanel ngoViewCausePanel;
         try {
-            ngoViewCausePanel = new NGOViewCausePanel();
+            ngoViewCausePanel = new NGOViewCausePanel(loggedInUser);
             cardLayoutPanel.removeAll();
             cardLayoutPanel.add(ngoViewCausePanel);
             cardLayoutPanel.repaint();
@@ -123,4 +129,5 @@ public class NGOLandingPage extends javax.swing.JPanel {
     private javax.swing.JPanel cardLayoutPanel;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
 }

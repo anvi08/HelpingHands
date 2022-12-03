@@ -7,6 +7,7 @@ package uiPortal;
 import java.util.Map;
 import uiPortal.NGO.NGOLandingPage;
 import utilities.Constants;
+import uiPortal.justiceDepartment.JusticeDepartmentLandingPage;
 
 /**
  *
@@ -66,6 +67,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
         });
 
         btnJusticeLink.setText("Justice Dept.");
+
 
         btnServiceLink.setText("Service Provider");
 
@@ -160,6 +162,8 @@ public class LandingPageFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("NONE");
     }//GEN-LAST:event_btnBankLinkActionPerformed
+
+
 
     /**
      * @param args the command line arguments

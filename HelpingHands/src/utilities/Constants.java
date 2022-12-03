@@ -3,15 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package utilities;
+//import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.*;
+import java.util.Map;
 /**
  *
  * @author abhis
  */
 public final class Constants {
      public static String[] enterpriseList = new String[]{"", "NGO"};
-     //HashMap<String, String> ngoOrgAdminList = new HashMap<String, String>("HealthCare","abcd");
+     public static String profileRoleJustice = "justiceDept";
+
      
      //public 
      
@@ -25,7 +29,7 @@ public final class Constants {
     public static ArrayList<String>  receivingCountries = (ArrayList<String>) countryMap().get("Receiving Countries");
     
     public static Map<String, List<String>> countryMap(){
-        Map<String, List<String>> allCountries = new HashMap<>();
+        Map<String, List<String>> allCountries = new HashMap<String, List<String>>();
         ArrayList<String> donorCountries = new ArrayList<>();
         donorCountries.add(new String("USA"));
         donorCountries.add(new String("Canada")); 

@@ -4,6 +4,8 @@
  */
 package uiPortal;
 
+//import uiPortal.Bank.BankLandingPage;
+import uiPortal.Bank.BankLandingPage;
 import uiPortal.NGO.NGOLandingPage;
 
 /**
@@ -32,7 +34,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnNGOLink = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnBankLinkActionPerformed = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
@@ -53,7 +55,12 @@ public class LandingPageFrame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jLabel1.setText("Welcome Sys Admin");
 
-        jButton2.setText("BANK");
+        btnBankLinkActionPerformed.setText("BANK");
+        btnBankLinkActionPerformed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBankLinkActionPerformedActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Justice Dept.");
 
@@ -76,7 +83,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNGOLink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnBankLinkActionPerformed, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -91,7 +98,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 .addGap(55, 55, 55)
                 .addComponent(btnNGOLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBankLinkActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -146,6 +153,12 @@ public class LandingPageFrame extends javax.swing.JFrame {
         jSplitPane.setRightComponent(ngoLandingPage);
     }//GEN-LAST:event_btnNGOLinkActionPerformed
 
+    private void btnBankLinkActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBankLinkActionPerformedActionPerformed
+        // TODO add your handling code here:
+        BankLandingPage banklandingpage = new BankLandingPage();
+        jSplitPane.setRightComponent(banklandingpage);
+    }//GEN-LAST:event_btnBankLinkActionPerformedActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -182,9 +195,9 @@ public class LandingPageFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBankLinkActionPerformed;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnNGOLink;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;

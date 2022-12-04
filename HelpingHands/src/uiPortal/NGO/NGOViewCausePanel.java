@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.causes.Cause;
 import model.causes.CauseDirectory;
+import utilities.Constants;
 
 /**
  *
@@ -29,15 +30,29 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         initComponents();
         this.causeDirectory = new CauseDirectory(cause);
         this.loggedInUser = loggedInUser;
+        for (String item :Constants.receivingCountries) {
+            combobxCountry.addItem(item);
+        }
+        
+        for(String item : Constants.ngoOrganisations){
+            combobxOrganisation.addItem(item);
+        }
+        
+        for(String item : Constants.receivingType){
+            combobxCategory.addItem(item);
+        }
+        
         if(loggedInUser != null){
             validateRole(loggedInUser);
-            popCauseTable("Select * from cause where NGO_Org = '"+loggedInUser+"';");            
-        }else{
-            combobxOrganisation.setSelectedIndex(-1);        
             combobxCountry.setSelectedIndex(-1);      
-            combobxCategory.setSelectedIndex(-1);           
+            combobxCategory.setSelectedIndex(-1);                
+            popCauseTable("Select * from cause where NGO_Org = '"+loggedInUser+"';");            
+        }else{   
+            combobxCountry.setSelectedIndex(-1);      
+            combobxCategory.setSelectedIndex(-1);        
+            combobxOrganisation.setSelectedIndex(-1);       
             popCauseTable("Select * from cause;");            
-        }      
+        }           
 
     }   
 
@@ -154,12 +169,6 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Country:");
-
-        combobxCountry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Uganda", "India", "Ukraine" }));
-
-        combobxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Individual", "Community" }));
-
-        combobxOrganisation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Education", "Healthcare", "Natural Disasters" }));
 
         btnView.setBackground(new java.awt.Color(255, 255, 0));
         btnView.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -363,7 +372,9 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         int SelectedRow = tblCause.getSelectedRow();
         if(SelectedRow<0){
             JOptionPane.showMessageDialog(this, "Please Select a row");
-        }else{
+        }else{        for (String item :Constants.receivingCountries) {
+            combobxCountry.addItem(item);
+        }
             DefaultTableModel m2 = (DefaultTableModel)tblCause.getModel();
             Cause SelectedRecords = (Cause) m2.getValueAt(SelectedRow, 0);
             String organisation = SelectedRecords.getNgoOrg();

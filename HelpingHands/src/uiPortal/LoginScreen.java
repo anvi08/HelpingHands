@@ -5,11 +5,13 @@
 package uiPortal;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import utilities.DbConnection;
 import utilities.Constants;
-
+import twofa.twoFactorAuth;
 /**
  *
  * @author abhis
@@ -21,17 +23,16 @@ public class LoginScreen extends javax.swing.JFrame {
      */
     public LoginScreen() {
         initComponents();
+        for (String item :Constants.userType){
+            combobxUserType.addItem(item);
+        }  
         for (String item :Constants.enterpriseList) {
             dropdownRole1.addItem(item);
-            combobxType.setSelectedIndex(-1);  
-            combobxCountry.setSelectedIndex(-1);
         }
-        for (String item :Constants.donorCountries) {
-            combobxCountry.addItem(item);
-            combobxType.setSelectedIndex(-1);  
-            combobxCountry.setSelectedIndex(-1);
-        }        
+        combobxUserType.setSelectedIndex(-1);  
+        dropdownRole1.setSelectedIndex(-1);
         //System.out.println();
+        userDropDowns();
     }
 
     /**
@@ -69,6 +70,8 @@ public class LoginScreen extends javax.swing.JFrame {
         combobxCountry = new javax.swing.JComboBox<>();
         btnRegister = new javax.swing.JButton();
         txtPasswordReg = new javax.swing.JPasswordField();
+        jLabel13 = new javax.swing.JLabel();
+        combobxUserType = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -215,6 +218,12 @@ public class LoginScreen extends javax.swing.JFrame {
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel12.setText("Country");
 
+        combobxCountry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combobxCountryActionPerformed(evt);
+            }
+        });
+
         btnRegister.setBackground(new java.awt.Color(0, 153, 0));
         btnRegister.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegister.setForeground(new java.awt.Color(255, 255, 255));
@@ -225,38 +234,54 @@ public class LoginScreen extends javax.swing.JFrame {
             }
         });
 
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("User Type");
+
+        combobxUserType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combobxUserTypeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelRegisterLayout = new javax.swing.GroupLayout(panelRegister);
         panelRegister.setLayout(panelRegisterLayout);
         panelRegisterLayout.setHorizontalGroup(
             panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRegisterLayout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRegisterLayout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(combobxCountry, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(85, 85, 85)
+                        .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(panelRegisterLayout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(combobxCountry, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(panelRegisterLayout.createSequentialGroup()
+                                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel11))
+                                .addGap(33, 33, 33)
+                                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtContact, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                                    .addComponent(txtEmailReg, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                                    .addComponent(combobxType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtPasswordReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelRegisterLayout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(combobxUserType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(panelRegisterLayout.createSequentialGroup()
-                        .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11))
-                        .addGap(33, 33, 33)
-                        .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtContact, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                            .addComponent(txtEmailReg, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                            .addComponent(combobxType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPasswordReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelRegisterLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
+                        .addGap(114, 114, 114)
                         .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(94, Short.MAX_VALUE))
         );
 
-        panelRegisterLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {combobxCountry, combobxType, txtContact, txtEmailReg, txtName, txtPasswordReg});
+        panelRegisterLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {combobxCountry, combobxType, combobxUserType, txtContact, txtEmailReg, txtName, txtPasswordReg});
 
         panelRegisterLayout.setVerticalGroup(
             panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,22 +300,28 @@ public class LoginScreen extends javax.swing.JFrame {
                     .addComponent(txtPasswordReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(combobxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combobxUserType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(combobxCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combobxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addComponent(btnRegister)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         panelRegisterLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtEmailReg, txtName, txtPasswordReg});
+
+        panelRegisterLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {combobxCountry, combobxUserType});
 
         cardLayoutRegisterLoginPanel.add(panelRegister, "card3");
 
@@ -342,12 +373,16 @@ public class LoginScreen extends javax.swing.JFrame {
         } else {
             String role = (String)dropdownRole1.getSelectedItem();
             validateRole(role, emailId, password);
-            
+            String passcode = twoFactorAuth.randomPasswordGenerator();
+            System.out.println("passsword is "+passcode);
+            twoFactorAuth.Send2FA(passcode, emailId);
 
         }
       
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    
+    
     private void btnLoginTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginTabActionPerformed
         // TODO add your handling code here:
         cardLayoutRegisterLoginPanel.removeAll();
@@ -374,19 +409,35 @@ public class LoginScreen extends javax.swing.JFrame {
         String type = combobxType.getSelectedItem().toString();        
         String country = combobxCountry.getSelectedItem().toString();      
         Long contact = Long.valueOf(txtContact.getText());
-
+        String userType = combobxUserType.getSelectedItem().toString();
+        
         if(email.contains("@")==false){
             JOptionPane.showMessageDialog(this,"Please Input a correct Email");
         }
         else{
-            String sql = "INSERT INTO `donortable`(`Name`, `Email`,`Password`,`Type`,`Contact`,`Country`) "
-                    + "VALUES ('" + name + "','" + email + "','" + pass + "','" + type + "','" + contact + "','" + country + "')";//        fetch();
-            DbConnection.query(sql);      
+            
+            if(userType=="Donor"){
+                String sql = "INSERT INTO `donortable`(`Name`, `Email`,`Password`,`Type`,`Contact`,`Country`) "
+                        + "VALUES ('" + name + "','" + email + "','" + pass + "','" + type + "','" + contact + "','" + country + "')";//        fetch();
+                DbConnection.query(sql);                      
+
+                JOptionPane.showMessageDialog(this, "New User Has Been Created");                  
+            }else{
+                String sql = "INSERT INTO `receivertable` (`Name`, `Email`,`Password`,`Type`,`Contact`,`Country`) "
+                        + "VALUES ('" + name + "','" + email + "','" + pass + "','" + type + "','" + contact + "','" + country + "')";//        fetch();
+                System.out.println(sql);                
+                                
+                
 
 
-            JOptionPane.showMessageDialog(this, "New User Has Been Created");            
+                DbConnection.query(sql);      
+                JOptionPane.showMessageDialog(this, "New User Has Been Created");                    
+            }
+            
+          
         }
-        
+
+
         txtName.setText("");
         txtEmailReg.setText("");
         txtPasswordReg.setText("");
@@ -398,6 +449,15 @@ public class LoginScreen extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnRegisterActionPerformed
+
+    private void combobxCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobxCountryActionPerformed
+        // TODO add your handling code here:   
+    }//GEN-LAST:event_combobxCountryActionPerformed
+
+    private void combobxUserTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobxUserTypeActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_combobxUserTypeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -442,10 +502,12 @@ public class LoginScreen extends javax.swing.JFrame {
     private javax.swing.JPanel cardLayoutRegisterLoginPanel;
     private javax.swing.JComboBox<String> combobxCountry;
     private javax.swing.JComboBox<String> combobxType;
+    private javax.swing.JComboBox<String> combobxUserType;
     private javax.swing.JComboBox<String> dropdownRole1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -522,6 +584,35 @@ public class LoginScreen extends javax.swing.JFrame {
         landingPage.remove(this);
         
     }    
+
+    public void userDropDowns(){
+        combobxUserType.addActionListener (new ActionListener () {
+                public void actionPerformed(ActionEvent e) {
+                combobxCountry.removeAllItems();  
+                combobxType.removeAllItems();
+                if(combobxUserType.getSelectedIndex()==0){
+                    for (String item :Constants.donorCountries) {
+                        combobxCountry.addItem(item);
+                    }                     
+                    for (String item :Constants.donorType){
+                        combobxType.addItem(item);
+                    }         
+                    combobxCountry.setSelectedIndex(-1);  
+                    combobxType.setSelectedIndex(-1);                    
+                }
+                    else{
+                        for (String item :Constants.receivingCountries) {
+                            combobxCountry.addItem(item);
+                        }                     
+                        for (String item :Constants.receivingType){
+                            combobxType.addItem(item);
+                        }  
+                        combobxCountry.setSelectedIndex(-1);  
+                        combobxType.setSelectedIndex(-1);                                  
+                    }
+            }
+            });    
+    }
     
     
 }

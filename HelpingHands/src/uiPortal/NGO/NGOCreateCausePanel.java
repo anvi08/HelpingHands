@@ -22,17 +22,27 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         initComponents();
         
         for (String item :Constants.receivingCountries) {
-            System.out.println(item);
             combobxCountry.addItem(item);
+        }
+        
+        for(String item : Constants.ngoOrganisations){
+            combobxOrganisation.addItem(item);
+        }
+        
+        for(String item : Constants.receivingType){
+            combobxCategory.addItem(item);
         }
         
         if(loggedInUser != null){
             validateRole(loggedInUser);
+            combobxCountry.setSelectedIndex(-1);      
+            combobxCategory.setSelectedIndex(-1);                 
         }else{
             combobxOrganisation.setSelectedIndex(-1);        
             combobxCountry.setSelectedIndex(-1);      
             combobxCategory.setSelectedIndex(-1);            
-        }
+        }       
+
 
     }
 
@@ -77,8 +87,6 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Country:");
 
-        combobxOrganisation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Education", "Healthcare", "Natural Disasters" }));
-
         txtDescription.setColumns(20);
         txtDescription.setRows(5);
         jScrollPane1.setViewportView(txtDescription);
@@ -92,10 +100,6 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
                 btnCreateCauseActionPerformed(evt);
             }
         });
-
-        combobxCountry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "India", "Uganda", "Ukraine" }));
-
-        combobxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Individual", "Community" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

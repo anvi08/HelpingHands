@@ -7,6 +7,7 @@ package uiPortal;
 //import uiPortal.Bank.BankLandingPage;
 import uiPortal.Bank.BankLandingPage;
 import java.util.Map;
+import javax.swing.SwingConstants;
 import uiPortal.NGO.NGOLandingPage;
 import utilities.Constants;
 import uiPortal.justiceDepartment.JusticeDepartmentLandingPage;
@@ -245,10 +246,12 @@ public class LandingPageFrame extends javax.swing.JFrame {
         if(loggedInUser != null){
             
             System.out.println(loggedInUser);
-            // btnBankLink.setVisible(false);
+            btnBankLink.setVisible(false);
             btnJusticeLink.setVisible(false);
             btnServiceLink.setVisible(false);
-            
+            jLabel1.setText(loggedInUser);
+            jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+            jLabel1.setVerticalAlignment(SwingConstants.CENTER);            
         }
         
         

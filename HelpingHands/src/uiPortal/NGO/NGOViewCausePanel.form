@@ -185,11 +185,7 @@
     <Component class="javax.swing.JComboBox" name="combobxCountry">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="3">
-            <StringItem index="0" value="Uganda"/>
-            <StringItem index="1" value="India"/>
-            <StringItem index="2" value="Ukraine"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -199,10 +195,7 @@
     <Component class="javax.swing.JComboBox" name="combobxCategory">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="Individual"/>
-            <StringItem index="1" value="Community"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -212,11 +205,7 @@
     <Component class="javax.swing.JComboBox" name="combobxOrganisation">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="3">
-            <StringItem index="0" value="Education"/>
-            <StringItem index="1" value="Healthcare"/>
-            <StringItem index="2" value="Natural Disasters"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <AuxValues>

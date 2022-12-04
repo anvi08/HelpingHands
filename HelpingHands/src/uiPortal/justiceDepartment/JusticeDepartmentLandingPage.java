@@ -28,20 +28,30 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnViewEmployeeLink = new javax.swing.JButton();
+        btnAddEmployeeLink = new javax.swing.JButton();
         cardLayoutPanel = new javax.swing.JPanel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setText("jButton1");
-
-        jButton2.setText("jButton2");
-
-        jButton3.setText("jButton3");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Assign Tickets");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnViewEmployeeLink.setText("View Employee");
+        btnViewEmployeeLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewEmployeeLinkActionPerformed(evt);
+            }
+        });
+
+        btnAddEmployeeLink.setText("Add Employee");
+        btnAddEmployeeLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEmployeeLinkActionPerformed(evt);
             }
         });
 
@@ -50,11 +60,11 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(601, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addContainerGap(514, Short.MAX_VALUE)
+                .addComponent(btnAddEmployeeLink)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
+                .addComponent(btnViewEmployeeLink)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addGap(14, 14, 14))
         );
@@ -64,8 +74,8 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
                 .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnViewEmployeeLink)
+                    .addComponent(btnAddEmployeeLink))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -88,20 +98,34 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnAddEmployeeLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeLinkActionPerformed
         // TODO add your handling code here:
+        JusticeDepartmentAddEmployee justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee();
         cardLayoutPanel.removeAll();
-     //   cardLayoutPanel.add(abcd);
+        cardLayoutPanel.add(justiceDepartmentAddEmployee);
         cardLayoutPanel.repaint();
         cardLayoutPanel.revalidate();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnAddEmployeeLinkActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnViewEmployeeLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewEmployeeLinkActionPerformed
+        // TODO add your handling code here:
+        JusticeDepartmentViewEmployee justiceDepartmentViewEmployee = new JusticeDepartmentViewEmployee();
+        cardLayoutPanel.removeAll();
+        cardLayoutPanel.add(justiceDepartmentViewEmployee);
+        cardLayoutPanel.repaint();
+        cardLayoutPanel.revalidate();
+    }//GEN-LAST:event_btnViewEmployeeLinkActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddEmployeeLink;
+    private javax.swing.JButton btnViewEmployeeLink;
     private javax.swing.JPanel cardLayoutPanel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

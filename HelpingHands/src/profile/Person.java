@@ -14,25 +14,24 @@ public abstract class Person {
     private String lastName;
     private String email;
     private String password;
-    private String empType;
     
-    public Person(String firstName, String lastName, String email, String password, String empType) {
+    
+    public Person(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.empType = empType;
         
     }
     abstract public void setCountry(String country);
     abstract public void setProfileRole(String profileRole);
     abstract public void setStatus(boolean role);
-    abstract public void setEmpId(int empId);
+    
     
     abstract public String getCountry();
     abstract public String getProfileRole();
     abstract public boolean isStatus();
-    abstract public int getEmpId();
+    
     
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -48,10 +47,6 @@ public abstract class Person {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setEmpType(String type) {
-        this.empType = type;
     }
 
     public String getFirstName() {
@@ -70,7 +65,4 @@ public abstract class Person {
         return password;
     }
 
-    public String getEmpType() {
-        return empType;
-    }
 }

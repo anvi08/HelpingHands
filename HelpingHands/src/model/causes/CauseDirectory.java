@@ -30,7 +30,7 @@ public class CauseDirectory {
     public CauseDirectory(Cause cause){
         
         this.cause = cause;
-        this.allCauses = allCauses;
+        // this.allCauses = allCauses;
         
     }
 

@@ -9,16 +9,18 @@ import utilities.Constants;
  *
  * @author Khalesi
  */
-public class JusticeDepartment extends profile.Person { 
+public class JusticeDepartmentEmployee extends profile.Person { 
     
     private String profileRole;
     private String country;
     private boolean status;
-    private int empId;
+    private int id;
+    private String empType;
    // private profile.Person profile;
     
-    public JusticeDepartment(String firstName, String lastName, String email, String password, String empType, String country) {
-        super(firstName, lastName, email, password, empType);
+    public JusticeDepartmentEmployee(String firstName, String lastName, String email, String password, String empType, String country) {
+        super(firstName, lastName, email, password);
+        this.empType = empType;
         this.country = country;
         this.profileRole = Constants.profileRoleJustice;
     }
@@ -47,14 +49,22 @@ public class JusticeDepartment extends profile.Person {
         this.status = status;
     }
 
-    public int getEmpId() {
-        return empId;
+    public int getId() {
+        return id;
     }
 
-    public void setEmpId(int empId) {
-        this.empId = empId;
+    public void setId(int id) {
+        this.id = id;
     }
     
+    public void setEmpType(String type) {
+        this.empType = type;
+    }
+    
+    
+    public String getEmpType() {
+        return empType;
+    }
     
     
 }

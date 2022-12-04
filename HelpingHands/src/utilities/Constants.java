@@ -72,6 +72,8 @@ public final class Constants {
         return allMaps;
     }
     
+    public static String[] empType = new String[] {"ADMIN","EMPLOYEE"};
+    
     
     
 //    public static Map<String, List<String>> allCountries = new HashMap<>();  

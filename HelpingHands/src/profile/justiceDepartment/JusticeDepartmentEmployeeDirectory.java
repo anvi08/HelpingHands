@@ -4,10 +4,25 @@
  */
 package profile.justiceDepartment;
 
+import utilities.DbConnection;
+
 /**
  *
  * @author Khalesi
  */
-public class JusticeDepartmentDirectory {
+public class JusticeDepartmentEmployeeDirectory {
+    
+    private JusticeDepartmentEmployee justiceDepartmentEmployee;
+    
+    public JusticeDepartmentEmployeeDirectory(JusticeDepartmentEmployee justiceDepartmentEmployee) {
+        this.justiceDepartmentEmployee = justiceDepartmentEmployee;
+    }
+    
+    public void addEmployeeToDb() {
+        int status = 1;
+        String sql = "INSERT INTO `justicedepartmentemployee`(`First_Name`, `Last_Name`,`Email_id`,`Password`,`Type`,`Country`,`Status`) "
+                + "VALUES ('" + justiceDepartmentEmployee.getFirstName()+ "','" + justiceDepartmentEmployee.getLastName()+ "','" + justiceDepartmentEmployee.getEmail()+ "','" + justiceDepartmentEmployee.getPassword()+ "','" + justiceDepartmentEmployee.getEmpType()+ "','" + justiceDepartmentEmployee.getCountry()+ "','" + status + "')";
+        DbConnection.query(sql);
+    }
     
 }

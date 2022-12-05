@@ -4,11 +4,12 @@
  */
 package profile.justiceDepartment;
 
+import java.sql.ResultSet;
 import utilities.DbConnection;
 
 /**
  *
- * @author Khalesi
+ * @author Shreya Sharma
  */
 public class JusticeDepartmentEmployeeDirectory {
     
@@ -22,7 +23,8 @@ public class JusticeDepartmentEmployeeDirectory {
         int status = 1;
         String sql = "INSERT INTO `justicedepartmentemployee`(`First_Name`, `Last_Name`,`Email_id`,`Password`,`Type`,`Country`,`Status`) "
                 + "VALUES ('" + justiceDepartmentEmployee.getFirstName()+ "','" + justiceDepartmentEmployee.getLastName()+ "','" + justiceDepartmentEmployee.getEmail()+ "','" + justiceDepartmentEmployee.getPassword()+ "','" + justiceDepartmentEmployee.getEmpType()+ "','" + justiceDepartmentEmployee.getCountry()+ "','" + status + "')";
-        DbConnection.query(sql);
+        boolean rs = DbConnection.query(sql);
+        System.out.println("rs " + rs );
     }
     
 }

@@ -7,7 +7,7 @@ import utilities.Constants;
 
 /**
  *
- * @author Khalesi
+ * @author Shreya Sharma
  */
 public class JusticeDepartmentEmployee extends profile.Person { 
     

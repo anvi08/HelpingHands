@@ -10,16 +10,15 @@ package profile.donor;
  */
 public class Donor extends profile.Person{
     
-    private Long contact;
+
     private String profileRole;
     private String country;
     private String type;
     private int id;
     private boolean status;
     
-    public Donor(String firstName, String lastName, String email, String password, Long contact, String user, String country, String type){
+    public Donor(String firstName, String lastName, String email, String password, String user, String country, String type){
          super(firstName, lastName, email, password);       
-         this.contact = contact;
          this.profileRole = profileRole;
          this.country = country;
          this.type = type;
@@ -49,13 +48,7 @@ public class Donor extends profile.Person{
         this.id = id;
     }
 
-    public Long getContact() {
-        return contact;
-    }
 
-    public void setContact(Long contact) {
-        this.contact = contact;
-    }
 
 
     public String getCountry() {

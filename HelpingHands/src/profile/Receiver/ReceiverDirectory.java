@@ -24,13 +24,12 @@ public class ReceiverDirectory {
         String lastName = receiver.getLastName();
         String pass = receiver.getLastName();
         String type = receiver.getType();
-        Long contact = receiver.getContact();
         String country = receiver.getCountry();
         String email = receiver.getEmail();
         
             
-        String sql = "INSERT INTO `receivertable`(`First_Name`,`Last_Name`, `Email`,`Password`,`Type`,`Contact`,`Country`) "
-        + "VALUES ('" + firstName + "','" + lastName + "','" + email + "','" + pass + "','" + type + "','" + contact + "','" + country + "')";//        fetch();
+        String sql = "INSERT INTO `receivertable`(`First_Name`,`Last_Name`, `Email`,`Password`,`Type`,`Country`) "
+        + "VALUES ('" + firstName + "','" + lastName + "','" + email + "','" + pass + "','" + type + "','" + country + "')";//        fetch();
         DbConnection.query(sql);    
     }    
 }

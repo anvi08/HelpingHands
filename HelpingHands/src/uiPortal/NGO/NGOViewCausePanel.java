@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import model.causes.Cause;
 import model.causes.CauseDirectory;
 import utilities.Constants;
+import utilities.Validators;
 
 /**
  *
@@ -21,6 +22,7 @@ import utilities.Constants;
  */
 public class NGOViewCausePanel extends javax.swing.JPanel {
     private String loggedInUser;
+    int inValidForm = 0;
     /**
      * Creates new form NGOViewCausePanel
      */
@@ -133,6 +135,7 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         btnActiveCauses = new javax.swing.JButton();
         btnInactiveCauses = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        lblErrFirstName = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -148,6 +151,12 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(tblCause);
+
+        txtName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNameFocusLost(evt);
+            }
+        });
 
         txtDescription.setColumns(20);
         txtDescription.setRows(5);
@@ -216,6 +225,8 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             }
         });
 
+        lblErrFirstName.setForeground(new java.awt.Color(153, 0, 0));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -239,13 +250,16 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
                             .addComponent(combobxCountry, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(combobxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnView)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnActiveCauses)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnInactiveCauses)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelete))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnView)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnActiveCauses)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnInactiveCauses)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDelete))
+                            .addComponent(lblErrFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(148, 148, 148)
                         .addComponent(btnUpdate)))
@@ -255,19 +269,22 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(combobxOrganisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnView)
-                    .addComponent(btnActiveCauses)
-                    .addComponent(btnInactiveCauses)
-                    .addComponent(btnDelete))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(combobxOrganisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnView)
+                            .addComponent(btnActiveCauses)
+                            .addComponent(btnInactiveCauses)
+                            .addComponent(btnDelete))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblErrFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -322,7 +339,6 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         txtName.setText("");
         txtDescription.setText("");
         
-        //System.out.println("CAUSE IDDDD " + SelectedRecords.getCauseId());
         
         JOptionPane.showMessageDialog(this, "Data has been Updated");
         String updateQuery = "Update financialaiddb.cause Set NGO_Org = '"+ organisation + "', Cause_Name = '"+ name + "',Cause_Desc = '" + description + "'," + 
@@ -394,6 +410,27 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void txtNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameFocusLost
+        // TODO add your handling code here:
+        String firstName = txtName.getText();
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateName(firstName);
+
+        if (errorMsg != null && !errorMsg.trim().equals("")) {
+            lblErrFirstName.setText(errorMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrFirstName.setText("");
+        }                                  
+            
+    }//GEN-LAST:event_txtNameFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActiveCauses;
@@ -411,6 +448,7 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblErrFirstName;
     private javax.swing.JTable tblCause;
     private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtName;

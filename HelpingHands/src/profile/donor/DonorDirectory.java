@@ -23,13 +23,12 @@ public class DonorDirectory {
         String lastName = donor.getLastName();
         String pass = donor.getLastName();
         String type = donor.getType();
-        Long contact = donor.getContact();
+
         String country = donor.getCountry();
-        String email = donor.getEmail();
-        
-            
-        String sql = "INSERT INTO `donortable`(`First_Name`,`Last_Name`, `Email`,`Password`,`Type`,`Contact`,`Country`) "
-        + "VALUES ('" + firstName + "','" + lastName + "','" + email + "','" + pass + "','" + type + "','" + contact + "','" + country + "')";//        fetch();
+        String email = donor.getEmail();    
+        String sql = "INSERT INTO `donortable`(`First_Name`,`Last_Name`, `Email`,`Password`,`Type`,`Country`) "
+        + "VALUES ('" + firstName + "','" + lastName + "','" + email + "','" + pass + "','" + type + "','" + country + "')";//        fetch();
+        System.out.print(sql);
         DbConnection.query(sql);    
     }
 

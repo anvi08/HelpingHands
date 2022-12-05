@@ -15,6 +15,9 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author abhis
+ * 
+ * References : https://mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
+ * 
  */
 public class twoFactorAuth {
     public static final String alphaNum = "@ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

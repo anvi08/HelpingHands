@@ -6,7 +6,7 @@ package uiPortal.justiceDepartment;
 
 /**
  *
- * @author Khalesi
+ * @author Shreya Sharma
  */
 public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
 

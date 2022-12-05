@@ -16,11 +16,12 @@ import utilities.Validators;
 
 /**
  *
- * @author Khalesi
+ * @author Shreya Sharma
  */
 public class JusticeDepartmentAddEmployee extends javax.swing.JPanel {
+
     int inValidForm = 0;
-    
+
     /**
      * Creates new form JusticeDepartmentAddEmployee
      */
@@ -28,9 +29,9 @@ public class JusticeDepartmentAddEmployee extends javax.swing.JPanel {
         initComponents();
         setCountriesDropdown();
         setEmpTypeDropdown();
-        
+
     }
-    
+
     public void setCountriesDropdown() {
         ArrayList<String> countriesList = new ArrayList<String>();
         countriesList.addAll(Constants.donorCountries);
@@ -39,12 +40,12 @@ public class JusticeDepartmentAddEmployee extends javax.swing.JPanel {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(contryVector);
         dropdownCountry.setModel(model);
     }
-    
+
     public void setEmpTypeDropdown() {
         Vector<String> empTypeVector = new Vector<String>(Arrays.asList(Constants.empType));
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(empTypeVector);
         dropdownType.setModel(model);
-        
+
     }
 
     /**
@@ -107,6 +108,11 @@ public class JusticeDepartmentAddEmployee extends javax.swing.JPanel {
                 txtLastNameFocusLost(evt);
             }
         });
+        txtLastName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLastNameActionPerformed(evt);
+            }
+        });
 
         txtFirstName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -123,6 +129,12 @@ public class JusticeDepartmentAddEmployee extends javax.swing.JPanel {
         txtConfirmPassword.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtConfirmPasswordFocusLost(evt);
+            }
+        });
+
+        txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPasswordFocusLost(evt);
             }
         });
 
@@ -241,22 +253,34 @@ public class JusticeDepartmentAddEmployee extends javax.swing.JPanel {
         String password = txtPassword.getText();
         String confirmPassword = txtConfirmPassword.getText();
         String selectedEmployeeType = dropdownType.getSelectedItem().toString();
+        Validators validator = new Validators();
+        if (inValidForm != 0) {
+            JOptionPane.showMessageDialog(this, "Employee cannot be added as the form is Invalid");
+            return;
+        } 
         
+        if (validator.isEmpty(firstName) || validator.isEmpty(lastName) || validator.isEmpty(emilId) || 
+                validator.isEmpty(password) || validator.isEmpty(confirmPassword) || validator.isEmpty(selectedEmployeeType)
+                || validator.isEmpty(selectedCountry)) {
+             JOptionPane.showMessageDialog(this, "All the fields in this form are mandatory. Make sure all the fields are filled");
+            return;
+        }
+
         JusticeDepartmentEmployee justiceDepartmentEmployee = new JusticeDepartmentEmployee(firstName, lastName, emilId, password, selectedEmployeeType, selectedCountry);
         JusticeDepartmentEmployeeDirectory justiceDepartmentEmployeeDirectory = new JusticeDepartmentEmployeeDirectory(justiceDepartmentEmployee);
-        
+
         justiceDepartmentEmployeeDirectory.addEmployeeToDb();
-        
+
         JOptionPane.showMessageDialog(this, "Employee added Successfully");
     }//GEN-LAST:event_btnAddEmployeeActionPerformed
 
     private void txtFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFirstNameFocusLost
         // TODO add your handling code here:
         String firstName = txtFirstName.getText();
-        
+
         Validators validator = new Validators();
         String errorMsg = validator.validateName(firstName);
-        
+
         if (errorMsg != null && !errorMsg.trim().equals("")) {
             lblErrFirstName.setText(errorMsg);
             inValidForm += 1;
@@ -265,67 +289,106 @@ public class JusticeDepartmentAddEmployee extends javax.swing.JPanel {
                 inValidForm -= 1;
             }
         }
-        
-         if (inValidForm == 0) {
+
+        if (inValidForm == 0) {
             lblErrFirstName.setText("");
         }
-        
+
     }//GEN-LAST:event_txtFirstNameFocusLost
 
     private void txtConfirmPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtConfirmPasswordFocusLost
         // TODO add your handling code here:
-        String errorMsg = null;
         String password = txtPassword.getText();
         String confirmPassword = txtConfirmPassword.getText();
-        
-        if(password == null || password.trim().equals("")) {
-            lblErrPassword.setText("Password cannot be empty");
-            inValidForm += 1;
-        } else {
-            Validators validator = new Validators();
-            errorMsg = validator.validateConfirmPassword(password, confirmPassword);
-        }
-        
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateConfirmPassword(password, confirmPassword);
+
         if (errorMsg != null && !errorMsg.trim().equals("")) {
             lblErrConfirmPassword.setText(errorMsg);
             inValidForm += 1;
         } else {
             if (inValidForm > 0) {
+                lblErrConfirmPassword.setText("");
                 inValidForm -= 1;
             }
         }
-        
+
         if (inValidForm == 0) {
             lblErrConfirmPassword.setText("");
         }
-        
+
     }//GEN-LAST:event_txtConfirmPasswordFocusLost
 
     private void txtLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLastNameFocusLost
         // TODO add your handling code here:
-         String lastName = txtLastName.getText();
-        
+        String lastName = txtLastName.getText();
+
         Validators validator = new Validators();
         String errorMsg = validator.validateName(lastName);
-        
+
         if (errorMsg != null && !errorMsg.trim().equals("")) {
-            lblErrFirstName.setText(errorMsg);
+            lblErrLastName.setText(errorMsg);
             inValidForm += 1;
         } else {
             if (inValidForm > 0) {
+                lblErrLastName.setText("");
                 inValidForm -= 1;
             }
         }
-        
-         if (inValidForm == 0) {
-            lblErrFirstName.setText("");
+
+        if (inValidForm == 0) {
+            lblErrLastName.setText("");
         }
     }//GEN-LAST:event_txtLastNameFocusLost
 
     private void txtEmailIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailIdFocusLost
         // TODO add your handling code here:
-        
+        String emailId = txtEmailId.getText();
+        Validators validator = new Validators();
+        String errMsg = validator.validateEmail(emailId);
+
+        if (errMsg != null && !errMsg.trim().equals("")) {
+            lblErrEmailId.setText(errMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                lblErrEmailId.setText("");
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrEmailId.setText("");
+        }
+
+
     }//GEN-LAST:event_txtEmailIdFocusLost
+
+    private void txtPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusLost
+        // TODO add your handling code here:
+        String password = txtPassword.getText();
+        Validators validator = new Validators();
+        String errMsg = validator.validatePassword(password);
+
+        if (errMsg != null && !errMsg.trim().equals("")) {
+            lblErrPassword.setText(errMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                lblErrPassword.setText("");
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrPassword.setText("");
+        }
+    }//GEN-LAST:event_txtPasswordFocusLost
+
+    private void txtLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLastNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtLastNameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

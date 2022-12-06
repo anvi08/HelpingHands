@@ -7,6 +7,7 @@ package uiPortal;
 //import uiPortal.Bank.BankLandingPage;
 import uiPortal.Bank.BankLandingPage;
 import java.util.Map;
+import javax.swing.SwingConstants;
 import uiPortal.NGO.NGOLandingPage;
 import utilities.Constants;
 import uiPortal.justiceDepartment.JusticeDepartmentLandingPage;
@@ -43,7 +44,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
         btnServiceLink = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         btnBankLink = new javax.swing.JButton();
-        btnJusticeDept = new javax.swing.JButton();
+        btnJusticeLink = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,10 +85,10 @@ public class LandingPageFrame extends javax.swing.JFrame {
             }
         });
 
-        btnJusticeDept.setText("JUSTICE DEPT.");
-        btnJusticeDept.addActionListener(new java.awt.event.ActionListener() {
+        btnJusticeLink.setText("JUSTICE DEPT.");
+        btnJusticeLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnJusticeDeptActionPerformed(evt);
+                btnJusticeLinkActionPerformed(evt);
             }
         });
 
@@ -107,12 +108,12 @@ public class LandingPageFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnJusticeDept, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnJusticeLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnServiceLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBankLink, btnJusticeDept, btnNGOLink, btnServiceLink});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBankLink, btnJusticeLink, btnNGOLink, btnServiceLink});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,14 +124,14 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnBankLink)
                 .addGap(18, 18, 18)
-                .addComponent(btnJusticeDept)
+                .addComponent(btnJusticeLink)
                 .addGap(18, 18, 18)
                 .addComponent(btnServiceLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                 .addComponent(btnLogout))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBankLink, btnJusticeDept, btnNGOLink, btnServiceLink});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBankLink, btnJusticeLink, btnNGOLink, btnServiceLink});
 
         jSplitPane.setLeftComponent(jPanel1);
 
@@ -188,11 +189,11 @@ public class LandingPageFrame extends javax.swing.JFrame {
         jSplitPane.setRightComponent(bankLandingPage);
     }//GEN-LAST:event_btnBankLinkActionPerformed
 
-    private void btnJusticeDeptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJusticeDeptActionPerformed
+    private void btnJusticeLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJusticeLinkActionPerformed
         // TODO add your handling code here:
         JusticeDepartmentLandingPage justiceDepartmentLandingPage = new JusticeDepartmentLandingPage();
         jSplitPane.setRightComponent(justiceDepartmentLandingPage);
-    }//GEN-LAST:event_btnJusticeDeptActionPerformed
+    }//GEN-LAST:event_btnJusticeLinkActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
@@ -239,7 +240,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBankLink;
-    private javax.swing.JButton btnJusticeDept;
+    private javax.swing.JButton btnJusticeLink;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnNGOLink;
     private javax.swing.JButton btnServiceLink;
@@ -254,10 +255,16 @@ public class LandingPageFrame extends javax.swing.JFrame {
         if(loggedInUser != null){
             
             System.out.println(loggedInUser);
+
+            btnBankLink.setVisible(false);
+            btnJusticeLink.setVisible(false);
+
             // btnBankLink.setVisible(false);
            // btnJusticeLink.setVisible(false);
             btnServiceLink.setVisible(false);
-            
+            jLabel1.setText(loggedInUser);
+            jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+            jLabel1.setVerticalAlignment(SwingConstants.CENTER);            
         }
         
         

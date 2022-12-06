@@ -60,9 +60,9 @@ public class CauseDirectory {
     
     public void addCause(){
         
-        int status = cause.isStatus() == false ? '0' : '1';
+        int status = cause.isStatus() == false ? 0 : 1;
         
-        String sql = "INSERT INTO `cause`(`NGO_Org`, `Cause_Name`,`Cause_Desc`,`R_Category`,`Country`,`Status`) "
+        String sql = "INSERT INTO `cause`(`NGO_Org`, `Cause_Name`,`Cause_Desc`,`R_Category`,`Country`,`Status`)"
                 + "VALUES ('" + cause.getNgoOrg() + "','" + cause.getCauseName() + "','" + cause.getCauseDesc() + "','" + cause.getRecCategory() + "','" + cause.getCountry() + "','" + status + "')";//        fetch();
         DbConnection.query(sql);
     }    

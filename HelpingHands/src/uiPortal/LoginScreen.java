@@ -5,33 +5,39 @@
 package uiPortal;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import profile.Receiver.Receiver;
+import profile.Receiver.ReceiverDirectory;
 import utilities.DbConnection;
 import utilities.Constants;
-
+import twofa.twoFactorAuth;
+import profile.donor.Donor;
+import profile.donor.DonorDirectory;
+import utilities.Validators;
 /**
  *
  * @author abhis
  */
 public class LoginScreen extends javax.swing.JFrame {
-
+    int inValidForm = 0;
     /**
      * Creates new form LoginScreen
      */
     public LoginScreen() {
         initComponents();
+        for (String item :Constants.userType){
+            combobxUserType.addItem(item);
+        }  
         for (String item :Constants.enterpriseList) {
             dropdownRole1.addItem(item);
-            combobxType.setSelectedIndex(-1);  
-            combobxCountry.setSelectedIndex(-1);
         }
-        for (String item :Constants.donorCountries) {
-            combobxCountry.addItem(item);
-            combobxType.setSelectedIndex(-1);  
-            combobxCountry.setSelectedIndex(-1);
-        }        
+        combobxUserType.setSelectedIndex(-1);  
+        dropdownRole1.setSelectedIndex(-1);
         //System.out.println();
+        userDropDowns();
     }
 
     /**
@@ -56,19 +62,29 @@ public class LoginScreen extends javax.swing.JFrame {
         lblErrMsg = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         panelRegister = new javax.swing.JPanel();
-        txtName = new javax.swing.JTextField();
+        txtLastName = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txtEmailReg = new javax.swing.JTextField();
-        txtContact = new javax.swing.JTextField();
         combobxType = new javax.swing.JComboBox<>();
         combobxCountry = new javax.swing.JComboBox<>();
         btnRegister = new javax.swing.JButton();
         txtPasswordReg = new javax.swing.JPasswordField();
+        jLabel13 = new javax.swing.JLabel();
+        combobxUserType = new javax.swing.JComboBox<>();
+        txtFirstName = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        txtConfirmPassword = new javax.swing.JPasswordField();
+        lblErrFirstName = new javax.swing.JLabel();
+        lblErrEmailId = new javax.swing.JLabel();
+        lblErrLastName = new javax.swing.JLabel();
+        lblErrConfirmPassword = new javax.swing.JLabel();
+        lblErrPassword = new javax.swing.JLabel();
+        lblErrContact = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -183,7 +199,7 @@ public class LoginScreen extends javax.swing.JFrame {
                 .addComponent(lblErrMsg)
                 .addGap(5, 5, 5)
                 .addComponent(btnLogin)
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
 
         panelLoginLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel4, jLabel5, jLabel6});
@@ -194,9 +210,15 @@ public class LoginScreen extends javax.swing.JFrame {
 
         panelRegister.setBackground(new java.awt.Color(255, 255, 255));
 
+        txtLastName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtLastNameFocusLost(evt);
+            }
+        });
+
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Name:");
+        jLabel7.setText("Last Name:");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -210,90 +232,205 @@ public class LoginScreen extends javax.swing.JFrame {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel10.setText("Type");
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel11.setText("Contact");
-
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel12.setText("Country");
+
+        txtEmailReg.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmailRegFocusLost(evt);
+            }
+        });
+
+        combobxCountry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combobxCountryActionPerformed(evt);
+            }
+        });
 
         btnRegister.setBackground(new java.awt.Color(0, 153, 0));
         btnRegister.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegister.setForeground(new java.awt.Color(255, 255, 255));
         btnRegister.setText("Register");
+        btnRegister.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                btnRegisterFocusLost(evt);
+            }
+        });
         btnRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegisterActionPerformed(evt);
             }
         });
 
+        txtPasswordReg.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPasswordRegFocusLost(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("User Type");
+
+        combobxUserType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combobxUserTypeActionPerformed(evt);
+            }
+        });
+
+        txtFirstName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFirstNameFocusLost(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("First Name:");
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel15.setText("Confirm Password");
+
+        txtConfirmPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtConfirmPasswordFocusLost(evt);
+            }
+        });
+
+        lblErrFirstName.setForeground(new java.awt.Color(153, 0, 0));
+
+        lblErrEmailId.setForeground(new java.awt.Color(153, 0, 0));
+
+        lblErrLastName.setForeground(new java.awt.Color(153, 0, 0));
+        lblErrLastName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lblErrLastNameFocusLost(evt);
+            }
+        });
+
+        lblErrConfirmPassword.setForeground(new java.awt.Color(153, 0, 0));
+
+        lblErrPassword.setForeground(new java.awt.Color(153, 0, 0));
+
+        lblErrContact.setForeground(new java.awt.Color(153, 0, 0));
+
         javax.swing.GroupLayout panelRegisterLayout = new javax.swing.GroupLayout(panelRegister);
         panelRegister.setLayout(panelRegisterLayout);
         panelRegisterLayout.setHorizontalGroup(
             panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRegisterLayout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(17, 17, 17)
+                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRegisterLayout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(combobxCountry, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
+                        .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelRegisterLayout.createSequentialGroup()
                         .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11))
-                        .addGap(33, 33, 33)
+                            .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(panelRegisterLayout.createSequentialGroup()
+                                        .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel8)
+                                            .addComponent(jLabel15)
+                                            .addComponent(jLabel9))
+                                        .addGap(39, 39, 39)
+                                        .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtEmailReg, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                                            .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(panelRegisterLayout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelRegisterLayout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(combobxCountry, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(panelRegisterLayout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(combobxType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(panelRegisterLayout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(combobxUserType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(txtPasswordReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtContact, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                            .addComponent(txtEmailReg, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                            .addComponent(combobxType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPasswordReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelRegisterLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(94, Short.MAX_VALUE))
+                            .addComponent(lblErrFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                            .addComponent(lblErrLastName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrEmailId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrContact, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                            .addComponent(lblErrConfirmPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(27, 27, 27))
         );
 
-        panelRegisterLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {combobxCountry, combobxType, txtContact, txtEmailReg, txtName, txtPasswordReg});
+        panelRegisterLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {combobxCountry, combobxType, combobxUserType, txtConfirmPassword, txtEmailReg, txtLastName, txtPasswordReg});
 
         panelRegisterLayout.setVerticalGroup(
             panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRegisterLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRegisterLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel14))
+                            .addComponent(lblErrFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblErrLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                            .addGroup(panelRegisterLayout.createSequentialGroup()
+                                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 17, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtEmailReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8))
+                            .addComponent(lblErrEmailId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblErrPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9)
+                                .addComponent(txtPasswordReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel15)
+                                .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblErrConfirmPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelRegisterLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblErrContact, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(12, 12, 12)
+                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combobxUserType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtEmailReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addGap(18, 18, 18)
-                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtPasswordReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(combobxCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(combobxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(combobxCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
-                .addGap(18, 18, 18)
                 .addComponent(btnRegister)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        panelRegisterLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtEmailReg, txtName, txtPasswordReg});
+        panelRegisterLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtEmailReg, txtLastName, txtPasswordReg});
+
+        panelRegisterLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {combobxCountry, combobxUserType});
 
         cardLayoutRegisterLoginPanel.add(panelRegister, "card3");
 
@@ -339,18 +476,22 @@ public class LoginScreen extends javax.swing.JFrame {
         // TODO add your handling code here: 
         String emailId = txtEmail.getText();
         String password =String.valueOf(txtPassword.getPassword());
-        
+        String role = (String)dropdownRole1.getSelectedItem();
         if (emailId == null || emailId.trim().equals("") || password == null || password.equals("")) {
             lblErrMsg.setText("User Name or Password cannot be empty.");
         } else {
-            String role = (String)dropdownRole1.getSelectedItem();
+            System.out.println(role);
             validateRole(role, emailId, password);
-            
+//            String passcode = twoFactorAuth.randomPasswordGenerator();
+//            System.out.println("passsword is "+passcode);
+//            twoFactorAuth.Send2FA(passcode, emailId);
 
         }
       
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    
+    
     private void btnLoginTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginTabActionPerformed
         // TODO add your handling code here:
         cardLayoutRegisterLoginPanel.removeAll();
@@ -370,33 +511,55 @@ public class LoginScreen extends javax.swing.JFrame {
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         // TODO add your handling code here:
         
-
-        String name = txtName.getText();
+        String lastName = txtLastName.getText();
+        String firstName = txtFirstName.getText();
         String email = txtEmailReg.getText();
         String pass = String.valueOf(txtPasswordReg.getPassword());       
-        String type = combobxType.getSelectedItem().toString();        
-        String country = combobxCountry.getSelectedItem().toString();      
-        Long contact = Long.valueOf(txtContact.getText());
+        String confirmPass = String.valueOf(txtConfirmPassword.getPassword());
 
-        if(email.contains("@")==false){
-            JOptionPane.showMessageDialog(this,"Please Input a correct Email");
+                
+
+        
+        Validators validator = new Validators();
+        if (inValidForm != 0) {
+            JOptionPane.showMessageDialog(this, "Employee cannot be added as the form is Invalid");
+            return;
+        }         
+        
+        if (validator.isEmpty(firstName) || validator.isEmpty(lastName) || validator.isEmpty(email) || 
+                        validator.isEmpty(pass) || validator.isEmpty(confirmPass)
+                         || combobxType.getSelectedIndex() == -1 || combobxCountry.getSelectedIndex() == -1 || combobxUserType.getSelectedIndex() == -1 ) {
+                     JOptionPane.showMessageDialog(this, "All the fields in this form are mandatory. Make sure all the fields are filled");
+                    return;
         }
         else{
-            String sql = "INSERT INTO `donortable`(`Name`, `Email`,`Password`,`Type`,`Contact`,`Country`) "
-                    + "VALUES ('" + name + "','" + email + "','" + pass + "','" + type + "','" + contact + "','" + country + "')";//        fetch();
-            DbConnection.query(sql);      
-
-
-            JOptionPane.showMessageDialog(this, "New User Has Been Created");            
+        String type = combobxType.getSelectedItem().toString();        
+        String country = combobxCountry.getSelectedItem().toString();      
+        String userType = combobxUserType.getSelectedItem().toString();                     
+            
+            if(userType=="Donor"){       
+                Donor donor = new Donor(firstName,lastName,email,pass,userType,country,type);                
+                DonorDirectory donorDirectory = new DonorDirectory(donor);
+                donorDirectory.addDonors();
+                JOptionPane.showMessageDialog(this, "New User Has Been Created");                  
+            }else{
+                Receiver receiver = new Receiver(firstName,lastName,email,pass,userType,country,type);                                
+                ReceiverDirectory receiverDirectory = new ReceiverDirectory(receiver);
+                receiverDirectory.addReceiver();   
+                JOptionPane.showMessageDialog(this, "New User Has Been Created");                    
+            }
+            
+          
         }
-        
-        txtName.setText("");
+
+        txtFirstName.setText("");
+        txtLastName.setText("");
         txtEmailReg.setText("");
         txtPasswordReg.setText("");
-        txtContact.setText("");
+        txtConfirmPassword.setText("");
         combobxType.setSelectedIndex(-1);  
         combobxCountry.setSelectedIndex(-1);             
-
+        combobxUserType.setSelectedIndex(-1);
 
         
         
@@ -405,6 +568,130 @@ public class LoginScreen extends javax.swing.JFrame {
     private void dropdownRole1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropdownRole1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dropdownRole1ActionPerformed
+    private void combobxCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobxCountryActionPerformed
+        // TODO add your handling code here:   
+    }//GEN-LAST:event_combobxCountryActionPerformed
+
+    private void combobxUserTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobxUserTypeActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_combobxUserTypeActionPerformed
+
+    private void btnRegisterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnRegisterFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRegisterFocusLost
+
+    private void txtFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFirstNameFocusLost
+        // TODO add your handling code here:
+        String firstName = txtFirstName.getText();
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateName(firstName);
+
+        if (errorMsg != null && !errorMsg.trim().equals("")) {
+            lblErrFirstName.setText(errorMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrFirstName.setText("");
+        }        
+    }//GEN-LAST:event_txtFirstNameFocusLost
+
+    private void lblErrLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblErrLastNameFocusLost
+        // TODO add your handling code here:       
+    }//GEN-LAST:event_lblErrLastNameFocusLost
+
+    private void txtEmailRegFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailRegFocusLost
+        // TODO add your handling code here:
+        String emailId = txtEmailReg.getText();
+        Validators validator = new Validators();
+        String errMsg = validator.validateEmail(emailId);
+
+        if (errMsg != null && !errMsg.trim().equals("")) {
+            lblErrEmailId.setText(errMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                lblErrEmailId.setText("");
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrEmailId.setText("");
+        }        
+    }//GEN-LAST:event_txtEmailRegFocusLost
+
+    private void txtLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLastNameFocusLost
+        // TODO add your handling code here:
+        String lastName = txtLastName.getText();
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateName(lastName);
+
+        if (errorMsg != null && !errorMsg.trim().equals("")) {
+            lblErrLastName.setText(errorMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                lblErrLastName.setText("");
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrLastName.setText("");
+        }         
+    }//GEN-LAST:event_txtLastNameFocusLost
+
+    private void txtPasswordRegFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordRegFocusLost
+        // TODO add your handling code here:
+        String password = txtPasswordReg.getText();
+        Validators validator = new Validators();
+        String errMsg = validator.validatePassword(password);
+
+        if (errMsg != null && !errMsg.trim().equals("")) {
+            lblErrPassword.setText(errMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                lblErrPassword.setText("");
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrPassword.setText("");
+        }        
+    }//GEN-LAST:event_txtPasswordRegFocusLost
+
+    private void txtConfirmPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtConfirmPasswordFocusLost
+        // TODO add your handling code here:
+        String password = txtConfirmPassword.getText();
+        String confirmPassword = txtConfirmPassword.getText();
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateConfirmPassword(password, confirmPassword);
+
+        if (errorMsg != null && !errorMsg.trim().equals("")) {
+            lblErrConfirmPassword.setText(errorMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                lblErrConfirmPassword.setText("");
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrConfirmPassword.setText("");
+        }        
+    }//GEN-LAST:event_txtConfirmPasswordFocusLost
 
     /**
      * @param args the command line arguments
@@ -449,49 +736,65 @@ public class LoginScreen extends javax.swing.JFrame {
     private javax.swing.JPanel cardLayoutRegisterLoginPanel;
     private javax.swing.JComboBox<String> combobxCountry;
     private javax.swing.JComboBox<String> combobxType;
+    private javax.swing.JComboBox<String> combobxUserType;
     private javax.swing.JComboBox<String> dropdownRole1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblErrConfirmPassword;
+    private javax.swing.JLabel lblErrContact;
+    private javax.swing.JLabel lblErrEmailId;
+    private javax.swing.JLabel lblErrFirstName;
+    private javax.swing.JLabel lblErrLastName;
     private javax.swing.JLabel lblErrMsg;
+    private javax.swing.JLabel lblErrPassword;
     private javax.swing.JPanel panelLogin;
     private javax.swing.JPanel panelRegister;
-    private javax.swing.JTextField txtContact;
+    private javax.swing.JPasswordField txtConfirmPassword;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailReg;
-    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtFirstName;
+    private javax.swing.JTextField txtLastName;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JPasswordField txtPasswordReg;
     // End of variables declaration//GEN-END:variables
     public void validateRole(String role, String email, String password){
-        
-        switch(role){
+        if(role==null){
+            String role1 = "";
+            navigateToLandingPage();           
+        }
+        else{
+            switch(role){
+           
             case "":
                 navigateToLandingPage();
                 break;
                 
-            case "NGO":
-                for (Map.Entry<String, String> entry : Constants.ngoOrgAdminList.entrySet()) {
-                    String key = entry.getKey();
-                    Object value = entry.getValue();
-                    if(key.equals(email.trim()) && value.equals(password.trim())) {
-                        navigateToNGOLandingPage(email);
-                        return;
+                case "NGO":
+                    for (Map.Entry<String, String> entry : Constants.ngoOrgAdminList.entrySet()) {
+                        String key = entry.getKey();
+                        Object value = entry.getValue();
+                        if(key.equals(email.trim()) && value.equals(password.trim())) {
+                            navigateToNGOLandingPage(email);
+                            return;
+                        }
                     }
-                }
-                lblErrMsg.setText("Username not available in DB for this role");
-                break;
-             
-            
-            default:
-                lblErrMsg.setText("Username not available in DB for this role");
+                    lblErrMsg.setText("Username not available in DB for this role");
+                    break;
+
+                default:
+                    lblErrMsg.setText("Username not available in DB for this role");
+            }            
         }
+
     }
 
 
@@ -530,6 +833,35 @@ public class LoginScreen extends javax.swing.JFrame {
         landingPage.remove(this);
         
     }    
+
+    public void userDropDowns(){
+        combobxUserType.addActionListener (new ActionListener () {
+                public void actionPerformed(ActionEvent e) {
+                combobxCountry.removeAllItems();  
+                combobxType.removeAllItems();
+                if(combobxUserType.getSelectedIndex()==0){
+                    for (String item :Constants.donorCountries) {
+                        combobxCountry.addItem(item);
+                    }                     
+                    for (String item :Constants.donorType){
+                        combobxType.addItem(item);
+                    }         
+                    combobxCountry.setSelectedIndex(-1);  
+                    combobxType.setSelectedIndex(-1);                    
+                }
+                    else{
+                        for (String item :Constants.receivingCountries) {
+                            combobxCountry.addItem(item);
+                        }                     
+                        for (String item :Constants.receivingType){
+                            combobxType.addItem(item);
+                        }  
+                        combobxCountry.setSelectedIndex(-1);  
+                        combobxType.setSelectedIndex(-1);                                  
+                    }
+            }
+            });    
+    }
     
     
 }

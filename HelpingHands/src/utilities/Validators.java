@@ -14,7 +14,7 @@ public class Validators {
     
     public String validateConfirmPassword(String password, String confirmPassword) {
         String msg = null;
-        if (confirmPassword == null || confirmPassword.trim().equals("")) {
+        if (isEmpty(confirmPassword)) {
             msg = "Confirm Password cannot be empty.";
         } else if (!password.trim().equals(confirmPassword.trim())) {
             msg = "Confirm Password and Password doesnot match";
@@ -23,12 +23,12 @@ public class Validators {
     }
     
     /*
-        Stop user from adding numbers in input fields
+     *   Stop user from adding numbers in input fields
     */
     public String validateName(String name) {
         String msg = null;
         final Pattern pattern = Pattern.compile("^[A-Za-z-]++$");
-        if (name == null || name.trim().equals("")) {
+        if (isEmpty(name)) {
             msg = "Name field cannot be empty";
         } else if (!pattern.matcher(name).matches()) {
             msg = "Name field can contain only letters";
@@ -36,8 +36,37 @@ public class Validators {
         return msg;
     }
     
-//    public String validateEmail(String email) {
-//        String msg = null;
-//        final 
-//    }
+    public String validateEmail(String email) {
+        final Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+        String msg = null;
+        if (isEmpty(email)) {
+            msg = "Email cannot be empty";
+        } else if( !pattern.matcher(email).matches()) {
+            msg = "Invalid Email Id entered";
+        }
+        
+        return msg;
+    }
+    
+    public String validatePassword(String password) {
+        String msg = null;
+        if (isEmpty(password)) {
+            msg = "Password cannot be empty";
+        } else if (password.length() < 4 ) {
+            msg = "password should have atleat 4 characters";
+        }
+        return msg;
+    }
+    
+    /*
+    * returns true if the parameter is empty
+    */
+    public boolean isEmpty(String inputField) {
+        boolean isEmpty = false;
+        
+        if (inputField == null || inputField.trim().equals("")) {
+            isEmpty = true;
+        }
+        return isEmpty;
+    }
 }

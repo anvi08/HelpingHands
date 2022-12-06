@@ -9,12 +9,14 @@ import javax.swing.JOptionPane;
 import model.causes.Cause;
 import model.causes.CauseDirectory;
 import utilities.Constants;
+import utilities.Validators;
 /**
  *
  * @author abhis
  */
 public class NGOCreateCausePanel extends javax.swing.JPanel {
     private String loggedInUser;
+    int inValidForm = 0;
     /**
      * Creates new form NGOCreateCausePanel
      */
@@ -22,17 +24,27 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         initComponents();
         
         for (String item :Constants.receivingCountries) {
-            System.out.println(item);
             combobxCountry.addItem(item);
+        }
+        
+        for(String item : Constants.ngoOrganisations){
+            combobxOrganisation.addItem(item);
+        }
+        
+        for(String item : Constants.receivingType){
+            combobxCategory.addItem(item);
         }
         
         if(loggedInUser != null){
             validateRole(loggedInUser);
+            combobxCountry.setSelectedIndex(-1);      
+            combobxCategory.setSelectedIndex(-1);                 
         }else{
             combobxOrganisation.setSelectedIndex(-1);        
             combobxCountry.setSelectedIndex(-1);      
             combobxCategory.setSelectedIndex(-1);            
-        }
+        }       
+
 
     }
 
@@ -57,6 +69,8 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         btnCreateCause = new javax.swing.JButton();
         combobxCountry = new javax.swing.JComboBox<>();
         combobxCategory = new javax.swing.JComboBox<>();
+        lblErrFirstName = new javax.swing.JLabel();
+        lblErrFirstName1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -77,7 +91,11 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Country:");
 
-        combobxOrganisation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Education", "Healthcare", "Natural Disasters" }));
+        txtName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNameFocusLost(evt);
+            }
+        });
 
         txtDescription.setColumns(20);
         txtDescription.setRows(5);
@@ -93,9 +111,14 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
             }
         });
 
-        combobxCountry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "India", "Uganda", "Ukraine" }));
+        lblErrFirstName.setForeground(new java.awt.Color(153, 0, 0));
 
-        combobxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Individual", "Community" }));
+        lblErrFirstName1.setForeground(new java.awt.Color(153, 0, 0));
+        lblErrFirstName1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lblErrFirstName1FocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -117,7 +140,14 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
                     .addComponent(combobxCountry, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(combobxCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblErrFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                        .addGap(68, 68, 68))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblErrFirstName1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,12 +156,15 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(combobxOrganisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblErrFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblErrFirstName1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(23, 23, 23)
@@ -144,19 +177,26 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
                     .addComponent(combobxCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(btnCreateCause)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateCauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateCauseActionPerformed
         // TODO add your handling code here:
 
-        String organisation = combobxOrganisation.getSelectedItem().toString();
-        String country = combobxCountry.getSelectedItem().toString();
+
         String name = txtName.getText();
         String description = txtDescription.getText();
-        String category = combobxCategory.getSelectedItem().toString();
 
+        Validators validator = new Validators();
+        if(name.equals("") || description.equals("") || combobxCategory.getSelectedIndex() == -1 || 
+                combobxOrganisation.getSelectedIndex() == -1 || combobxCountry.getSelectedIndex() == -1){
+            JOptionPane.showMessageDialog(this, "Please fill all the fields");
+            return;
+        }
+        String organisation = combobxOrganisation.getSelectedItem().toString();
+        String country = combobxCountry.getSelectedItem().toString();        
+        String category = combobxCategory.getSelectedItem().toString();
         Cause cause = new Cause(name,description,organisation,category,country,false);
         CauseDirectory causeDirectory = new CauseDirectory(cause);
         causeDirectory.addCause();
@@ -168,6 +208,48 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Cause Has been Created");
 
     }//GEN-LAST:event_btnCreateCauseActionPerformed
+
+    private void txtNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameFocusLost
+        // TODO add your handling code here:
+        String firstName = txtName.getText();
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateName(firstName);
+
+        if (errorMsg != null && !errorMsg.trim().equals("")) {
+            lblErrFirstName.setText(errorMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrFirstName.setText("");
+        }                
+    }//GEN-LAST:event_txtNameFocusLost
+
+    private void lblErrFirstName1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblErrFirstName1FocusLost
+        // TODO add your handling code here:
+        String firstName = txtDescription.getText();
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateName(firstName);
+
+        if (errorMsg != null && !errorMsg.trim().equals("")) {
+            lblErrFirstName.setText(errorMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrFirstName.setText("");
+        }                
+    }//GEN-LAST:event_lblErrFirstName1FocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -181,6 +263,8 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblErrFirstName;
+    private javax.swing.JLabel lblErrFirstName1;
     private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables

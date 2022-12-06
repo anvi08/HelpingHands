@@ -15,6 +15,8 @@ import java.util.Map;
 public final class Constants {
      public static String[] enterpriseList = new String[]{"", "NGO", "Bank"};
      public static String profileRoleJustice = "justiceDept";
+     public static String profileRoleBank = "bankDept";
+     //public static String[] empType = new String[]{"Admin", "Employee"};
 
      
      //public 
@@ -23,6 +25,11 @@ public final class Constants {
         "health", "abcd",
         "disaster", "abcd",
         "education","abcd"
+    );
+    
+    public static Map<String, String> bankDonorCountryList = Map.of(
+        "USA", "Bank of America",
+        "Canada", "National bank of Canada"
     );
     
     public static ArrayList<String>  donorCountries = (ArrayList<String>) countryMap().get("Donor Countries");

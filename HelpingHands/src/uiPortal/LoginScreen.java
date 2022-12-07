@@ -101,7 +101,6 @@ public class LoginScreen extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnLoginTab.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnLoginTab.setText("LOGIN");
         btnLoginTab.setBorder(null);
         btnLoginTab.addActionListener(new java.awt.event.ActionListener() {
@@ -110,7 +109,6 @@ public class LoginScreen extends javax.swing.JFrame {
             }
         });
 
-        btnRegisterTab.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnRegisterTab.setText("REGISTER");
         btnRegisterTab.setBorder(null);
         btnRegisterTab.addActionListener(new java.awt.event.ActionListener() {
@@ -143,6 +141,12 @@ public class LoginScreen extends javax.swing.JFrame {
             }
         });
 
+        dropdownRole1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dropdownRole1ActionPerformed(evt);
+            }
+        });
+
         btnLogin.setBackground(new java.awt.Color(0, 153, 0));
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
@@ -153,7 +157,6 @@ public class LoginScreen extends javax.swing.JFrame {
             }
         });
 
-        lblErrMsg.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblErrMsg.setForeground(new java.awt.Color(153, 0, 0));
 
         javax.swing.GroupLayout panelLoginLayout = new javax.swing.GroupLayout(panelLogin);
@@ -579,6 +582,9 @@ public class LoginScreen extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnRegisterActionPerformed
 
+    private void dropdownRole1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropdownRole1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dropdownRole1ActionPerformed
     private void combobxCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobxCountryActionPerformed
         // TODO add your handling code here:   
     }//GEN-LAST:event_combobxCountryActionPerformed

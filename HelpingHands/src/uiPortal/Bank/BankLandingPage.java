@@ -4,6 +4,10 @@
  */
 package uiPortal.Bank;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author HP
@@ -16,6 +20,8 @@ public class BankLandingPage extends javax.swing.JPanel {
     public BankLandingPage() {
         initComponents();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,6 +36,8 @@ public class BankLandingPage extends javax.swing.JPanel {
         btnCreateBankUser = new javax.swing.JButton();
         btnViewBankUser = new javax.swing.JButton();
         bankCardLayoutPanel = new javax.swing.JPanel();
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         btnCreateBankUser.setText("Create Bank User");
         btnCreateBankUser.addActionListener(new java.awt.event.ActionListener() {
@@ -103,12 +111,16 @@ public class BankLandingPage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCreateBankUserActionPerformed
 
     private void btnViewBankUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewBankUserActionPerformed
-        // TODO add your handling code here:
-        BankViewUserPanel bankViewUserPanel = new BankViewUserPanel();
-        bankCardLayoutPanel.removeAll();
-        bankCardLayoutPanel.add(bankViewUserPanel);
-        bankCardLayoutPanel.repaint();
-        bankCardLayoutPanel.revalidate();
+        try {
+            // TODO add your handling code here:
+            BankViewUserPanel bankViewUserPanel = new BankViewUserPanel();
+            bankCardLayoutPanel.removeAll();
+            bankCardLayoutPanel.add(bankViewUserPanel);
+            bankCardLayoutPanel.repaint();
+            bankCardLayoutPanel.revalidate();
+        } catch (SQLException ex) {
+            Logger.getLogger(BankLandingPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnViewBankUserActionPerformed
 
 

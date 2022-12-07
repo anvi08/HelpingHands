@@ -30,7 +30,7 @@ public class DbConnection {
     /* Creating Connection*/
     public static void connection(){
        try{
-            connection = DriverManager.getConnection(URL, USER_NAME, ABHI_PASSWORD);
+            connection = DriverManager.getConnection(URL, USER_NAME, ANVI_PASSWORD);
             statement = connection.createStatement();
             System.out.println("Connection Opened");
         }catch(SQLException e){            
@@ -53,9 +53,11 @@ public class DbConnection {
     public static boolean query(String query) {
         try{
             connection();
+            System.out.println("query" + query);
             return statement.execute(query);
         }catch(SQLException e){
             e.getMessage();
+            System.out.println(e.getMessage());
             throw new IllegalArgumentException();
         }
     }

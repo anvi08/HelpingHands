@@ -13,6 +13,7 @@ import utilities.Constants;
  */
 public class BankPerson extends Person{
     
+    //private String firstName;
     private int bankPersonId;
     private String profileRole;
     private String country;
@@ -23,6 +24,7 @@ public class BankPerson extends Person{
 
     public BankPerson(String firstName, String lastName, String email, String password, String empType, String bankName, boolean status,  String country) {
         super(firstName, lastName, email, password);
+        //this.firstName=firstName;
         this.country = country;
         this.profileRole = Constants.profileRoleBank;
         this.bankName = bankName;
@@ -86,6 +88,11 @@ public class BankPerson extends Person{
     }
     
     
+    
+    @Override
+    public String toString(){
+        return getFirstName();
+    }
     
     
     

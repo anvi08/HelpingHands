@@ -23,14 +23,15 @@ public class BankPersonDirectory {
 
     public BankPersonDirectory(BankPerson bankPerson) {
         this.bankPerson = bankPerson;
+        this.allBankPersons = new ArrayList<BankPerson>();
     }
     
     
     public ArrayList<BankPerson> populateBankPerson(String query)throws SQLException{
         
-            ArrayList<BankPerson> allBankPersons = new ArrayList();
+            //ArrayList<BankPerson> allBankPersons = new ArrayList();
             ResultSet resultset = DbConnection.selectQuery(query);
-            
+            System.out.println("profile.bank.BankPersonDirectory.populateBankPerson()");
             while(resultset.next()){
                 int bankPersonId = resultset.getInt("Bank_Id");
                 String firstName =resultset.getString("First_Name");
@@ -42,14 +43,15 @@ public class BankPersonDirectory {
                 boolean status = resultset.getBoolean("Status");
                 String country = resultset.getString("Country");
                 
-                BankPerson bankPerson = new BankPerson(firstName, lastName, email, password, empType, bankName, status, country);
-                bankPerson.setBankPersonId(bankPersonId);
-                allBankPersons.add(bankPerson);
+                BankPerson newbankPerson = new BankPerson(firstName, lastName, email, password, empType, bankName, status, country);
+                newbankPerson.setBankPersonId(bankPersonId);
+                this.allBankPersons.add(newbankPerson);
             }
+            System.out.println(this.allBankPersons.isEmpty());
             
             
         
-        return allBankPersons;
+        return this.allBankPersons;
     }
     
     public void addBankPerson(){

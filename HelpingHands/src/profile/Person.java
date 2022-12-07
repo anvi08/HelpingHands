@@ -65,4 +65,8 @@ public abstract class Person {
         return password;
     }
 
+    @Override
+    public String toString(){
+        return firstName;
+    }
 }

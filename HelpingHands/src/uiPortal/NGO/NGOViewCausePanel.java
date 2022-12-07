@@ -7,6 +7,7 @@ package uiPortal.NGO;
 import utilities.DbConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -48,21 +49,21 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             validateRole(loggedInUser);
             combobxCountry.setSelectedIndex(-1);      
             combobxCategory.setSelectedIndex(-1);                
-            popCauseTable("Select * from cause where NGO_Org = '"+loggedInUser+"';");            
+            popCauseTable();            
         }else{   
             combobxCountry.setSelectedIndex(-1);      
             combobxCategory.setSelectedIndex(-1);        
             combobxOrganisation.setSelectedIndex(-1);       
-            popCauseTable("Select * from cause;");            
+            popCauseTable();            
         }           
 
     }   
 
-    private void popCauseTable(String query) throws SQLException {
+    private void popCauseTable() throws SQLException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         DefaultTableModel model = (DefaultTableModel)tblCause.getModel();
         model.setRowCount(0);
-        for(Cause cause: causeDirectory.popCauseTable(query)){
+        for(Cause cause: causeDirectory.popCauseTable(loggedInUser)){
             Object[] row = new Object[6];
             row[0] = cause;
             row[1] = cause.getCauseName();
@@ -72,9 +73,38 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             model.addRow(row);
         }
     }
-    
+
+    private void popActiveCauseTable() throws SQLException {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        DefaultTableModel model = (DefaultTableModel)tblCause.getModel();
+        model.setRowCount(0);
+        for(Cause cause: causeDirectory.popActiveCauseTable(loggedInUser)){
+            Object[] row = new Object[6];
+            row[0] = cause;
+            row[1] = cause.getCauseName();
+            row[2] = cause.getCauseDesc();
+            row[3] = cause.getRecCategory();
+            row[4] = cause.getCountry();                                     
+            model.addRow(row);
+        }
+    }    
+
+    private void popInactiveCauseTable() throws SQLException {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        DefaultTableModel model = (DefaultTableModel)tblCause.getModel();
+        model.setRowCount(0);
+        for(Cause cause: causeDirectory.popInactiveCauseTable(loggedInUser)){
+            Object[] row = new Object[6];
+            row[0] = cause;
+            row[1] = cause.getCauseName();
+            row[2] = cause.getCauseDesc();
+            row[3] = cause.getRecCategory();
+            row[4] = cause.getCountry();                                     
+            model.addRow(row);
+        }
+    }     
 //    public void fillTable() throws SQLException{
-//    ResultSet resultSet = DbConnection.selectQuery("SELECT * FROM cause;");        
+      
 //    DefaultTableModel tblModel =  (DefaultTableModel)tblCause.getModel();
 //    tblModel.setRowCount(0);
 //    while(resultSet.next()){
@@ -339,13 +369,9 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         txtName.setText("");
         txtDescription.setText("");
         
-        
+        Cause cause = new Cause(name,description,organisation,category,country,false);
         JOptionPane.showMessageDialog(this, "Data has been Updated");
-        String updateQuery = "Update financialaiddb.cause Set NGO_Org = '"+ organisation + "', Cause_Name = '"+ name + "',Cause_Desc = '" + description + "'," + 
-                 "R_Category = '" + category + "' ," + " Country = '" + country + 
-                   "' where Cause_Id = " +SelectedRecords.getCauseId() +";";
-           
-        DbConnection.query(updateQuery);
+        causeDirectory.updateCause(cause, SelectedRecords.getCauseId());
         //System.out.println(updateQuery);
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Please Select a row to Update");
@@ -357,10 +383,10 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         try {
             // TODO add your handling code here:
             if(loggedInUser != null){
-                popCauseTable("select * from financialaiddb.cause where `Status` = 1 and `NGO_Org` = '"+ loggedInUser + "';");                
+                popActiveCauseTable();                
             }
             else{
-                popCauseTable("select * from financialaiddb.cause where `Status` = 1;");
+                popActiveCauseTable();
             }
         } catch (SQLException ex) {
             Logger.getLogger(NGOViewCausePanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -372,10 +398,10 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         try {
             // TODO add your handling code here:
             if(loggedInUser != null){
-                popCauseTable("select * from financialaiddb.cause where `Status` != 1 and `NGO_Org` = '"+ loggedInUser + "';");                
+                popInactiveCauseTable();                
             }
             else{
-                popCauseTable("select * from financialaiddb.cause where `Status` != 1;");
+                popInactiveCauseTable();
             }
 
         } catch (SQLException ex) {
@@ -398,9 +424,7 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             String name = SelectedRecords.getCauseName();
             String description = SelectedRecords.getCauseDesc();
             String category = SelectedRecords.getRecCategory(); 
-            String deleteQuery = "Delete from financialaiddb.cause where Cause_Name = '" + name + "';";
-            System.out.println(deleteQuery);            
-            DbConnection.query(deleteQuery);
+            causeDirectory.deletCause(name);
             JOptionPane.showMessageDialog(this,"Selected Row has been deleted");
         }         
         

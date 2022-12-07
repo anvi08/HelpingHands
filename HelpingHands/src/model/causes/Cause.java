@@ -4,6 +4,8 @@
  */
 package model.causes;
 
+import java.util.Date;
+
 /**
  *
  * @author abhis
@@ -15,6 +17,13 @@ public class Cause {
     private String ngoOrg;
     private String recCategory;
     private String country;
+//    private String donorId;
+//    private Date createdDate;
+//    private int moneyDonorCountry;
+//    private int moneyReceiverCountry;
+//    private int moneyReceived;
+//    private String donorCountry;
+//    private int amount;
     private int recId;
     private int req;
     private boolean status;

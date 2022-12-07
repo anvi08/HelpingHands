@@ -7,8 +7,14 @@ package uiPortal;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import model.causes.Cause;
 import profile.Receiver.Receiver;
 import profile.Receiver.ReceiverDirectory;
 import utilities.DbConnection;
@@ -16,6 +22,7 @@ import utilities.Constants;
 import twofa.twoFactorAuth;
 import profile.donor.Donor;
 import profile.donor.DonorDirectory;
+import static utilities.DbConnection.query;
 import utilities.Validators;
 /**
  *
@@ -26,6 +33,10 @@ public class LoginScreen extends javax.swing.JFrame {
     /**
      * Creates new form LoginScreen
      */
+    ReceiverDirectory receiverDirectory;
+    DonorDirectory donorDirectory;
+    Receiver receiver;
+    Donor donor;
     public LoginScreen() {
         initComponents();
         for (String item :Constants.userType){
@@ -34,6 +45,8 @@ public class LoginScreen extends javax.swing.JFrame {
         for (String item :Constants.enterpriseList) {
             dropdownRole1.addItem(item);
         }
+        this.receiverDirectory = new ReceiverDirectory(receiver);
+        this.donorDirectory = new DonorDirectory(donor);
         combobxUserType.setSelectedIndex(-1);  
         dropdownRole1.setSelectedIndex(-1);
         //System.out.println();
@@ -481,10 +494,14 @@ public class LoginScreen extends javax.swing.JFrame {
             lblErrMsg.setText("User Name or Password cannot be empty.");
         } else {
             System.out.println(role);
-            validateRole(role, emailId, password);
+            try {
+                validateRole(role, emailId, password);
 //            String passcode = twoFactorAuth.randomPasswordGenerator();
-//            System.out.println("passsword is "+passcode);
+//            System.out.println("passsword is "+passcemailode);
 //            twoFactorAuth.Send2FA(passcode, emailId);
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         }
       
@@ -537,7 +554,7 @@ public class LoginScreen extends javax.swing.JFrame {
         String country = combobxCountry.getSelectedItem().toString();      
         String userType = combobxUserType.getSelectedItem().toString();                     
             
-            if(userType=="Donor"){       
+            if(userType.equals("Donor")){       
                 Donor donor = new Donor(firstName,lastName,email,pass,userType,country,type);                
                 DonorDirectory donorDirectory = new DonorDirectory(donor);
                 donorDirectory.addDonors();
@@ -766,7 +783,7 @@ public class LoginScreen extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JPasswordField txtPasswordReg;
     // End of variables declaration//GEN-END:variables
-    public void validateRole(String role, String email, String password){
+    public void validateRole(String role, String email, String password) throws SQLException{
         if(role==null){
             String role1 = "";
             navigateToLandingPage();           
@@ -778,20 +795,33 @@ public class LoginScreen extends javax.swing.JFrame {
                 navigateToLandingPage();
                 break;
                 
-                case "NGO":
-                    for (Map.Entry<String, String> entry : Constants.ngoOrgAdminList.entrySet()) {
-                        String key = entry.getKey();
-                        Object value = entry.getValue();
-                        if(key.equals(email.trim()) && value.equals(password.trim())) {
-                            navigateToNGOLandingPage(email);
-                            return;
-                        }
+            case "NGO":
+                for (Map.Entry<String, String> entry : Constants.ngoOrgAdminList.entrySet()) {
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+                    if(key.equals(email.trim()) && value.equals(password.trim())) {
+                        navigateToNGOLandingPage(email);
+                        return;
                     }
-                    lblErrMsg.setText("Username not available in DB for this role");
-                    break;
+                }
+                lblErrMsg.setText("Username not available in DB for this role");
+                break;
+            case "Receiver":
+                if(receiverDirectory.validateReceiver(email,password)){
+                    System.out.println("FOUND OUR WAY HERE");
+                    navigateToReceiverLandingPage(email);
+                    return;                        
 
-                default:
-                    lblErrMsg.setText("Username not available in DB for this role");
+                }
+            case "Donor":
+                if(donorDirectory.validateDonor(email,password)){
+                    System.out.println("FOUND OUR WAY HERE");
+                    navigateToDonorLandingPage(email);
+                    return;                        
+
+                }                
+            default:
+                lblErrMsg.setText("Username not available in DB for this role");
             }            
         }
 
@@ -834,6 +864,38 @@ public class LoginScreen extends javax.swing.JFrame {
         
     }    
 
+    public void navigateToReceiverLandingPage(String role){
+        dispose();
+        String loggedInUser = role+ " - Receiver";
+        LandingPageFrame landingPage =  new LandingPageFrame(loggedInUser);
+        landingPage.setTitle("Dashboard");
+        landingPage.setVisible(true);
+        Component[] componentList = landingPage.getComponents();
+
+        //Loop through the components
+        for(Component c : componentList){
+
+            System.out.println(c);
+        }
+        
+    }
+
+    public void navigateToDonorLandingPage(String role){
+        dispose();
+        String loggedInUser = role+ " - Donor";
+        LandingPageFrame landingPage =  new LandingPageFrame(loggedInUser);
+        landingPage.setTitle("Dashboard");
+        landingPage.setVisible(true);
+        Component[] componentList = landingPage.getComponents();
+
+        //Loop through the components
+        for(Component c : componentList){
+
+            System.out.println(c);
+        }
+        
+    }       
+    
     public void userDropDowns(){
         combobxUserType.addActionListener (new ActionListener () {
                 public void actionPerformed(ActionEvent e) {
@@ -863,5 +925,7 @@ public class LoginScreen extends javax.swing.JFrame {
             });    
     }
     
+
+
     
 }

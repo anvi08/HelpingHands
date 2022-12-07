@@ -7,10 +7,14 @@ package uiPortal;
 //import uiPortal.Bank.BankLandingPage;
 import uiPortal.Bank.BankLandingPage;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import uiDonor.DonorLandingPage;
 import uiPortal.NGO.NGOLandingPage;
 import utilities.Constants;
 import uiPortal.justiceDepartment.JusticeDepartmentLandingPage;
+import uiReceiver.ReceiverAssignCause;
+import uiReceiver.ReceiverLandingPage;
 
 /**
  *
@@ -251,7 +255,9 @@ public class LandingPageFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void validateRole(String loggedInUser){
+        
 
+        
         if(loggedInUser != null){
             
             System.out.println(loggedInUser);
@@ -266,6 +272,37 @@ public class LandingPageFrame extends javax.swing.JFrame {
             jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
             jLabel1.setVerticalAlignment(SwingConstants.CENTER);            
         }
+        try{
+            if(loggedInUser.contains("Receiver")){
+                btnBankLink.setVisible(false);
+                btnJusticeLink.setVisible(false);
+                jLabel1.setText(loggedInUser.split("-")[0].trim());
+                // btnBankLink.setVisible(false);
+               // btnJusticeLink.setVisible(false);
+                btnServiceLink.setVisible(false);
+                btnNGOLink.setVisible(false);
+                ReceiverLandingPage receiverLandingPage = new ReceiverLandingPage(loggedInUser);
+                jSplitPane.setRightComponent(receiverLandingPage);            
+                return;
+            }
+            if(loggedInUser.contains("Donor")){
+                btnBankLink.setVisible(false);
+                btnJusticeLink.setVisible(false);
+                jLabel1.setText(loggedInUser.split("-")[0].trim());
+                // btnBankLink.setVisible(false);
+               // btnJusticeLink.setVisible(false);
+                btnServiceLink.setVisible(false);
+                btnNGOLink.setVisible(false);
+                DonorLandingPage donorLandingPage = new DonorLandingPage(loggedInUser);
+                jSplitPane.setRightComponent(donorLandingPage);            
+                return;
+                
+                
+            }                  
+        }catch(Exception e){
+            System.out.println("WRONG");
+        }
+  
         
         
     } 

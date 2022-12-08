@@ -66,5 +66,10 @@ public class JusticeDepartmentEmployee extends profile.Person {
         return empType;
     }
     
+    @Override  
+    public String toString(){
+        return getFirstName();
+    } 
+    
     
 }

@@ -7,12 +7,15 @@ package uiPortal.NGO;
 import utilities.DbConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.causes.Cause;
 import model.causes.CauseDirectory;
+import utilities.Constants;
+import utilities.Validators;
 
 /**
  *
@@ -20,6 +23,7 @@ import model.causes.CauseDirectory;
  */
 public class NGOViewCausePanel extends javax.swing.JPanel {
     private String loggedInUser;
+    int inValidForm = 0;
     /**
      * Creates new form NGOViewCausePanel
      */
@@ -29,23 +33,37 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         initComponents();
         this.causeDirectory = new CauseDirectory(cause);
         this.loggedInUser = loggedInUser;
+        for (String item :Constants.receivingCountries) {
+            combobxCountry.addItem(item);
+        }
+        
+        for(String item : Constants.ngoOrganisations){
+            combobxOrganisation.addItem(item);
+        }
+        
+        for(String item : Constants.receivingType){
+            combobxCategory.addItem(item);
+        }
+        
         if(loggedInUser != null){
             validateRole(loggedInUser);
-            popCauseTable("Select * from cause where NGO_Org = '"+loggedInUser+"';");            
-        }else{
-            combobxOrganisation.setSelectedIndex(-1);        
             combobxCountry.setSelectedIndex(-1);      
-            combobxCategory.setSelectedIndex(-1);           
-            popCauseTable("Select * from cause;");            
-        }      
+            combobxCategory.setSelectedIndex(-1);                
+            popCauseTable();            
+        }else{   
+            combobxCountry.setSelectedIndex(-1);      
+            combobxCategory.setSelectedIndex(-1);        
+            combobxOrganisation.setSelectedIndex(-1);       
+            popCauseTable();            
+        }           
 
     }   
 
-    private void popCauseTable(String query) throws SQLException {
+    private void popCauseTable() throws SQLException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         DefaultTableModel model = (DefaultTableModel)tblCause.getModel();
         model.setRowCount(0);
-        for(Cause cause: causeDirectory.popCauseTable(query)){
+        for(Cause cause: causeDirectory.popCauseTable(loggedInUser)){
             Object[] row = new Object[6];
             row[0] = cause;
             row[1] = cause.getCauseName();
@@ -55,9 +73,38 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             model.addRow(row);
         }
     }
-    
+
+    private void popActiveCauseTable() throws SQLException {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        DefaultTableModel model = (DefaultTableModel)tblCause.getModel();
+        model.setRowCount(0);
+        for(Cause cause: causeDirectory.popActiveCauseTable(loggedInUser)){
+            Object[] row = new Object[6];
+            row[0] = cause;
+            row[1] = cause.getCauseName();
+            row[2] = cause.getCauseDesc();
+            row[3] = cause.getRecCategory();
+            row[4] = cause.getCountry();                                     
+            model.addRow(row);
+        }
+    }    
+
+    private void popInactiveCauseTable() throws SQLException {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        DefaultTableModel model = (DefaultTableModel)tblCause.getModel();
+        model.setRowCount(0);
+        for(Cause cause: causeDirectory.popInactiveCauseTable(loggedInUser)){
+            Object[] row = new Object[6];
+            row[0] = cause;
+            row[1] = cause.getCauseName();
+            row[2] = cause.getCauseDesc();
+            row[3] = cause.getRecCategory();
+            row[4] = cause.getCountry();                                     
+            model.addRow(row);
+        }
+    }     
 //    public void fillTable() throws SQLException{
-//    ResultSet resultSet = DbConnection.selectQuery("SELECT * FROM cause;");        
+      
 //    DefaultTableModel tblModel =  (DefaultTableModel)tblCause.getModel();
 //    tblModel.setRowCount(0);
 //    while(resultSet.next()){
@@ -118,6 +165,7 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         btnActiveCauses = new javax.swing.JButton();
         btnInactiveCauses = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        lblErrFirstName = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -133,6 +181,12 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(tblCause);
+
+        txtName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNameFocusLost(evt);
+            }
+        });
 
         txtDescription.setColumns(20);
         txtDescription.setRows(5);
@@ -154,12 +208,6 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Country:");
-
-        combobxCountry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Uganda", "India", "Ukraine" }));
-
-        combobxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Individual", "Community" }));
-
-        combobxOrganisation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Education", "Healthcare", "Natural Disasters" }));
 
         btnView.setBackground(new java.awt.Color(255, 255, 0));
         btnView.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -207,6 +255,8 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             }
         });
 
+        lblErrFirstName.setForeground(new java.awt.Color(153, 0, 0));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -230,13 +280,16 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
                             .addComponent(combobxCountry, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(combobxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnView)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnActiveCauses)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnInactiveCauses)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelete))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnView)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnActiveCauses)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnInactiveCauses)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDelete))
+                            .addComponent(lblErrFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(148, 148, 148)
                         .addComponent(btnUpdate)))
@@ -246,19 +299,22 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(combobxOrganisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnView)
-                    .addComponent(btnActiveCauses)
-                    .addComponent(btnInactiveCauses)
-                    .addComponent(btnDelete))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(combobxOrganisation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnView)
+                            .addComponent(btnActiveCauses)
+                            .addComponent(btnInactiveCauses)
+                            .addComponent(btnDelete))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblErrFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -313,14 +369,9 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         txtName.setText("");
         txtDescription.setText("");
         
-        //System.out.println("CAUSE IDDDD " + SelectedRecords.getCauseId());
-        
+        Cause cause = new Cause(name,description,organisation,category,country,false);
         JOptionPane.showMessageDialog(this, "Data has been Updated");
-        String updateQuery = "Update financialaiddb.cause Set NGO_Org = '"+ organisation + "', Cause_Name = '"+ name + "',Cause_Desc = '" + description + "'," + 
-                 "R_Category = '" + category + "' ," + " Country = '" + country + 
-                   "' where Cause_Id = " +SelectedRecords.getCauseId() +";";
-           
-        DbConnection.query(updateQuery);
+        causeDirectory.updateCause(cause, SelectedRecords.getCauseId());
         //System.out.println(updateQuery);
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Please Select a row to Update");
@@ -332,10 +383,10 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         try {
             // TODO add your handling code here:
             if(loggedInUser != null){
-                popCauseTable("select * from financialaiddb.cause where `Status` = 1 and `NGO_Org` = '"+ loggedInUser + "';");                
+                popActiveCauseTable();                
             }
             else{
-                popCauseTable("select * from financialaiddb.cause where `Status` = 1;");
+                popActiveCauseTable();
             }
         } catch (SQLException ex) {
             Logger.getLogger(NGOViewCausePanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -347,10 +398,10 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         try {
             // TODO add your handling code here:
             if(loggedInUser != null){
-                popCauseTable("select * from financialaiddb.cause where `Status` != 1 and `NGO_Org` = '"+ loggedInUser + "';");                
+                popInactiveCauseTable();                
             }
             else{
-                popCauseTable("select * from financialaiddb.cause where `Status` != 1;");
+                popInactiveCauseTable();
             }
 
         } catch (SQLException ex) {
@@ -363,7 +414,9 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         int SelectedRow = tblCause.getSelectedRow();
         if(SelectedRow<0){
             JOptionPane.showMessageDialog(this, "Please Select a row");
-        }else{
+        }else{        for (String item :Constants.receivingCountries) {
+            combobxCountry.addItem(item);
+        }
             DefaultTableModel m2 = (DefaultTableModel)tblCause.getModel();
             Cause SelectedRecords = (Cause) m2.getValueAt(SelectedRow, 0);
             String organisation = SelectedRecords.getNgoOrg();
@@ -371,9 +424,7 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             String name = SelectedRecords.getCauseName();
             String description = SelectedRecords.getCauseDesc();
             String category = SelectedRecords.getRecCategory(); 
-            String deleteQuery = "Delete from financialaiddb.cause where Cause_Name = '" + name + "';";
-            System.out.println(deleteQuery);            
-            DbConnection.query(deleteQuery);
+            causeDirectory.deletCause(name);
             JOptionPane.showMessageDialog(this,"Selected Row has been deleted");
         }         
         
@@ -383,6 +434,27 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void txtNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameFocusLost
+        // TODO add your handling code here:
+        String firstName = txtName.getText();
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateName(firstName);
+
+        if (errorMsg != null && !errorMsg.trim().equals("")) {
+            lblErrFirstName.setText(errorMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrFirstName.setText("");
+        }                                  
+            
+    }//GEN-LAST:event_txtNameFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActiveCauses;
@@ -400,6 +472,7 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblErrFirstName;
     private javax.swing.JTable tblCause;
     private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtName;

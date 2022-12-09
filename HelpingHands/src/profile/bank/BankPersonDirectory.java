@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 public class BankPersonDirectory {
     
     private BankPerson bankPerson;
-    //public ArrayList<Cause> allCauses; 
     public ArrayList<BankPerson> allBankPersons;
 
     public BankPersonDirectory(BankPerson bankPerson) {
@@ -29,9 +28,11 @@ public class BankPersonDirectory {
     
     public ArrayList<BankPerson> populateBankPerson(String query)throws SQLException{
         
-            //ArrayList<BankPerson> allBankPersons = new ArrayList();
+            ArrayList<BankPerson> allBankPersons = new ArrayList();
+            
+            query = "Select * from financialaiddb.bankemployee;";
             ResultSet resultset = DbConnection.selectQuery(query);
-            System.out.println("profile.bank.BankPersonDirectory.populateBankPerson()");
+            //System.out.println("profile.bank.BankPersonDirectory.populateBankPerson()");
             while(resultset.next()){
                 int bankPersonId = resultset.getInt("Bank_Id");
                 String firstName =resultset.getString("First_Name");
@@ -65,6 +66,18 @@ public class BankPersonDirectory {
                 + "VALUES ('" + bankPerson.getFirstName() + "','" + bankPerson.getLastName() + "','" + bankPerson.getEmail() + "','" + bankPerson.getPassword() + "','" + bankPerson.getEmpType()+ "','" + bankPerson.getBankName() + "','" + status + "','" + bankPerson.getCountry()+"')";
         System.out.print(sql);
         DbConnection.query(sql);
+    }
+    
+    /*
+    public void deletCause(String causeName){
+            String deleteQuery = "Delete from financialaiddb.cause where Cause_Name = '" + causeName + "';";        
+            DbConnection.query(deleteQuery);        
+    }
+    */
+    
+    public void deleteBankPerson(String firstName){
+        String deleteQuery = "Delete from financialaiddb.bankemployee where First_Name = '" + firstName + "';";        
+        DbConnection.query(deleteQuery);        
     }
     
 }

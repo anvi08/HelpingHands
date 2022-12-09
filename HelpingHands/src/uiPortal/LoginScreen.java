@@ -23,6 +23,7 @@ import twofa.twoFactorAuth;
 import profile.donor.Donor;
 import profile.donor.DonorDirectory;
 import static utilities.DbConnection.query;
+import utilities.ValidateUserLogin;
 import utilities.Validators;
 /**
  *
@@ -794,6 +795,11 @@ public class LoginScreen extends javax.swing.JFrame {
             case "":
                 navigateToLandingPage();
                 break;
+                
+            case "BANK":
+                ValidateUserLogin validateUserLogin = new ValidateUserLogin(email, password);
+                break;
+                
                 
             case "NGO":
                 for (Map.Entry<String, String> entry : Constants.ngoOrgAdminList.entrySet()) {

@@ -197,7 +197,7 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         String organisation = combobxOrganisation.getSelectedItem().toString();
         String country = combobxCountry.getSelectedItem().toString();        
         String category = combobxCategory.getSelectedItem().toString();
-        Cause cause = new Cause(name,description,organisation,category,country,false);
+        Cause cause = new Cause(name,description,organisation,category,country,true);
         CauseDirectory causeDirectory = new CauseDirectory(cause);
         causeDirectory.addCause();
         txtName.setText("");

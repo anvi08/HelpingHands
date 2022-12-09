@@ -7,15 +7,21 @@ package uiDonor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.causes.Cause;
 import model.causes.CauseDirectory;
+import model.causeticket.CauseTicket;
+import model.causeticket.CauseTicketDirectory;
 import profile.donor.Donor;
 import profile.donor.DonorDirectory;
 import utilities.Constants;
@@ -30,6 +36,8 @@ public class DonorAssignCause extends javax.swing.JPanel {
     Donor donor;
     CauseDirectory causeDirectory;
     Cause cause;    
+    CauseTicketDirectory causeTicketDirectory;
+    CauseTicket causeTicket;
     
     /**
      * Creates new form DonorAssignCause
@@ -37,11 +45,14 @@ public class DonorAssignCause extends javax.swing.JPanel {
     public DonorAssignCause(String loggedInUser) {
         this.loggedInUser = loggedInUser;
         this.donorDirectory = new DonorDirectory(donor);
-        this.causeDirectory = new CauseDirectory(cause);           
+        this.causeDirectory = new CauseDirectory(cause);     
+        this.causeTicketDirectory = new CauseTicketDirectory(causeTicket);
         initComponents();
+
         for(String item : Constants.ngoOrganisations){
             combobxCause.addItem(item);
         }        
+        combobxCause.setSelectedIndex(-1);
     }
     private void popDonorTable(ArrayList<Cause> donorTable) throws SQLException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -208,13 +219,28 @@ public class DonorAssignCause extends javax.swing.JPanel {
                         int causeId = SelectedRecords.getCauseId();
                         String rCountry = SelectedRecords.getCountry();
                         String dCountry = resultSet.getString("Country");
+                        Date date = null;
+                        
 //                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());;  
                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         Calendar cal = Calendar.getInstance();
-                        String createdDate = dateFormat.format(cal.getTime());
-                        System.out.println(dateFormat.format(cal.getTime())+"--"+donorId+"--"+receiverId+"--"+causeId);                        
-                        donorDirectory.addTicket(donorId,receiverId,causeId,createdDate,rCountry,dCountry);
-                        return;
+                        String cd = dateFormat.format(cal.getTime());
+                        Date moneyDonorCountry = null;             
+                        Date moneyReceiverCountry = null;     
+                        Date moneyReceived = null;                             
+//                        System.out.println(dateFormat.format(cal.getTime())+"--"+donorId+"--"+receiverId+"--"+causeId);                 
+   
+                        try {                        
+                            Date createdDate = dateFormat.parse(cd);
+                            System.out.println(createdDate);
+                            CauseTicket assignCause = new CauseTicket(donorId, receiverId, causeId, createdDate,moneyDonorCountry,moneyReceiverCountry,moneyReceived,dCountry, rCountry,0);
+                            CauseTicketDirectory causeTicketDirectory = new CauseTicketDirectory(assignCause);
+                            causeTicketDirectory.addTicket();
+                            return;                            
+                        } catch (ParseException ex) {
+                            Logger.getLogger(DonorAssignCause.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
                     }
                 }
 

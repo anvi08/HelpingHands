@@ -27,7 +27,7 @@ public class ReceiverDirectory {
         ArrayList<Cause> allReceiver = new ArrayList();
 
         String tableQuery = "Select * from cause where country = '"+ country +"' and `R_Category` = '"+r_Categeory+
-                    "' and NGO_Org = '"+ cause1 + "' and R_Id is not null;";
+                    "' and NGO_Org = '"+ cause1 + "';";
         System.out.println(tableQuery); 
         ResultSet resultSet = DbConnection.selectQuery(tableQuery); 
 //        ResultSet resultSet = DbConnection.selectQuery(query1);    

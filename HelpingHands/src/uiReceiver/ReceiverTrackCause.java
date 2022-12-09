@@ -4,13 +4,31 @@
  */
 package uiReceiver;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.causes.Cause;
 import model.causes.CauseDirectory;
+import model.causeticket.CauseTicket;
+import model.causeticket.CauseTicketDirectory;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
 import profile.Receiver.Receiver;
 import profile.Receiver.ReceiverDirectory;
+import uiDonor.DonorTrackCause;
 
 /**
  *
@@ -27,12 +45,16 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
     ReceiverDirectory receiverDirectory;
     Receiver receiver;    
     private int receiverID;
+    CauseTicketDirectory causeTicketDirectory;
+    CauseTicket causeTicket;     
     public ReceiverTrackCause(int receiverID) throws SQLException {
         initComponents();
         this.receiverID = receiverID;
         this.causeDirectory = new CauseDirectory(cause);
         this.receiverDirectory = new ReceiverDirectory(receiver);
+        this.causeTicketDirectory = new CauseTicketDirectory(causeTicket);
         popReceiverTable(receiverDirectory.trackCause(receiverID));
+        jProgressBar1.setVisible(false);
     }
     private void popReceiverTable(ArrayList<Cause> receiverTable) throws SQLException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -57,9 +79,15 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        piePlot1 = new org.jfree.chart.plot.PiePlot();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCause = new javax.swing.JTable();
         btnTrack = new javax.swing.JButton();
+        panelTracker = new javax.swing.JPanel();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jLabel1 = new javax.swing.JLabel();
+        chartPanel = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         tblCause.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -81,6 +109,41 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
             }
         });
 
+        jProgressBar1.setBorder(new javax.swing.border.MatteBorder(null));
+
+        chartPanel.setLayout(new javax.swing.BoxLayout(chartPanel, javax.swing.BoxLayout.LINE_AXIS));
+
+        javax.swing.GroupLayout panelTrackerLayout = new javax.swing.GroupLayout(panelTracker);
+        panelTracker.setLayout(panelTrackerLayout);
+        panelTrackerLayout.setHorizontalGroup(
+            panelTrackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTrackerLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel1)
+                .addGap(82, 82, 82)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
+        );
+        panelTrackerLayout.setVerticalGroup(
+            panelTrackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTrackerLayout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addGroup(panelTrackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(53, Short.MAX_VALUE))
+            .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,7 +154,10 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnTrack)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(247, 247, 247)
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(panelTracker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -100,20 +166,111 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
                 .addGap(41, 41, 41)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnTrack)
-                .addContainerGap(147, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTrack)
+                    .addComponent(jButton1))
+                .addGap(1, 1, 1)
+                .addComponent(panelTracker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTrackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrackActionPerformed
         // TODO add your handling code here:
+        int SelectedRow = tblCause.getSelectedRow();
+        if(SelectedRow<0){
+            JOptionPane.showMessageDialog(this, "Please Select a row");
+        }else{
+            DefaultTableModel m2 = (DefaultTableModel)tblCause.getModel();
+            Cause SelectedRecords = (Cause) m2.getValueAt(SelectedRow, 0);
+            System.out.println("CAUSE IDDDDD "+SelectedRecords.getCauseId());
+            JOptionPane.showMessageDialog(this,"The Exact location of your funds is given below");
+            try {
+                ArrayList<CauseTicket> trackCauses = causeTicketDirectory.trackCauseReceiver(receiverID);
+                jProgressBar1.setVisible(true);                
+                if(trackCauses.isEmpty()){
+                    System.out.println("YEESSSSSSSSSS");
+                    jProgressBar1.setValue(5);
+                    jProgressBar1.setString("Your funds are almost there");
+                    jLabel1.setText("Your Cause is awaiting new Donor");
+                    return;
+                }                
+                for(CauseTicket causetix : trackCauses){
+                    if(causetix.getReceiverId()==receiverID){
+                        Date createdDate = causetix.getCreatedDate();
+                        Date moneyDonorCountry = causetix.getMoneyDonorCountry();
+                        Date moneyReceiverCountry = causetix.getMoneyReceiverCountry();
+                        Date moneyReceived = causetix.getMoneyReceived();
+                        int MY_MINIMUM = 0;
+                        int MY_MAXIMUM = 100;
+                        jProgressBar1.setMinimum(MY_MINIMUM);
+                        jProgressBar1.setMaximum(MY_MAXIMUM);
+                        
+                        if(createdDate!=null){
+                            jProgressBar1.setValue(25);
+                            jProgressBar1.setString("funds almost there");
+                            jLabel1.setText("Your Funds were Initiated on "+ createdDate.toString()+" and will be tracked by the Bank authorities soon");
+                        }     
+                        else{
+                            System.out.println("YEESSSSSSSSSS");
+                            jProgressBar1.setValue(5);
+                            jProgressBar1.setString("Your funds are almost there");
+                            jLabel1.setText("Your Cause is awaiting new Donor");
+
+                        }                        
+                        if(moneyDonorCountry!=null){
+                            jProgressBar1.setValue(50);
+                            jProgressBar1.setString("Your funds are almost there");
+                            jLabel1.setText("Your Funds were Processed on  "+ createdDate.toString()+" and will be tracked by the Receiving Country Bank authorities soon");
+                        }                        
+                        if(moneyReceiverCountry!=null){
+                            jProgressBar1.setValue(75);
+                            jProgressBar1.setString("Your funds are almost there");
+                            jLabel1.setText("Your Funds were processed by the bank on  "+ createdDate.toString()+" and will be in the hands of the benificiary soon");
+                        }                        
+                        if(moneyReceived!=null){
+                            jProgressBar1.setValue(100);
+                            jProgressBar1.setString("Your funds are almost there");
+                            jLabel1.setText("Your Funds have reached the right people on "+ createdDate.toString()+" \n Thank you for using HelpingHands");
+                        }                        
+
+                    }
+
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DonorTrackCause.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }                
         
     }//GEN-LAST:event_btnTrackActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        DefaultPieDataset pie = new DefaultPieDataset();
+        pie.setValue("health", 6);
+        pie.setValue("disaster",5);
+        pie.setValue("education", 2);
+        JFreeChart chart = ChartFactory.createPieChart("Donation by Organisations", pie);       
+        PiePlot piePlot1 =  (PiePlot) chart.getPlot();
+        ChartFrame frame = new ChartFrame("Pie Chart",chart);
+        ChartPanel CP = new ChartPanel(chart);
+        chartPanel.add(CP);
+        chartPanel.updateUI();
+        chartPanel.setPreferredSize(new Dimension(400, 200));           
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTrack;
+    private javax.swing.JPanel chartPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelTracker;
+    private org.jfree.chart.plot.PiePlot piePlot1;
     private javax.swing.JTable tblCause;
     // End of variables declaration//GEN-END:variables
 }

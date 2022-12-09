@@ -119,16 +119,39 @@ public class DonorDirectory {
         ResultSet resultSet = DbConnection.selectQuery(query); 
         return resultSet;
     }
-    public void addTicket(int donorId, int receiverId, int causeId, String createdDate, String receiverCountry, String donorCountry){
+
+    public void add2FA(String tempPass,String email,String user){
         
-        String sql = "INSERT INTO `causeticket`(`Donor_Id`, `Receiver_Id`,`Cause_Id`,`Created_Date`,`Money_Donor_Country`,`Money_Receiving_Country`,`Money_Received`,`Donor_Country`,`Receiving_Country`,`Amount`)"
-                + "VALUES ('" + donorId + "','" + receiverId + "','" + causeId + "','" + createdDate + "','" + 0+ "','" + 0 + "','" + 0 + "','" + donorCountry + "','" + receiverCountry + "','" + 0 + "')";//        fetch();
-        
-        System.out.println(sql);
-        
-        DbConnection.query(sql);
+
+//        String pass = donor.getTempPass();
+//        String email = donor.getEmail();   
+//        String user = "Donor";
+        String sql = "INSERT INTO `users`(`Email`,`Temp_Password`, `User_Type`) "
+        + "VALUES ('" + email + "','" + tempPass + "','" + email + "')";//        fetch();
+        System.out.print(sql);
+        DbConnection.query(sql);    
     }
 
-    
+    public boolean validateDonor2FA(String inputPassword) throws SQLException{
+        ArrayList<String> credentials = new ArrayList();
+        String query = "Select * from users";
+        ResultSet resultSet = DbConnection.selectQuery(query);    
+        while(resultSet.next()){
+
+            String email = resultSet.getString("Email");
+            String pass = resultSet.getString("Temp_Password");
+            if(inputPassword.trim().equals(pass)){
+                credentials.add(email);                   
+                credentials.add(pass);
+            }
+ 
+        }
+        if(credentials.isEmpty()){
+            return false;            
+        }else{
+            return true;
+        }
+
+    }    
 
 }

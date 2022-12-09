@@ -5,6 +5,7 @@
 package uiPortal;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -25,12 +26,27 @@ import profile.donor.DonorDirectory;
 import static utilities.DbConnection.query;
 import utilities.ValidateUserLogin;
 import utilities.Validators;
+import javax.swing.JFrame;
+//import java.awt.image.BufferedImage;
+//import java.io.File;
+//import java.awt.Image;
+//import java.io.IOException;
+//import java.net.URL;
+//import javax.imageio.ImageIO;
+//import javax.swing.ImageIcon;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
 /**
  *
  * @author abhis
  */
 public class LoginScreen extends javax.swing.JFrame {
     int inValidForm = 0;
+//    private BufferedImage img;    
     /**
      * Creates new form LoginScreen
      */
@@ -39,7 +55,9 @@ public class LoginScreen extends javax.swing.JFrame {
     Receiver receiver;
     Donor donor;
     public LoginScreen() {
+
         initComponents();
+        generateCharts();        
         for (String item :Constants.userType){
             combobxUserType.addItem(item);
         }  
@@ -51,7 +69,43 @@ public class LoginScreen extends javax.swing.JFrame {
         combobxUserType.setSelectedIndex(-1);  
         dropdownRole1.setSelectedIndex(-1);
         //System.out.println();
-        userDropDowns();
+        txtTwofa.setVisible(false);
+        btnTwoFA.setVisible(false);   
+  
+        dropdownRole1.addActionListener(new ActionListener(){
+                // this is anonymous class
+        @Override
+        public void actionPerformed(ActionEvent evt){
+             //then you know that is attached to this button
+        final boolean enabled = dropdownRole1.getSelectedIndex() == 3;
+        if(enabled){
+            btnTwoFA.setVisible(true);
+            txtTwofa.setVisible(true);
+            lblTwoFa.setText("Enable 2FA \n for password");
+        }else{        
+            btnTwoFA.setVisible(false);        
+            txtTwofa.setVisible(false);
+            lblTwoFa.setText("");            
+            }
+
+        }
+        }); 
+        userDropDowns();   
+
+    }
+
+    public void generateCharts(){
+        DefaultPieDataset pie = new DefaultPieDataset();
+        pie.setValue("health", 6);
+        pie.setValue("disaster",5);
+        pie.setValue("education", 2);
+        JFreeChart chart = ChartFactory.createPieChart("Donation for Causes", pie);       
+        PiePlot piePlot1 =  (PiePlot) chart.getPlot();
+        ChartFrame frame = new ChartFrame("Pie Chart",chart);
+        ChartPanel CP = new ChartPanel(chart);
+        chartPanel1.add(CP);
+        chartPanel1.updateUI();
+        chartPanel1.setPreferredSize(new Dimension(400, 200));     
     }
 
     /**
@@ -75,6 +129,9 @@ public class LoginScreen extends javax.swing.JFrame {
         btnLogin = new javax.swing.JButton();
         lblErrMsg = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
+        txtTwofa = new javax.swing.JPasswordField();
+        btnTwoFA = new javax.swing.JButton();
+        lblTwoFa = new javax.swing.JLabel();
         panelRegister = new javax.swing.JPanel();
         txtLastName = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -99,6 +156,8 @@ public class LoginScreen extends javax.swing.JFrame {
         lblErrConfirmPassword = new javax.swing.JLabel();
         lblErrPassword = new javax.swing.JLabel();
         lblErrContact = new javax.swing.JLabel();
+        chartPanel1 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -142,6 +201,14 @@ public class LoginScreen extends javax.swing.JFrame {
             }
         });
 
+        dropdownRole1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                dropdownRole1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                dropdownRole1FocusLost(evt);
+            }
+        });
         dropdownRole1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dropdownRole1ActionPerformed(evt);
@@ -160,32 +227,44 @@ public class LoginScreen extends javax.swing.JFrame {
 
         lblErrMsg.setForeground(new java.awt.Color(153, 0, 0));
 
+        btnTwoFA.setText("2FA Verification");
+        btnTwoFA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTwoFAActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLoginLayout = new javax.swing.GroupLayout(panelLogin);
         panelLogin.setLayout(panelLoginLayout);
         panelLoginLayout.setHorizontalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLoginLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
                 .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(dropdownRole1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblErrMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelLoginLayout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(dropdownRole1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelLoginLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelLoginLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(98, Short.MAX_VALUE))
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(lblTwoFa))
+                    .addGroup(panelLoginLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtTwofa, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblErrMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnTwoFA)
+                .addGap(123, 123, 123))
         );
 
         panelLoginLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel4, jLabel5, jLabel6});
@@ -204,16 +283,20 @@ public class LoginScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTwoFa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTwofa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addComponent(lblErrMsg)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnTwoFA)
+                .addGap(2, 2, 2)
                 .addComponent(btnLogin)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         panelLoginLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel4, jLabel5, jLabel6});
@@ -448,19 +531,36 @@ public class LoginScreen extends javax.swing.JFrame {
 
         cardLayoutRegisterLoginPanel.add(panelRegister, "card3");
 
+        chartPanel1.setLayout(new javax.swing.BoxLayout(chartPanel1, javax.swing.BoxLayout.LINE_AXIS));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 198, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(318, 318, 318)
+                .addComponent(chartPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnLoginTab, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRegisterTab))
-                    .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnRegisterTab)
+                        .addContainerGap(541, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnLoginTab, btnRegisterTab});
@@ -469,12 +569,17 @@ public class LoginScreen extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(123, 123, 123)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLoginTab, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRegisterTab))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(173, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnLoginTab, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRegisterTab))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chartPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnLoginTab, btnRegisterTab});
@@ -484,6 +589,7 @@ public class LoginScreen extends javax.swing.JFrame {
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
@@ -496,10 +602,8 @@ public class LoginScreen extends javax.swing.JFrame {
         } else {
             System.out.println(role);
             try {
-                validateRole(role, emailId, password);
-//            String passcode = twoFactorAuth.randomPasswordGenerator();
-//            System.out.println("passsword is "+passcemailode);
-//            twoFactorAuth.Send2FA(passcode, emailId);
+                validateRole(role, emailId, password);            
+
             } catch (SQLException ex) {
                 Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -585,6 +689,7 @@ public class LoginScreen extends javax.swing.JFrame {
 
     private void dropdownRole1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropdownRole1ActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_dropdownRole1ActionPerformed
     private void combobxCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobxCountryActionPerformed
         // TODO add your handling code here:   
@@ -711,6 +816,26 @@ public class LoginScreen extends javax.swing.JFrame {
         }        
     }//GEN-LAST:event_txtConfirmPasswordFocusLost
 
+    private void dropdownRole1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dropdownRole1FocusLost
+        // TODO add your handling code here:
+
+        
+    }//GEN-LAST:event_dropdownRole1FocusLost
+
+    private void dropdownRole1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dropdownRole1FocusGained
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_dropdownRole1FocusGained
+
+    private void btnTwoFAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTwoFAActionPerformed
+        // TODO add your handling code here:
+        String passcode = twoFactorAuth.randomPasswordGenerator();
+        System.out.println("passsword is "+passcode);      
+        twoFactorAuth.Send2FA(passcode, txtEmail.getText());
+        donorDirectory.add2FA(passcode, txtEmail.getText(), dropdownRole1.getSelectedItem().toString());        
+    }//GEN-LAST:event_btnTwoFAActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -741,7 +866,9 @@ public class LoginScreen extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginScreen().setVisible(true);
+                LoginScreen loginScreen = new LoginScreen();
+                loginScreen.setVisible(true);
+                loginScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
             }
         });
     }
@@ -751,7 +878,9 @@ public class LoginScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnLoginTab;
     private javax.swing.JButton btnRegister;
     private javax.swing.JButton btnRegisterTab;
+    private javax.swing.JButton btnTwoFA;
     private javax.swing.JPanel cardLayoutRegisterLoginPanel;
+    private javax.swing.JPanel chartPanel1;
     private javax.swing.JComboBox<String> combobxCountry;
     private javax.swing.JComboBox<String> combobxType;
     private javax.swing.JComboBox<String> combobxUserType;
@@ -767,6 +896,7 @@ public class LoginScreen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblErrConfirmPassword;
     private javax.swing.JLabel lblErrContact;
     private javax.swing.JLabel lblErrEmailId;
@@ -774,6 +904,7 @@ public class LoginScreen extends javax.swing.JFrame {
     private javax.swing.JLabel lblErrLastName;
     private javax.swing.JLabel lblErrMsg;
     private javax.swing.JLabel lblErrPassword;
+    private javax.swing.JLabel lblTwoFa;
     private javax.swing.JPanel panelLogin;
     private javax.swing.JPanel panelRegister;
     private javax.swing.JPasswordField txtConfirmPassword;
@@ -783,6 +914,7 @@ public class LoginScreen extends javax.swing.JFrame {
     private javax.swing.JTextField txtLastName;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JPasswordField txtPasswordReg;
+    private javax.swing.JPasswordField txtTwofa;
     // End of variables declaration//GEN-END:variables
     public void validateRole(String role, String email, String password) throws SQLException{
         if(role==null){
@@ -821,9 +953,19 @@ public class LoginScreen extends javax.swing.JFrame {
                 }
             case "Donor":
                 if(donorDirectory.validateDonor(email,password)){
-                    System.out.println("FOUND OUR WAY HERE");
-                    navigateToDonorLandingPage(email);
-                    return;                        
+//                    String passcode = twoFactorAuth.randomPasswordGenerator();
+//                    System.out.println("passsword is "+passcode);
+//                    twoFactorAuth.Send2FA(passcode, txtEmail.getText());
+//                    donorDirectory.add2FA(passcode, txtEmail.getText(), role);
+                    boolean twoFa = true;//donorDirectory.validateDonor2FA(txtTwofa.getText().trim());
+                    if(twoFa){
+                        System.out.println("FOUND OUR WAY HERE");
+                        navigateToDonorLandingPage(email);
+                        return;                         
+                    }else{
+                        JOptionPane.showMessageDialog(this, "The input TwoFA Password was incorrect");
+                    }
+                       
 
                 }                
             default:
@@ -901,6 +1043,8 @@ public class LoginScreen extends javax.swing.JFrame {
         }
         
     }       
+    
+   
     
     public void userDropDowns(){
         combobxUserType.addActionListener (new ActionListener () {

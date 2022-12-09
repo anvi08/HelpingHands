@@ -103,6 +103,18 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             model.addRow(row);
         }
     }     
+    private void popUpdatedCause(Cause updatedCause) throws SQLException {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        DefaultTableModel model = (DefaultTableModel)tblCause.getModel();
+        model.setRowCount(0);
+        Object[] row = new Object[6];
+        row[0] = updatedCause;
+        row[1] = updatedCause.getCauseName();
+        row[2] = updatedCause.getCauseDesc();
+        row[3] = updatedCause.getRecCategory();
+        row[4] = updatedCause.getCountry();                                     
+        model.addRow(row);
+    }
 //    public void fillTable() throws SQLException{
       
 //    DefaultTableModel tblModel =  (DefaultTableModel)tblCause.getModel();
@@ -339,6 +351,7 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         if(SelectedRow<0){
             JOptionPane.showMessageDialog(this, "Please Select a row");
         }else{
+
             DefaultTableModel m2 = (DefaultTableModel)tblCause.getModel();
             Cause SelectedRecords = (Cause) m2.getValueAt(SelectedRow, 0);
             txtName.setText(SelectedRecords.getCauseName());
@@ -355,23 +368,30 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         int SelectedRow = tblCause.getSelectedRow();
         try{
-        DefaultTableModel m2 = (DefaultTableModel)tblCause.getModel();
-        Cause SelectedRecords = (Cause) m2.getValueAt(SelectedRow, 0);            
-        String organisation = combobxOrganisation.getSelectedItem().toString();
-        String country = combobxCountry.getSelectedItem().toString();
-        String name = txtName.getText();
-        String description = txtDescription.getText();
-        String category = combobxCategory.getSelectedItem().toString();
+            DefaultTableModel m2 = (DefaultTableModel)tblCause.getModel();
+            Cause SelectedRecords = (Cause) m2.getValueAt(SelectedRow, 0);         
+            if(SelectedRecords.isStatus()==true){
+            String organisation = combobxOrganisation.getSelectedItem().toString();
+            String country = combobxCountry.getSelectedItem().toString();
+            String name = txtName.getText();
+            String description = txtDescription.getText();
+            String category = combobxCategory.getSelectedItem().toString();
 
-        combobxOrganisation.setSelectedIndex(-1);        
-        combobxCountry.setSelectedIndex(-1);      
-        combobxCategory.setSelectedIndex(-1);      
-        txtName.setText("");
-        txtDescription.setText("");
-        
-        Cause cause = new Cause(name,description,organisation,category,country,false);
-        JOptionPane.showMessageDialog(this, "Data has been Updated");
-        causeDirectory.updateCause(cause, SelectedRecords.getCauseId());
+            combobxOrganisation.setSelectedIndex(-1);        
+            combobxCountry.setSelectedIndex(-1);      
+            combobxCategory.setSelectedIndex(-1);      
+            txtName.setText("");
+            txtDescription.setText("");
+
+            Cause cause = new Cause(name,description,organisation,category,country,false);
+            JOptionPane.showMessageDialog(this, "Data has been Updated");
+            causeDirectory.updateCause(cause, SelectedRecords.getCauseId());
+            popUpdatedCause(cause);       
+            
+        }else{
+                JOptionPane.showMessageDialog(this,"Inactive Causes Cannot be Updated");
+            }
+ 
         //System.out.println(updateQuery);
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Please Select a row to Update");

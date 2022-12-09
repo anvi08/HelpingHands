@@ -495,7 +495,7 @@ public class LoginScreen extends javax.swing.JFrame {
         } else {
             System.out.println(role);
             try {
-                validateRole(role, emailId, password);
+              validateRole(role, emailId, password);
 //            String passcode = twoFactorAuth.randomPasswordGenerator();
 //            System.out.println("passsword is "+passcemailode);
 //            twoFactorAuth.Send2FA(passcode, emailId);
@@ -813,15 +813,24 @@ public class LoginScreen extends javax.swing.JFrame {
                     return;                        
 
                 }
+                break;
             case "Donor":
                 if(donorDirectory.validateDonor(email,password)){
                     System.out.println("FOUND OUR WAY HERE");
                     navigateToDonorLandingPage(email);
                     return;                        
 
-                }                
+                } else {
+                   lblErrMsg.setText("Username not available in DB for this role"); 
+                }
+                break;
+            case "Justice Dept.": 
+                
+                navigateToJusticeLandingPage(null);
+                break;
             default:
                 lblErrMsg.setText("Username not available in DB for this role");
+                break;
             }            
         }
 
@@ -862,7 +871,18 @@ public class LoginScreen extends javax.swing.JFrame {
         landingPage.setVisible(true);
         landingPage.remove(this);
         
-    }    
+    } 
+    
+    private void navigateToJusticeLandingPage(String role) {
+        switchToLandingPage(role);
+    }
+    
+    private void switchToLandingPage(String role) {
+        dispose();
+        LandingPageFrame landingPage =  new LandingPageFrame(role);
+        landingPage.setTitle("Dashboard");
+        landingPage.setVisible(true);
+    }
 
     public void navigateToReceiverLandingPage(String role){
         dispose();
@@ -880,7 +900,7 @@ public class LoginScreen extends javax.swing.JFrame {
         
     }
 
-    public void navigateToDonorLandingPage(String role){
+    private void navigateToDonorLandingPage(String role){
         dispose();
         String loggedInUser = role+ " - Donor";
         LandingPageFrame landingPage =  new LandingPageFrame(loggedInUser);
@@ -896,7 +916,7 @@ public class LoginScreen extends javax.swing.JFrame {
         
     }       
     
-    public void userDropDowns(){
+    private void userDropDowns(){
         combobxUserType.addActionListener (new ActionListener () {
                 public void actionPerformed(ActionEvent e) {
                 combobxCountry.removeAllItems();  

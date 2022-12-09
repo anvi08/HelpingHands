@@ -284,14 +284,26 @@ public class JusticeDepartmentAddEmployee extends javax.swing.JPanel {
         JusticeDepartmentEmployeeDirectory justiceDepartmentEmployeeDirectory = new JusticeDepartmentEmployeeDirectory(justiceDepartmentEmployee);
         try {
             justiceDepartmentEmployeeDirectory.addEmployeeToDb();
+            JOptionPane.showMessageDialog(this, "Employee added Successfully");
+            emptyInputFields();
         } catch(Exception e) {
             System.out.println(e);
         }
         
 
-        JOptionPane.showMessageDialog(this, "Employee added Successfully");
+        
     }//GEN-LAST:event_btnAddEmployeeActionPerformed
-
+    
+    private void emptyInputFields() {
+        dropdownCountry.setSelectedIndex(-1);
+        txtFirstName.setText("");
+        txtFirstName.setText("");
+        txtLastName.setText("");
+        txtPassword.setText("");
+        txtConfirmPassword.setText("");
+        dropdownType.setSelectedIndex(-1);
+    }
+    
     private void txtFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFirstNameFocusLost
         // TODO add your handling code here:
         String firstName = txtFirstName.getText();

@@ -25,8 +25,8 @@ public class JusticeDepartmentEmployeeDirectory {
         int status = 1;
         String sql = "INSERT INTO `justicedepartmentemployee`(`First_Name`, `Last_Name`,`Email_id`,`Password`,`Type`,`Country`,`Status`) "
                 + "VALUES ('" + justiceDepartmentEmployee.getFirstName()+ "','" + justiceDepartmentEmployee.getLastName()+ "','" + justiceDepartmentEmployee.getEmail()+ "','" + justiceDepartmentEmployee.getPassword()+ "','" + justiceDepartmentEmployee.getEmpType()+ "','" + justiceDepartmentEmployee.getCountry()+ "','" + status + "')";
-        boolean rs = DbConnection.query(sql);
-        System.out.println("rs " + rs );
+        DbConnection.query(sql);
+        
     }
     
     public ArrayList<JusticeDepartmentEmployee> fetchJusticeDeptEmpData(int status, String country, String userId) throws SQLException {
@@ -37,7 +37,7 @@ public class JusticeDepartmentEmployeeDirectory {
         System.out.println("query " + query);
         ResultSet resultSet = DbConnection.selectQuery(query);
         while (resultSet.next()) {
-            String id = resultSet.getString("j_emp_id");
+            int id = Integer.parseInt(resultSet.getString("j_emp_id"));
             String firstName = resultSet.getString("First_Name");
             String lastName = resultSet.getString("Last_Name");
             String emailId = resultSet.getString("Email_id");
@@ -48,11 +48,25 @@ public class JusticeDepartmentEmployeeDirectory {
             JusticeDepartmentEmployee justiceDepartmentEmployee = new JusticeDepartmentEmployee(firstName, lastName, emailId, password, empType, dbCountry);            
             boolean empStatus = dbStatus.equals("0") ? false : true;
             justiceDepartmentEmployee.setStatus(empStatus);
-//            justiceDepartmentEmployee.setId(status);
+            justiceDepartmentEmployee.setId(id);
            justiceDeptEmpList.add(justiceDepartmentEmployee);
             
         }
         return justiceDeptEmpList;
+    }
+    
+    public void updateEmp(JusticeDepartmentEmployee justiceDeptEmployee) throws SQLException {
+        String updateQuery = "Update `justicedepartmentemployee` Set First_Name = '"+ justiceDeptEmployee.getFirstName()+ "', Last_Name = '"+ justiceDeptEmployee.getLastName()+ "',Email_id = '" + justiceDeptEmployee.getEmail()+ "'," + 
+                 "Type = '" + justiceDeptEmployee.getEmpType() +"' where j_emp_id = " + justiceDeptEmployee.getId() +";"; 
+        
+        System.out.println("query " + updateQuery);
+        
+        DbConnection.query(updateQuery);
+    }
+    
+       public void inActivateEmployee() throws SQLException{
+            String deleteQuery = "Update `justicedepartmentemployee` Set Status = 0 where j_emp_id = '" + justiceDepartmentEmployee.getId() + "';";        
+            DbConnection.query(deleteQuery);        
     }
     
 }

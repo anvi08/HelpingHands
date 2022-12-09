@@ -4,6 +4,7 @@
  */
 package uiDonor;
 
+import java.awt.ComponentOrientation;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.table.DefaultTableModel;
 import model.causes.Cause;
 import model.causes.CauseDirectory;
@@ -40,6 +42,7 @@ public class DonorTrackCause extends javax.swing.JPanel {
     private String loggedInUser;    
     DonorDirectory donorDirectory;
     Donor donor;    
+    
     private int donorID;  
     
     public DonorTrackCause(int donorID) throws SQLException {
@@ -50,6 +53,7 @@ public class DonorTrackCause extends javax.swing.JPanel {
         popDonorTrackingTable(donorDirectory.popDonorTrackingTable(donorID));
         System.out.println(donorID+" pop table  ");
         jProgressBar1.setVisible(false);
+        panelJudiciary.setVisible(false);
     }
 
     /**
@@ -65,8 +69,22 @@ public class DonorTrackCause extends javax.swing.JPanel {
         tblCause = new javax.swing.JTable();
         btnTrackCause = new javax.swing.JButton();
         txtTracker = new javax.swing.JPanel();
+        txtDate1 = new javax.swing.JLabel();
+        txtDate2 = new javax.swing.JLabel();
+        txtDate3 = new javax.swing.JLabel();
+        txtDate4 = new javax.swing.JLabel();
         jProgressBar1 = new javax.swing.JProgressBar();
+        panelJudiciary = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtCreated = new javax.swing.JLabel();
+        txtCreated2 = new javax.swing.JLabel();
+        txtCreated1 = new javax.swing.JLabel();
+        txtCreated3 = new javax.swing.JLabel();
+        btnHelp = new javax.swing.JButton();
+
+        setBackground(new java.awt.Color(255, 255, 255));
 
         tblCause.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -88,28 +106,97 @@ public class DonorTrackCause extends javax.swing.JPanel {
             }
         });
 
-        jProgressBar1.setBorder(new javax.swing.border.MatteBorder(null));
+        txtTracker.setBackground(new java.awt.Color(255, 255, 255));
+
+        panelJudiciary.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setText("jLabel1");
+
+        jLabel2.setText("jLabel2");
+
+        jLabel3.setText("jLabel3");
+
+        javax.swing.GroupLayout panelJudiciaryLayout = new javax.swing.GroupLayout(panelJudiciary);
+        panelJudiciary.setLayout(panelJudiciaryLayout);
+        panelJudiciaryLayout.setHorizontalGroup(
+            panelJudiciaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelJudiciaryLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(panelJudiciaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addContainerGap(125, Short.MAX_VALUE))
+        );
+        panelJudiciaryLayout.setVerticalGroup(
+            panelJudiciaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelJudiciaryLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout txtTrackerLayout = new javax.swing.GroupLayout(txtTracker);
         txtTracker.setLayout(txtTrackerLayout);
         txtTrackerLayout.setHorizontalGroup(
             txtTrackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(txtTrackerLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jLabel1)
-                .addGap(82, 82, 82)
+                .addGap(24, 24, 24)
+                .addGroup(txtTrackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDate3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, txtTrackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtDate1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDate4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(panelJudiciary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(214, Short.MAX_VALUE))
         );
+
+        txtTrackerLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtDate1, txtDate2, txtDate3, txtDate4});
+
         txtTrackerLayout.setVerticalGroup(
             txtTrackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(txtTrackerLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addGroup(txtTrackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addGroup(txtTrackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(panelJudiciary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, txtTrackerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(txtTrackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(txtTrackerLayout.createSequentialGroup()
+                                .addComponent(txtDate1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(16, 16, 16)
+                                .addComponent(txtDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtDate3, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                                .addGap(27, 27, 27)
+                                .addComponent(txtDate4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        txtTrackerLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtDate1, txtDate2, txtDate3, txtDate4});
+
+        txtCreated.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        txtCreated2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        txtCreated1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        txtCreated3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        btnHelp.setText("Help");
+        btnHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHelpActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -118,21 +205,51 @@ public class DonorTrackCause extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnTrackCause)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
-            .addComponent(txtTracker, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCreated3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCreated2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCreated1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCreated, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTracker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnTrackCause)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnHelp)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 912, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCreated, txtCreated1, txtCreated2, txtCreated3});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnTrackCause)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTrackCause)
+                    .addComponent(btnHelp))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTracker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTracker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtCreated, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCreated1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(txtCreated2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(txtCreated3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCreated, txtCreated1, txtCreated2, txtCreated3});
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTrackCauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrackCauseActionPerformed
@@ -151,34 +268,69 @@ public class DonorTrackCause extends javax.swing.JPanel {
                     if(causetix.getReceiverId()==SelectedRecords.getRecId()){
                         Date createdDate = causetix.getCreatedDate();
                         System.out.println(createdDate+"YOOOOOOOOOOOOOOOO");
+                   
                         Date moneyDonorCountry = causetix.getMoneyDonorCountry();
                         Date moneyReceiverCountry = causetix.getMoneyReceiverCountry();
                         Date moneyReceived = causetix.getMoneyReceived();
+                        System.out.println(moneyDonorCountry+"YOOOOOOOOOOOOOOOO");                             
                         int MY_MINIMUM = 0;
                         int MY_MAXIMUM = 100;
+                        int check = 0;
+//                        jPanel1.setVisible(true);
+
+                        jProgressBar1.setVisible(true);
                         jProgressBar1.setMinimum(MY_MINIMUM);
                         jProgressBar1.setMaximum(MY_MAXIMUM);
+                        jProgressBar1.setValue(100);
+                        jProgressBar1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+                        jProgressBar1.setOrientation(JProgressBar.VERTICAL);
                         
-                        if(createdDate!=null){
-                            jProgressBar1.setValue(25);
-                            jProgressBar1.setString("funds almost there");
-                            jLabel1.setText("Your Funds were Initiated on "+ createdDate.toString()+" and will be tracked by the Bank authorities soon");
-                        }
-                        if(moneyDonorCountry!=null){
-                            jProgressBar1.setValue(50);
-                            jProgressBar1.setString("Your funds are almost there");
-                            jLabel1.setText("Your Funds were Processed on  "+ createdDate.toString()+" and will be tracked by the Receiving Country Bank authorities soon");
-                        }                        
-                        if(moneyReceiverCountry!=null){
-                            jProgressBar1.setValue(75);
-                            jProgressBar1.setString("Your funds are almost there");
-                            jLabel1.setText("Your Funds were processed by the bank on  "+ createdDate.toString()+" and will be in the hands of the benificiary soon");
-                        }                        
                         if(moneyReceived!=null){
-                            jProgressBar1.setValue(100);
-                            jProgressBar1.setString("Your funds are almost there");
-                            jLabel1.setText("Your Funds have reached the right people on "+ createdDate.toString()+" \n Thank you for using HelpingHands");
-                        }                        
+                            check+=1;
+//                            jProgressBar1.setString("Your funds are almost there");
+                            txtCreated.setText("<html>Your Funds have reached the right people on \n Thank you for using HelpingHands</html>");
+                            txtDate1.setText(moneyReceived.toString());          
+                            
+                        }                               
+                        if(moneyReceiverCountry!=null){
+                            check+=1;
+//                            jProgressBar1.setString("Your funds are almost there");
+                            txtCreated1.setText("<html>Your Funds were processed by the bank in \n "+ causetix.getReceivingCountry() +" and will be in the hands of the benificiary soon</html>");
+                            txtDate2.setText(moneyReceiverCountry.toString());                            
+                       
+                        }                                
+                        if(moneyDonorCountry!=null){
+                            check+=1;
+//                            jProgressBar1.setString("Your funds are almost there");
+                            txtCreated2.setText("<html>Your Funds were Processed in \n "+causetix.getDonorCountry()+" and will be tracked by the Receiving Country Bank authorities soon</html>");
+                            txtDate3.setText(moneyDonorCountry.toString());
+                            
+                        }    
+                        if(createdDate!=null){
+                            check+=1;                            
+//                            jProgressBar1.setString("funds almost there");
+                            txtCreated3.setText("<html>Your Funds were Initiated on</html>");
+                            txtDate4.setText( createdDate.toString());
+                            final String html = "<html><body style='width: %1spx'>%1s";
+               
+                        }
+                    
+                        if(check==1){
+                            jProgressBar1.setValue(25);
+                            return;
+                        }
+                        if(check==2){
+                            jProgressBar1.setValue(50);                            
+                            return;
+                        }
+                        if(check==3){
+                            jProgressBar1.setValue(75);                            
+                            return;
+                        }
+                        if(check==4){
+                            jProgressBar1.setValue(100);                            
+                            return;
+                        }
 
                     }
                 }
@@ -187,6 +339,11 @@ public class DonorTrackCause extends javax.swing.JPanel {
             }
         }        
     }//GEN-LAST:event_btnTrackCauseActionPerformed
+
+    private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
+        // TODO add your handling code here:
+        panelJudiciary.setVisible(true);
+    }//GEN-LAST:event_btnHelpActionPerformed
 
     private void popDonorTrackingTable(ArrayList<Cause> donorTable) throws SQLException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -203,11 +360,23 @@ public class DonorTrackCause extends javax.swing.JPanel {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHelp;
     private javax.swing.JButton btnTrackCause;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelJudiciary;
     private javax.swing.JTable tblCause;
+    private javax.swing.JLabel txtCreated;
+    private javax.swing.JLabel txtCreated1;
+    private javax.swing.JLabel txtCreated2;
+    private javax.swing.JLabel txtCreated3;
+    private javax.swing.JLabel txtDate1;
+    private javax.swing.JLabel txtDate2;
+    private javax.swing.JLabel txtDate3;
+    private javax.swing.JLabel txtDate4;
     private javax.swing.JPanel txtTracker;
     // End of variables declaration//GEN-END:variables
 }

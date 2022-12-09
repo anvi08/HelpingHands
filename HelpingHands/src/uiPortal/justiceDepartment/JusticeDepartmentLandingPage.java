@@ -4,6 +4,9 @@
  */
 package uiPortal.justiceDepartment;
 
+import profile.justiceDepartment.JusticeDepartmentEmployee;
+import utilities.Constants;
+
 /**
  *
  * @author Shreya Sharma
@@ -13,8 +16,17 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
     /**
      * Creates new form JusticeDepartmentLandingPage
      */
+    JusticeDepartmentEmployee justiceDepartmentEmployee = null;
     public JusticeDepartmentLandingPage() {
         initComponents();
+        setDefaultLandingPage();
+    }
+    
+    public JusticeDepartmentLandingPage(JusticeDepartmentEmployee justiceDepartmentEmployee) {
+        initComponents();
+        this.justiceDepartmentEmployee = justiceDepartmentEmployee;
+        setDefaultLandingPage();
+        
     }
 
     /**
@@ -100,7 +112,12 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
 
     private void btnAddEmployeeLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeLinkActionPerformed
         // TODO add your handling code here:
-        JusticeDepartmentAddEmployee justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee();
+        JusticeDepartmentAddEmployee justiceDepartmentAddEmployee;
+        if (justiceDepartmentEmployee != null) {
+           justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee(justiceDepartmentEmployee);
+        } else {
+           justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee(); 
+        }
         cardLayoutPanel.removeAll();
         cardLayoutPanel.add(justiceDepartmentAddEmployee);
         cardLayoutPanel.repaint();
@@ -113,13 +130,23 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
 
     private void btnViewEmployeeLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewEmployeeLinkActionPerformed
         // TODO add your handling code here:
-        JusticeDepartmentViewEmployee justiceDepartmentViewEmployee = new JusticeDepartmentViewEmployee();
+        setDefaultLandingPage();
+       
+    }//GEN-LAST:event_btnViewEmployeeLinkActionPerformed
+    
+    private void setDefaultLandingPage() {
+        JusticeDepartmentViewEmployee justiceDepartmentViewEmployee;
+        if (justiceDepartmentEmployee != null) {
+           justiceDepartmentViewEmployee = new JusticeDepartmentViewEmployee(justiceDepartmentEmployee);
+        } else {
+            justiceDepartmentViewEmployee = new JusticeDepartmentViewEmployee();
+        }
+         
         cardLayoutPanel.removeAll();
         cardLayoutPanel.add(justiceDepartmentViewEmployee);
         cardLayoutPanel.repaint();
         cardLayoutPanel.revalidate();
-    }//GEN-LAST:event_btnViewEmployeeLinkActionPerformed
-
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddEmployeeLink;

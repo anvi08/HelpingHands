@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class DbConnection {
     
-    private static final String URL = "jdbc:mysql://localhost:3306/financialaiddb";
+    private static final String URL = "jdbc:mysql://localhost:3306/financialaiddb?zeroDateBehavior=convertToNull";
     private static final String USER_NAME = "root";
     private static final String ABHI_PASSWORD = "@Fd2556b9dd1997";
     private static final String ANVI_PASSWORD = "root";

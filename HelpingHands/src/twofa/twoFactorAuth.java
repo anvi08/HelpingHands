@@ -24,7 +24,7 @@ public class twoFactorAuth {
     
     public static String randomPasswordGenerator()
        {
-           int count = 5;
+           int count = 10;
         StringBuilder passwordBuilder = new StringBuilder();
         while (count-- != 0) 
         {

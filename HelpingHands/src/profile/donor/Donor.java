@@ -16,12 +16,20 @@ public class Donor extends profile.Person{
     private String type;
     private int id;
     private boolean status;
-    
+    private String tempPass;
     public Donor(String firstName, String lastName, String email, String password, String user, String country, String type){
          super(firstName, lastName, email, password);       
          this.profileRole = profileRole;
          this.country = country;
          this.type = type;
+    }
+
+    public String getTempPass() {
+        return tempPass;
+    }
+
+    public void setTempPass(String tempPass) {
+        this.tempPass = tempPass;
     }
 
     public boolean isStatus() {

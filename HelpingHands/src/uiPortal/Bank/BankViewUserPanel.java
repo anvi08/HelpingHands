@@ -29,20 +29,20 @@ public class BankViewUserPanel extends javax.swing.JPanel {
     /**
      * Creates new form BankViewUserPanel
      */
-    Connection con;
-    PreparedStatement prep;
-    ResultSet myResult=null;
+    //Connection con;
+    //PreparedStatement prep;
+    //ResultSet myResult=null;
     BankPersonDirectory bankPersonDirectory;
     ArrayList<BankPerson> bankPersonList;
     BankPerson bankPerson;
 
     public BankViewUserPanel() throws SQLException {
         initComponents();
-        System.out.println("Inside constructor");
+        //System.out.println("Inside constructor");
         this.bankPersonDirectory = new BankPersonDirectory(bankPerson);
         bankPersonList = new ArrayList<BankPerson>();        
-       populateBankTable("Select * from financialaiddb.bankemployee;");
-        System.out.println(bankPersonDirectory.allBankPersons.get(0));
+        //populateBankTable("Select * from financialaiddb.bankemployee;");
+        //System.out.println(bankPersonDirectory.allBankPersons.get(0));
         
         bankPersonList = bankPersonDirectory.allBankPersons;
     }
@@ -68,9 +68,9 @@ public class BankViewUserPanel extends javax.swing.JPanel {
             row[4] = bankPerson.getBankName();
             row[5] = bankPerson.getCountry();
             model.addRow(row);
-            //System.out.print("BANK PERSON"+bankPerson.getFirstName());
+            System.out.print("BANK PERSON"+bankPerson.getFirstName());
         }
-        //System.out.print(bankPerson);
+        System.out.print(bankPerson);
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -120,12 +120,8 @@ public class BankViewUserPanel extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Country");
 
-        dropDownCountry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Type");
-
-        dropDownType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnUpdateBankEmp.setBackground(new java.awt.Color(0, 102, 255));
         btnUpdateBankEmp.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -242,6 +238,8 @@ public class BankViewUserPanel extends javax.swing.JPanel {
         txtEmailId.setText(bp.getEmail());
         dropDownCountry.setSelectedItem(bp.getCountry());
         dropDownType.setSelectedItem(bp.getEmpType());
+        
+        
   
     }//GEN-LAST:event_btnViewBankPersonActionPerformed
 

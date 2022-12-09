@@ -602,15 +602,10 @@ public class LoginScreen extends javax.swing.JFrame {
         } else {
             System.out.println(role);
             try {
-<<<<<<< HEAD
               validateRole(role, emailId, password);
 //            String passcode = twoFactorAuth.randomPasswordGenerator();
 //            System.out.println("passsword is "+passcemailode);
 //            twoFactorAuth.Send2FA(passcode, emailId);
-=======
-                validateRole(role, emailId, password);            
-
->>>>>>> 9604a681aa1a9437da4c8f2f4406a6fe15ab86c1
             } catch (SQLException ex) {
                 Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
             }

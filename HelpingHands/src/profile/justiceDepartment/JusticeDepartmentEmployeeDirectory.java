@@ -29,14 +29,18 @@ public class JusticeDepartmentEmployeeDirectory {
         
     }
     
-    public ArrayList<JusticeDepartmentEmployee> fetchJusticeDeptEmpData(int status, String country, String userId) throws SQLException {
+    public ArrayList<JusticeDepartmentEmployee> fetchJusticeDeptEmpData(int status, String country, String type) throws SQLException {
         ArrayList<JusticeDepartmentEmployee> justiceDeptEmpList = new ArrayList<JusticeDepartmentEmployee>();
         String query = "select * from justicedepartmentemployee where status ='" + status + "'";
-        if (!userId.equals("SYS-ADMIN")) {
+        if (country != null && !country.trim().equals("")) {
+            query = query + " AND Country = '" + country + "' AND Type = '" + type + "';";
+        } else {
+            query = query + ";";
         }
-        System.out.println("query " + query);
+        System.out.println("query" + query);
         ResultSet resultSet = DbConnection.selectQuery(query);
-        while (resultSet.next()) {
+        if (resultSet != null) {
+            while (resultSet.next()) {
             int id = Integer.parseInt(resultSet.getString("j_emp_id"));
             String firstName = resultSet.getString("First_Name");
             String lastName = resultSet.getString("Last_Name");
@@ -51,6 +55,7 @@ public class JusticeDepartmentEmployeeDirectory {
             justiceDepartmentEmployee.setId(id);
            justiceDeptEmpList.add(justiceDepartmentEmployee);
             
+        }   
         }
         return justiceDeptEmpList;
     }

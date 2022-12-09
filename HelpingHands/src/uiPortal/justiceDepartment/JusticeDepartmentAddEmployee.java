@@ -25,11 +25,24 @@ public class JusticeDepartmentAddEmployee extends javax.swing.JPanel {
     /**
      * Creates new form JusticeDepartmentAddEmployee
      */
+    JusticeDepartmentEmployee justiceDepartmentEmployee;
+    
     public JusticeDepartmentAddEmployee() {
         initComponents();
         setCountriesDropdown();
         setEmpTypeDropdown();
 
+    }
+    
+    public JusticeDepartmentAddEmployee(JusticeDepartmentEmployee justiceDepartmentEmployee) {
+        initComponents();
+        this.justiceDepartmentEmployee =  justiceDepartmentEmployee;
+        setCountriesDropdown();
+        setEmpTypeDropdown();
+        dropdownCountry.setSelectedItem(justiceDepartmentEmployee.getCountry());
+        dropdownCountry.setEnabled(false);
+        dropdownType.setSelectedItem("EMPLOYEE");
+        dropdownType.setEnabled(false);
     }
 
     public void setCountriesDropdown() {
@@ -297,9 +310,9 @@ public class JusticeDepartmentAddEmployee extends javax.swing.JPanel {
     private void emptyInputFields() {
         dropdownCountry.setSelectedIndex(-1);
         txtFirstName.setText("");
-        txtFirstName.setText("");
         txtLastName.setText("");
         txtPassword.setText("");
+        txtEmailId.setText("");
         txtConfirmPassword.setText("");
         dropdownType.setSelectedIndex(-1);
     }

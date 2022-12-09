@@ -29,6 +29,16 @@ public class JusticeDepartmentViewEmployee extends javax.swing.JPanel {
     boolean viewActiveEmployees = true;
     public JusticeDepartmentViewEmployee() {
         initComponents();
+        setDefaultViewForLandingPage();
+    }
+    
+    public JusticeDepartmentViewEmployee(JusticeDepartmentEmployee justiceDepartmentEmployee) {
+        initComponents();
+        this.justiceDepartmentEmployee = justiceDepartmentEmployee;
+        setDefaultViewForLandingPage();
+    }
+    
+    private void setDefaultViewForLandingPage() {
         updateEmployeePanel.setVisible(false);
         dropdownEmpType.setSelectedIndex(-1);
         lblEmpDetails.setText("View Active Employee Details");
@@ -47,7 +57,11 @@ public class JusticeDepartmentViewEmployee extends javax.swing.JPanel {
         try {
             int empStatus = status ? 1 : 0;
             JusticeDepartmentEmployeeDirectory justiceDepartmentEmployeeDirectory = new JusticeDepartmentEmployeeDirectory(justiceDepartmentEmployee);
-            justiceDeptEmpList = justiceDepartmentEmployeeDirectory.fetchJusticeDeptEmpData(empStatus, null, "SYS-ADMIN");
+            if (justiceDepartmentEmployee != null) {
+                justiceDeptEmpList = justiceDepartmentEmployeeDirectory.fetchJusticeDeptEmpData(empStatus, justiceDepartmentEmployee.getCountry(), "EMPLOYEE");
+            } else {
+                justiceDeptEmpList = justiceDepartmentEmployeeDirectory.fetchJusticeDeptEmpData(empStatus, null, null);
+            }
             DefaultTableModel model = (DefaultTableModel)tblEmployeeDetails.getModel();
             model.setRowCount(0);
             for (JusticeDepartmentEmployee jdEmp : justiceDeptEmpList) {
@@ -73,8 +87,6 @@ public class JusticeDepartmentViewEmployee extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblEmployeeDetails = new javax.swing.JTable();
         lblEmpDetails = new javax.swing.JLabel();
         btnViewLink = new javax.swing.JButton();
         btnViewInactiveEmp = new javax.swing.JButton();
@@ -94,31 +106,10 @@ public class JusticeDepartmentViewEmployee extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         txtEmailId = new javax.swing.JTextField();
         btnCancelUpdate = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblEmployeeDetails = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
-
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-
-        tblEmployeeDetails.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "First Name", "Last Name", "Email Id", "Country", "Emp Type"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tblEmployeeDetails);
 
         lblEmpDetails.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblEmpDetails.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -290,18 +281,39 @@ public class JusticeDepartmentViewEmployee extends javax.swing.JPanel {
 
         updateEmployeePanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCancelUpdate, btnUpdateLink});
 
+        tblEmployeeDetails.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "First Name", "Last Name", "Email Id", "Country", "Emp Type"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblEmployeeDetails);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblEmpDetails, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(12, Short.MAX_VALUE)
                         .addComponent(updateEmployeePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addComponent(btnViewLink, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnViewActiveEmp)
@@ -316,9 +328,9 @@ public class JusticeDepartmentViewEmployee extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblEmpDetails)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnViewInactiveEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -468,7 +480,7 @@ public class JusticeDepartmentViewEmployee extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblEmpDetails;
     private javax.swing.JTable tblEmployeeDetails;
     private javax.swing.JTextField txtCountry;

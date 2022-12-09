@@ -40,6 +40,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
+import profile.justiceDepartment.JusticeDepartmentEmployee;
 /**
  *
  * @author abhis
@@ -924,6 +925,7 @@ public class LoginScreen extends javax.swing.JFrame {
             navigateToLandingPage();           
         }
         else{
+            ValidateUserLogin validateUserLogin = new ValidateUserLogin(email, password);
             switch(role){
            
             case "":
@@ -931,7 +933,7 @@ public class LoginScreen extends javax.swing.JFrame {
                 break;
                 
             case "BANK":
-                ValidateUserLogin validateUserLogin = new ValidateUserLogin(email, password);
+                
                 break;
                 
                 
@@ -974,9 +976,31 @@ public class LoginScreen extends javax.swing.JFrame {
                    lblErrMsg.setText("Username not available in DB for this role"); 
                 }
                 break;
-            case "Justice Dept.": 
-                
-                navigateToJusticeLandingPage(null);
+            case "Justice Dept.":
+                try {
+                    JusticeDepartmentEmployee justiceDepartmentEmployee = validateUserLogin.validateJusticeLogin();
+                    if (justiceDepartmentEmployee != null) {
+                        String dbPassword = justiceDepartmentEmployee.getPassword();
+                        if (password.trim().equals(dbPassword.trim())) {
+                            if (justiceDepartmentEmployee.isStatus()) {
+                                LandingPageFrame landingPage =  new LandingPageFrame(justiceDepartmentEmployee);
+                                switchLandingPage(landingPage);   
+                            } else {
+                                lblErrMsg.setText("User is Inactive"); 
+                                return;
+                            }
+                        } else {
+                           lblErrMsg.setText("Username or password is wrong"); 
+                           return;
+                        }
+                    } else {
+                      lblErrMsg.setText("Username not available in DB for this role");  
+                      break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("exception"+ e);
+                }
+
                 break;
             default:
                 lblErrMsg.setText("Username not available in DB for this role");
@@ -985,8 +1009,6 @@ public class LoginScreen extends javax.swing.JFrame {
         }
 
     }
-
-
     
     public void navigateToLandingPage(){
         dispose();
@@ -1023,15 +1045,10 @@ public class LoginScreen extends javax.swing.JFrame {
         
     } 
     
-    private void navigateToJusticeLandingPage(String role) {
-        switchToLandingPage(role);
-    }
-    
-    private void switchToLandingPage(String role) {
+    private void switchLandingPage(LandingPageFrame landingPageFrame) {
         dispose();
-        LandingPageFrame landingPage =  new LandingPageFrame(role);
-        landingPage.setTitle("Dashboard");
-        landingPage.setVisible(true);
+        landingPageFrame.setTitle("Dashboard");
+        landingPageFrame.setVisible(true);
     }
 
     public void navigateToReceiverLandingPage(String role){

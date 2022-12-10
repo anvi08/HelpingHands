@@ -38,7 +38,8 @@ public class DonorTrackCause extends javax.swing.JPanel {
     CauseDirectory causeDirectory;
     Cause cause;    
     CauseTicketDirectory causeTicketDirectory;
-    CauseTicket causeTicket;        
+    CauseTicket causeTicket;     
+    CauseTicket justiceCauseTicket;
     private String loggedInUser;    
     DonorDirectory donorDirectory;
     Donor donor;    
@@ -266,6 +267,7 @@ public class DonorTrackCause extends javax.swing.JPanel {
                 ArrayList<CauseTicket> trackCauses = causeTicketDirectory.trackCause(donorID);
                 for(CauseTicket causetix : trackCauses){
                     if(causetix.getReceiverId()==SelectedRecords.getRecId()){
+                        justiceCauseTicket = causetix;
                         Date createdDate = causetix.getCreatedDate();
                         System.out.println(createdDate+"YOOOOOOOOOOOOOOOO");
                    
@@ -343,6 +345,10 @@ public class DonorTrackCause extends javax.swing.JPanel {
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
         // TODO add your handling code here:
         panelJudiciary.setVisible(true);
+         System.out.println(" cause_tkt_id"+justiceCauseTicket.getTktId());
+         System.out.println("justice country "+ justiceCauseTicket.getDonorCountry());
+        // System.out.println("justice country "+jTracCause.getCountry());
+        
     }//GEN-LAST:event_btnHelpActionPerformed
 
     private void popDonorTrackingTable(ArrayList<Cause> donorTable) throws SQLException {

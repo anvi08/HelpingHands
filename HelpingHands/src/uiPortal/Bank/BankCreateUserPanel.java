@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import profile.bank.BankPerson;
 import profile.bank.BankPersonDirectory;
 import utilities.Constants;
+import utilities.Validators;
 
 /**
  *
@@ -22,6 +23,7 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
     /**
      * Creates new form BankCreateUserPanel
      */
+    int inValidForm = 0;
     private String loggedInUser;
     public BankCreateUserPanel() {
         initComponents();
@@ -45,7 +47,10 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
     }
     
     public void setEmpTypeDropdown() {
-        Vector<String> empTypeVector = new Vector<String>(Arrays.asList(Constants.empType));
+        ArrayList<String> typeList = new ArrayList<String>();
+        typeList.add("");
+        typeList.addAll(typeList);
+        Vector<String> empTypeVector = new Vector<String>(typeList);
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(empTypeVector);
         dropDownType.setModel(model);
         
@@ -69,15 +74,23 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         txtFirstName = new javax.swing.JTextField();
         txtLastName = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JTextField();
+        txtConfirmPassword = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtEmailId = new javax.swing.JTextField();
         dropDownType = new javax.swing.JComboBox<>();
         btnCreateUser = new javax.swing.JButton();
         dropdownCountry = new javax.swing.JComboBox<>();
         lblBankName = new javax.swing.JLabel();
-        txtPassword1 = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        lblErrCountry = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lblErrFirstName = new javax.swing.JLabel();
+        lblErrLastName = new javax.swing.JLabel();
+        lblErrType = new javax.swing.JLabel();
+        lblErrConfirmPass = new javax.swing.JLabel();
+        lblErrPassword = new javax.swing.JLabel();
+        lblEmailErr = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -102,20 +115,31 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Country");
 
+        txtFirstName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFirstNameFocusLost(evt);
+            }
+        });
         txtFirstName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFirstNameActionPerformed(evt);
             }
         });
 
-        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+        txtConfirmPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPasswordActionPerformed(evt);
+                txtConfirmPasswordActionPerformed(evt);
             }
         });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("Type");
+
+        dropDownType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dropDownTypeActionPerformed(evt);
+            }
+        });
 
         btnCreateUser.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnCreateUser.setText("Create User");
@@ -131,14 +155,44 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
             }
         });
 
-        txtPassword1.addActionListener(new java.awt.event.ActionListener() {
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPassword1ActionPerformed(evt);
+                txtPasswordActionPerformed(evt);
             }
         });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setText("Confirm Password");
+
+        lblErrLastName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lblErrLastNameFocusLost(evt);
+            }
+        });
+
+        lblErrType.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lblErrTypeFocusLost(evt);
+            }
+        });
+
+        lblErrConfirmPass.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lblErrConfirmPassFocusLost(evt);
+            }
+        });
+
+        lblErrPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lblErrPasswordFocusLost(evt);
+            }
+        });
+
+        lblEmailErr.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lblEmailErrFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -149,7 +203,6 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(148, 148, 148)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,75 +220,125 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(txtFirstName)
-                                        .addComponent(txtPassword)
+                                        .addComponent(txtConfirmPassword)
                                         .addComponent(txtLastName)
                                         .addComponent(txtEmailId)
                                         .addComponent(dropdownCountry, 0, 154, Short.MAX_VALUE)
                                         .addComponent(dropDownType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtPassword1))))))
+                                        .addComponent(txtPassword))))
+                            .addComponent(jLabel8))
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblErrCountry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                            .addComponent(lblErrFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrType, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                            .addComponent(lblErrConfirmPass, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                            .addComponent(lblErrPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                            .addComponent(lblEmailErr, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(272, 272, 272)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(220, 220, 220)
                         .addComponent(btnCreateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(302, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(89, 89, 89)
                 .addComponent(jLabel1)
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(dropdownCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(dropdownCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblErrCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblErrFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblErrLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtEmailId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(lblBankName, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(dropDownType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(72, 72, 72)
-                .addComponent(btnCreateUser)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtEmailId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(22, 22, 22)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel9))
+                                    .addComponent(lblErrConfirmPass, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblBankName, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel8)
+                                        .addComponent(dropDownType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblErrType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(72, 72, 72)
+                                .addComponent(btnCreateUser))
+                            .addComponent(lblErrPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblEmailErr, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(83, 83, 83))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
         // TODO add your handling code here:
+        Validators validator = new Validators();
         
+        /*String selectedCountry = dropdownCountry.getSelectedItem().toString();
         String firstName = txtFirstName.getText();
         String lastName = txtLastName.getText();
         String emailId = txtEmailId.getText();
-        String password = txtPassword.getText();
+        String password = txtConfirmPassword.getText();
+        String confirmPassword = txtConfirmPassword.getText();
+        String selectedEmployeeType = dropDownType.getSelectedItem().toString();
+        String selctedCountry = dropdownCountry.getSelectedItem().toString();
+        String bankName = Constants.bankDonorCountryList.get(selctedCountry);
+        String type = dropDownType.getSelectedItem().toString();*/
+        String firstName = txtFirstName.getText();
+        String lastName = txtLastName.getText();
+        String emailId = txtEmailId.getText();
+        String password = txtConfirmPassword.getText();
+        String confirmPassword = txtConfirmPassword.getText();
         String country = dropdownCountry.getSelectedItem().toString();
         System.out.print("Country selected:"+country);
         String selctedCountry = dropdownCountry.getSelectedItem().toString();
         String bankName = Constants.bankDonorCountryList.get(selctedCountry);
         String type = dropDownType.getSelectedItem().toString();
+        
+        if(firstName.isEmpty() || lastName.isEmpty() || emailId.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || selctedCountry.isEmpty() || type.isEmpty()){
+            System.out.print("In if block");
+            JOptionPane.showMessageDialog(this, "Please fill all the fields");
+            return;
+        }
+        
+        
         
         
         BankPerson bankPerson = new BankPerson(firstName, lastName, emailId, password, type, bankName, true, country);
@@ -248,9 +351,9 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Bank User Has been Created");
     }//GEN-LAST:event_btnCreateUserActionPerformed
 
-    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+    private void txtConfirmPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmPasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordActionPerformed
+    }//GEN-LAST:event_txtConfirmPasswordActionPerformed
 
     private void dropdownCountryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropdownCountryActionPerformed
         // TODO add your handling code here:
@@ -265,9 +368,128 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFirstNameActionPerformed
 
-    private void txtPassword1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassword1ActionPerformed
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPassword1ActionPerformed
+    }//GEN-LAST:event_txtPasswordActionPerformed
+
+    private void dropDownTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropDownTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dropDownTypeActionPerformed
+
+    private void txtFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFirstNameFocusLost
+        // TODO add your handling code here:
+        //check it out
+        String firstName = txtFirstName.getText();
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateName(firstName);
+
+        if (errorMsg != null && !errorMsg.trim().equals("")) {
+            lblErrFirstName.setText(errorMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrFirstName.setText("");
+        }
+    }//GEN-LAST:event_txtFirstNameFocusLost
+
+    private void lblErrLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblErrLastNameFocusLost
+        // TODO add your handling code here:
+        String lastName = txtLastName.getText();
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateName(lastName);
+
+        if (errorMsg != null && !errorMsg.trim().equals("")) {
+            lblErrLastName.setText(errorMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                lblErrLastName.setText("");
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrLastName.setText("");
+        }
+        
+    }//GEN-LAST:event_lblErrLastNameFocusLost
+
+    private void lblEmailErrFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblEmailErrFocusLost
+        // TODO add your handling code here:
+        String password = txtPassword.getText();
+        Validators validator = new Validators();
+        String errMsg = validator.validatePassword(password);
+
+        if (errMsg != null && !errMsg.trim().equals("")) {
+            lblEmailErr.setText(errMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                lblEmailErr.setText("");
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrPassword.setText("");
+        }
+    }//GEN-LAST:event_lblEmailErrFocusLost
+
+    private void lblErrConfirmPassFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblErrConfirmPassFocusLost
+        // TODO add your handling code here:
+        String password = txtPassword.getText();
+        String confirmPassword = txtConfirmPassword.getText();
+
+        Validators validator = new Validators();
+        String errorMsg = validator.validateConfirmPassword(password, confirmPassword);
+
+        if (errorMsg != null && !errorMsg.trim().equals("")) {
+            lblErrConfirmPass.setText(errorMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                lblErrConfirmPass.setText("");
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrConfirmPass.setText("");
+        }
+    }//GEN-LAST:event_lblErrConfirmPassFocusLost
+
+    private void lblErrTypeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblErrTypeFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblErrTypeFocusLost
+
+    private void lblErrPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblErrPasswordFocusLost
+        // TODO add your handling code here:
+        String password = txtPassword.getText();
+        Validators validator = new Validators();
+        String errMsg = validator.validatePassword(password);
+
+        if (errMsg != null && !errMsg.trim().equals("")) {
+            lblErrPassword.setText(errMsg);
+            inValidForm += 1;
+        } else {
+            if (inValidForm > 0) {
+                lblErrPassword.setText("");
+                inValidForm -= 1;
+            }
+        }
+
+        if (inValidForm == 0) {
+            lblErrPassword.setText("");
+        }
+        
+    }//GEN-LAST:event_lblErrPasswordFocusLost
 
     /*public void validateRole(String loggedInUser){
 
@@ -287,6 +509,7 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> dropDownType;
     private javax.swing.JComboBox<String> dropdownCountry;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -296,10 +519,17 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblBankName;
+    private javax.swing.JLabel lblEmailErr;
+    private javax.swing.JLabel lblErrConfirmPass;
+    private javax.swing.JLabel lblErrCountry;
+    private javax.swing.JLabel lblErrFirstName;
+    private javax.swing.JLabel lblErrLastName;
+    private javax.swing.JLabel lblErrPassword;
+    private javax.swing.JLabel lblErrType;
+    private javax.swing.JTextField txtConfirmPassword;
     private javax.swing.JTextField txtEmailId;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtLastName;
     private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtPassword1;
     // End of variables declaration//GEN-END:variables
 }

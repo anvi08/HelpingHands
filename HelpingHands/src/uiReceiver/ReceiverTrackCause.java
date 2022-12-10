@@ -79,7 +79,6 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        piePlot1 = new org.jfree.chart.plot.PiePlot();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCause = new javax.swing.JTable();
         btnTrack = new javax.swing.JButton();
@@ -270,7 +269,6 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelTracker;
-    private org.jfree.chart.plot.PiePlot piePlot1;
     private javax.swing.JTable tblCause;
     // End of variables declaration//GEN-END:variables
 }

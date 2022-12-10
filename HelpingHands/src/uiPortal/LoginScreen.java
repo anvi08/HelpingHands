@@ -594,9 +594,12 @@ public class LoginScreen extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here: 
+        
         String emailId = txtEmail.getText();
         String password =String.valueOf(txtPassword.getPassword());
         String role = (String)dropdownRole1.getSelectedItem();
+        
+        
         if (emailId == null || emailId.trim().equals("") || password == null || password.equals("")) {
             lblErrMsg.setText("User Name or Password cannot be empty.");
         } else {
@@ -930,6 +933,10 @@ public class LoginScreen extends javax.swing.JFrame {
                 
             case "BANK":
                 ValidateUserLogin validateUserLogin = new ValidateUserLogin(email, password);
+                validateUserLogin.bankEmployeeLogin();
+                
+                
+                
                 break;
                 
                 

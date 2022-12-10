@@ -14,6 +14,7 @@ public class CauseTicket {
     private int donorId;
     private int receiverId;
     private int causeId;
+    private int tktId;
     private Date createdDate;
     private Date moneyDonorCountry;
     private Date moneyReceiverCountry;
@@ -114,6 +115,16 @@ public class CauseTicket {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
+    public int getTktId() {
+        return tktId;
+    }
+
+    public void setTktId(int tktId) {
+        this.tktId = tktId;
+    }
+    
+    
     @Override  
     public String toString(){
         return Integer.toString(donorId);

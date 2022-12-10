@@ -3,10 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package utilities;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import profile.bank.BankPerson;
 import utilities.DbConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import profile.justiceDepartment.JusticeDepartmentEmployee;
 /**
  *
  * @author Anvi Jain
@@ -59,5 +62,26 @@ public class ValidateUserLogin {
             
         }
         return bp;
+    }   
+    
+    public JusticeDepartmentEmployee validateJusticeLogin() throws SQLException {
+        JusticeDepartmentEmployee justiceDepartmentEmployee = null;
+        String query = "select * from justicedepartmentemployee where Email_id ='" + email + "'";
+        ResultSet resultSet = DbConnection.selectQuery(query);
+        while(resultSet.next()){
+            int id = Integer.parseInt(resultSet.getString("j_emp_id"));
+            String firstName = resultSet.getString("First_Name");
+            String lastName = resultSet.getString("Last_Name");
+            String emailId = resultSet.getString("Email_id");
+            String empType = resultSet.getString("Type");
+            String password = resultSet.getString("Password");
+            String dbCountry = resultSet.getString("Country");
+            String dbStatus = resultSet.getString("Status");
+            boolean empStatus = dbStatus.equals("0") ? false : true;
+            justiceDepartmentEmployee = new JusticeDepartmentEmployee(firstName, lastName, emailId, password, empType, dbCountry);
+            justiceDepartmentEmployee.setStatus(empStatus);
+            justiceDepartmentEmployee.setId(id);
+        }
+        return justiceDepartmentEmployee;
     }
 }

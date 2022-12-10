@@ -67,7 +67,8 @@ public class CauseTicketDirectory {
         String query = "Select * from causeticket where Donor_Id = " + donorID + "";
         ResultSet resultSet = DbConnection.selectQuery(query);    
         while(resultSet.next()){
-
+            
+            int causeTickeId = Integer.parseInt(resultSet.getString("SNo"));
             int donorId = Integer.valueOf(resultSet.getString("Donor_Id"));
             int receiverId = Integer.valueOf(resultSet.getString("Receiver_Id"));
             int causeId = Integer.valueOf(resultSet.getString("Cause_Id"));
@@ -81,7 +82,7 @@ public class CauseTicketDirectory {
 
             
             CauseTicket causeticket = new CauseTicket(donorId,receiverId,causeId,createdDate,moneyDonorCountry,moneyReceivingCountry,moneyReceived,dCountry,rCountry,amount);
-            
+            causeticket.setTktId(causeTickeId);
             tracker.add(causeticket);    
         }
         

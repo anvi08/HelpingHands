@@ -13,7 +13,7 @@ import java.util.Map;
  * @author abhis
  */
 public final class Constants {
-     public static String[] enterpriseList = new String[]{"", "NGO", "Bank","Donor","Receiver"};
+     public static String[] enterpriseList = new String[]{"", "NGO", "Bank","Donor","Receiver","Justice Dept."};
      public static String profileRoleJustice = "justiceDept";
      public static String profileRoleBank = "bankDept";
      //public static String[] empType = new String[]{"Admin", "Employee"};

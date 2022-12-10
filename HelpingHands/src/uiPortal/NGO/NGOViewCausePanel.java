@@ -402,6 +402,20 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
     private void btnActiveCausesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActiveCausesActionPerformed
         try {
             // TODO add your handling code here:
+            jScrollPane2.setVisible(true);
+            btnView.setVisible(true);
+            jLabel1.setVisible(true);
+            jLabel2.setVisible(true);            
+            jLabel3.setVisible(true);            
+            jLabel4.setVisible(true);
+            jLabel5.setVisible(true);          
+            combobxCountry.setVisible(true);
+            combobxOrganisation.setVisible(true);
+            combobxCategory.setVisible(true);   
+            txtName.setVisible(true);
+            txtDescription.setVisible(true);  
+            btnUpdate.setVisible(false);            
+            
             if(loggedInUser != null){
                 popActiveCauseTable();                
             }
@@ -416,7 +430,20 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
     private void btnInactiveCausesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInactiveCausesActionPerformed
         // TODO add your handling code here:
         try {
+            jScrollPane2.setVisible(false);
             // TODO add your handling code here:
+            btnView.setVisible(false);
+            jLabel1.setVisible(false);
+            jLabel2.setVisible(false);            
+            jLabel3.setVisible(false);            
+            jLabel4.setVisible(false);
+            jLabel5.setVisible(false);          
+            combobxCountry.setVisible(false);
+            combobxOrganisation.setVisible(false);
+            combobxCategory.setVisible(false);   
+            txtName.setVisible(false);
+            txtDescription.setVisible(false);
+            btnUpdate.setVisible(false);
             if(loggedInUser != null){
                 popInactiveCauseTable();                
             }
@@ -446,6 +473,7 @@ public class NGOViewCausePanel extends javax.swing.JPanel {
             String category = SelectedRecords.getRecCategory(); 
             causeDirectory.deletCause(name);
             JOptionPane.showMessageDialog(this,"Selected Row has been deleted");
+//            popCauseTable();
         }         
         
 

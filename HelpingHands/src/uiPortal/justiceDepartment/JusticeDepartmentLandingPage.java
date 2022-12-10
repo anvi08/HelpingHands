@@ -4,6 +4,9 @@
  */
 package uiPortal.justiceDepartment;
 
+import profile.justiceDepartment.JusticeDepartmentEmployee;
+import utilities.Constants;
+
 /**
  *
  * @author Shreya Sharma
@@ -13,8 +16,17 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
     /**
      * Creates new form JusticeDepartmentLandingPage
      */
+    JusticeDepartmentEmployee justiceDepartmentEmployee = null;
     public JusticeDepartmentLandingPage() {
         initComponents();
+        setDefaultLandingPage();
+    }
+    
+    public JusticeDepartmentLandingPage(JusticeDepartmentEmployee justiceDepartmentEmployee) {
+        initComponents();
+        this.justiceDepartmentEmployee = justiceDepartmentEmployee;
+        setDefaultLandingPage();
+        
     }
 
     /**
@@ -27,17 +39,17 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnAssignTicketsLink = new javax.swing.JButton();
         btnViewEmployeeLink = new javax.swing.JButton();
         btnAddEmployeeLink = new javax.swing.JButton();
         cardLayoutPanel = new javax.swing.JPanel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setText("Assign Tickets");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAssignTicketsLink.setText("Assign Tickets");
+        btnAssignTicketsLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAssignTicketsLinkActionPerformed(evt);
             }
         });
 
@@ -65,7 +77,7 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnViewEmployeeLink)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btnAssignTicketsLink)
                 .addGap(14, 14, 14))
         );
         jPanel1Layout.setVerticalGroup(
@@ -73,7 +85,7 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnAssignTicketsLink)
                     .addComponent(btnViewEmployeeLink)
                     .addComponent(btnAddEmployeeLink))
                 .addContainerGap(24, Short.MAX_VALUE))
@@ -100,32 +112,53 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
 
     private void btnAddEmployeeLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeLinkActionPerformed
         // TODO add your handling code here:
-        JusticeDepartmentAddEmployee justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee();
+        JusticeDepartmentAddEmployee justiceDepartmentAddEmployee;
+        if (justiceDepartmentEmployee != null) {
+           justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee(justiceDepartmentEmployee);
+        } else {
+           justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee(); 
+        }
         cardLayoutPanel.removeAll();
         cardLayoutPanel.add(justiceDepartmentAddEmployee);
         cardLayoutPanel.repaint();
         cardLayoutPanel.revalidate();
     }//GEN-LAST:event_btnAddEmployeeLinkActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAssignTicketsLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAssignTicketsLinkActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        JusticeDepartmentAddEmployee justiceDepartmentAddEmployee;
+        if (justiceDepartmentEmployee != null) {
+           justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee(justiceDepartmentEmployee);
+        } else {
+           justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee(); 
+        }
+    }//GEN-LAST:event_btnAssignTicketsLinkActionPerformed
 
     private void btnViewEmployeeLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewEmployeeLinkActionPerformed
         // TODO add your handling code here:
-        JusticeDepartmentViewEmployee justiceDepartmentViewEmployee = new JusticeDepartmentViewEmployee();
+        setDefaultLandingPage();
+       
+    }//GEN-LAST:event_btnViewEmployeeLinkActionPerformed
+    
+    private void setDefaultLandingPage() {
+        JusticeDepartmentViewEmployee justiceDepartmentViewEmployee;
+        if (justiceDepartmentEmployee != null) {
+           justiceDepartmentViewEmployee = new JusticeDepartmentViewEmployee(justiceDepartmentEmployee);
+        } else {
+            justiceDepartmentViewEmployee = new JusticeDepartmentViewEmployee();
+        }
+         
         cardLayoutPanel.removeAll();
         cardLayoutPanel.add(justiceDepartmentViewEmployee);
         cardLayoutPanel.repaint();
         cardLayoutPanel.revalidate();
-    }//GEN-LAST:event_btnViewEmployeeLinkActionPerformed
-
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddEmployeeLink;
+    private javax.swing.JButton btnAssignTicketsLink;
     private javax.swing.JButton btnViewEmployeeLink;
     private javax.swing.JPanel cardLayoutPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -142,7 +142,23 @@ public class ReceiverDirectory {
         }
         return allReceiver;           
     }
-    
+
+    public Receiver fetchReceiverById(int receiverId) throws SQLException {
+        Receiver reciever = null;
+        String query = "select * from receivertable where ID = " + receiverId + ";";
+        ResultSet resultSet = DbConnection.selectQuery(query);
+        while (resultSet.next()) {
+            String firstName = resultSet.getString("First_Name");
+            String lastName = resultSet.getString("Last_Name");
+            String emailId = resultSet.getString("Email");
+            String password = resultSet.getString("Password");
+            String type = resultSet.getString("Type");
+            String country = resultSet.getString("Country");
+            
+            receiver = new Receiver(firstName, lastName, emailId, password, null, country, type);
+        }
+        return receiver;
+    }
     public ResultSet getCauseBackground(int causeId){
         String query = "Select * from financialaiddb.cause a inner Join financialaiddb.receivertable b on a.R_Id = b.ID where Cause_Id = "+causeId+";";
         ResultSet resultSet = DbConnection.selectQuery(query); 

@@ -92,9 +92,9 @@ public class CauseTicketDirectory {
         return tracker;
     }
 
-    public  ArrayList<CauseTicket> trackCauseReceiver(int receiverID) throws SQLException{
+    public  ArrayList<CauseTicket> trackCauseReceiver(int causeID) throws SQLException{
         ArrayList<CauseTicket> tracker = new ArrayList();
-        String query = "Select * from causeticket where Receiver_Id = " + receiverID + ";";
+        String query = "Select * from causeticket where Cause_Id = " + causeID + ";";
         System.out.println(query);
         ResultSet resultSet = DbConnection.selectQuery(query);    
         if (!resultSet.isBeforeFirst() ) {    
@@ -134,6 +134,18 @@ public class CauseTicketDirectory {
         System.out.println(query1);
         DbConnection.query(query1);
     }
+
+//    public void moneyReceivedCommunity(int cause_Id,int receiver_Id) throws ParseException{
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        Calendar cal = Calendar.getInstance();
+//        String cd = dateFormat.format(cal.getTime());
+////        Date createdDate = dateFormat.parse(cd);
+////        System.out.println(createdDate);        
+//        String query1 = "Update financialaiddb.causeticket set Money_Received = '"+cd
+//                +"' where Cause_Id = "+cause_Id+" and Receiver_Id = "+receiver_Id+" and Amount;";
+//        System.out.println(query1);
+//        DbConnection.query(query1);
+//    }    
 
     public CauseTicket fetchCauseTicketData(int causeTktId) throws SQLException {
         CauseTicket causeTicket = null;

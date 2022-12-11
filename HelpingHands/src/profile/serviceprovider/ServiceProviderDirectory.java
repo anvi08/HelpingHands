@@ -98,9 +98,9 @@ public class ServiceProviderDirectory {
             String user1 = "";
             String Id1 = resultSet.getString("ID");
             // String status = resultSet.getString("Status");
-            String country = resultSet.getString("Cause_Id");
+
             //System.out.println(causeId);
-            
+            String country = resultSet.getString("Country");  
             Receiver receiver = new Receiver(firstName,lastName,email,password,user1,country,type);
             receiver.setId(Integer.valueOf(Id1));
             allReceiver.add(receiver);

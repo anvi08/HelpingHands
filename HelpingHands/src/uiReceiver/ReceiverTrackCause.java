@@ -53,7 +53,8 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
     Receiver receiver;    
     private int receiverID;
     CauseTicketDirectory causeTicketDirectory;
-    CauseTicket causeTicket;     
+    CauseTicket causeTicket;
+    int receiverCheck = 0;
     public ReceiverTrackCause(int receiverID) throws SQLException {
         initComponents();
         this.receiverID = receiverID;
@@ -354,7 +355,7 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
                             
                         }                               
                         if(moneyReceiverCountry!=null){
-                            btnReceived.setVisible((true));
+//                            btnReceived.setVisible((true));
                             check+=1;
 //                            jProgressBar1.setString("Your funds are almost there");
                             txtCreated1.setText("<html>Your Funds were processed by the bank in \n "+ causetix.getReceivingCountry() +" and will be in the hands of the benificiary soon</html>");
@@ -376,7 +377,11 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
                             final String html = "<html><body style='width: %1spx'>%1s";
                
                         }
-                    
+                        if((moneyReceived==null) && moneyReceiverCountry!=null){
+                            btnReceived.setVisible((true));
+                        }else{
+                            btnReceived.setVisible((false));
+                        }
                         if(check==1){
                             jProgressBar1.setValue(25);
                             return;

@@ -61,6 +61,7 @@ import profile.justiceDepartment.JusticeDepartmentEmployee;
  */
 public class LoginScreen extends javax.swing.JFrame {
     int inValidForm = 0;
+    int twoFaCheck = 0;
 //    private BufferedImage img;    
     /**
      * Creates new form LoginScreen
@@ -963,13 +964,15 @@ public class LoginScreen extends javax.swing.JFrame {
 
     private void btnTwoFAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTwoFAActionPerformed
         // TODO add your handling code here:
-        if(txtEmail.getText().equals("")==false){
+        if((txtEmail.getText().equals("")==false) && (txtPassword.getText().equals("")==false)){
+            twoFaCheck=1;
             String passcode = twoFactorAuth.randomPasswordGenerator();
             System.out.println("passsword is "+passcode);      
             twoFactorAuth.Send2FA(passcode, txtEmail.getText());
             donorDirectory.add2FA(passcode, txtEmail.getText(), dropdownRole1.getSelectedItem().toString());                    
         }else{
-            JOptionPane.showMessageDialog(this,"Please Input Email");
+            
+            JOptionPane.showMessageDialog(this,"Please Input a correct Email and Password");
         }
 
     }//GEN-LAST:event_btnTwoFAActionPerformed
@@ -1125,12 +1128,19 @@ public class LoginScreen extends javax.swing.JFrame {
                 lblErrMsg.setText("Username not available in DB for this role");                
                 break;
             case "Donor":
+                boolean twoFa = false;
                 if(donorDirectory.validateDonor(email,password)){
-                    String passcode = twoFactorAuth.randomPasswordGenerator();
-                    System.out.println("passsword is "+passcode);
-                    twoFactorAuth.Send2FA(passcode, txtEmail.getText());
-                    donorDirectory.add2FA(passcode, txtEmail.getText(), role);
-                    boolean twoFa = donorDirectory.validateDonor2FA(txtTwofa.getText().trim());
+                    if(twoFaCheck!=0){
+                        String passcode = twoFactorAuth.randomPasswordGenerator();
+                        System.out.println("passsword is "+passcode);
+//                        twoFactorAuth.Send2FA(passcode, txtEmail.getText());
+//                        donorDirectory.add2FA(passcode, txtEmail.getText(), role);
+                        twoFa = donorDirectory.validateDonor2FA(txtTwofa.getText().trim());                        
+                        
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Please Select the 2FA to generate an OTP");
+                        return;
+                    }
                     if(twoFa){
                         System.out.println("FOUND OUR WAY HERE");
                         navigateToDonorLandingPage(email);

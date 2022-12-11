@@ -61,6 +61,27 @@ public class DonorDirectory {
         }
 
     }
+    
+    public boolean validateDonorEmail(String inputEmail) throws SQLException{
+        ArrayList<String> credentials = new ArrayList();
+        String query = "Select Email,Password from donortable";
+        ResultSet resultSet = DbConnection.selectQuery(query);    
+        while(resultSet.next()){
+
+            String email = resultSet.getString("Email");
+            String pass = resultSet.getString("Password");
+            if(inputEmail.trim().equals(email)){
+                credentials.add(email);                   
+            }
+ 
+        }
+        if(credentials.isEmpty()){
+            return false;            
+        }else{
+            return true;
+        }
+
+    }    
 
     public  ArrayList<Cause> popDonorTable(String cause1) throws SQLException{
         ArrayList<Cause> allDonors = new ArrayList();
@@ -153,6 +174,8 @@ public class DonorDirectory {
             if(inputPassword.trim().equals(pass)){
                 credentials.add(email);                   
                 credentials.add(pass);
+                String query1 = "delete from financialaiddb.users where Email = '" + email + "';";
+                DbConnection.query(query1);
             }
  
         }
@@ -163,6 +186,8 @@ public class DonorDirectory {
         }
 
     }  
+
+
     
     public Donor fetchDonorById(int donorId) throws  SQLException{
         Donor donor = null;

@@ -47,11 +47,31 @@ public class AnalyticScreen extends javax.swing.JPanel {
         this.receiverDirectory = new ReceiverDirectory(receiver);
         this.donorDirectory = new DonorDirectory(donor);
         this.causeDirectory = new CauseDirectory(cause);      
-      
+        generateReceiverCharts();
     }
     
     
-    
+    public void generateReceiverCharts() throws SQLException{
+        DefaultPieDataset pie = new DefaultPieDataset();
+        ResultSet resultSet = causeDirectory.userGraph();
+        while(resultSet.next()){
+            pie.setValue(resultSet.getString("Country"), Integer.valueOf(resultSet.getString("Unit")));          
+        }
+        PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator(
+                   "{0}: {1} ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));
+
+        JFreeChart chart = ChartFactory.createPieChart("Receiver Demographics", pie);
+        chart.setBackgroundPaint(Color.white );
+        PiePlot piePlot1 =  (PiePlot) chart.getPlot();
+        piePlot1.setLabelGenerator(gen);
+        ChartFrame frame = new ChartFrame("Pie Chart",chart);
+        ChartPanel CP = new ChartPanel(chart);
+        System.out.println("CHARTTTTTT");
+        chartPanel3.add(CP);
+        chartPanel3.updateUI();
+        chartPanel3.setPreferredSize(new Dimension(400, 200));   
+        chartPanel3.setVisible(true);
+    }        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -63,6 +83,7 @@ public class AnalyticScreen extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         chartPanel2 = new javax.swing.JPanel();
+        chartPanel3 = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
@@ -71,6 +92,8 @@ public class AnalyticScreen extends javax.swing.JPanel {
 
         chartPanel2.setLayout(new javax.swing.BoxLayout(chartPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
+        chartPanel3.setLayout(new javax.swing.BoxLayout(chartPanel3, javax.swing.BoxLayout.LINE_AXIS));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,19 +101,25 @@ public class AnalyticScreen extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 552, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(chartPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(279, Short.MAX_VALUE)
+                .addComponent(chartPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(138, 138, 138))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                 .addGap(184, 184, 184))
             .addGroup(layout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addComponent(chartPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(chartPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chartPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -98,6 +127,7 @@ public class AnalyticScreen extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel chartPanel2;
+    private javax.swing.JPanel chartPanel3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

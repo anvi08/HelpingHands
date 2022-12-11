@@ -68,7 +68,12 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
         this.causeTicketDirectory = new CauseTicketDirectory(causeTicket);
         this.serviceProviderDirectory = new ServiceProviderDirectory(serviceProvider);
         System.out.println("HERE");
-        popReceiverTable(serviceProviderDirectory.trackCause(loggedInUser.split("-")[1].trim(), receiverID));
+        if(loggedInUser!=null){
+            popReceiverTable(serviceProviderDirectory.trackCause(loggedInUser.split("-")[1].trim(), receiverID));            
+        }else{
+            popReceiverTable(serviceProviderDirectory.trackCause(null,0));            
+            
+        }
         jProgressBar1.setVisible(false);
         panelJudiciary1.setVisible(false);        
         btnReceived.setVisible(false);        
@@ -260,7 +265,7 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelTracker, javax.swing.GroupLayout.DEFAULT_SIZE, 985, Short.MAX_VALUE)
+            .addComponent(panelTracker, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,7 +281,7 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
                                 .addComponent(btnReceived)
                                 .addGap(25, 25, 25)
                                 .addComponent(btnHelp2)))))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

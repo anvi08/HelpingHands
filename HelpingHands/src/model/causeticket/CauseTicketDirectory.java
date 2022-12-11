@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
+import static utilities.DbConnection.query;
 
 /**
  *
@@ -133,7 +134,7 @@ public class CauseTicketDirectory {
         System.out.println(query1);
         DbConnection.query(query1);
     }
-    
+
     public CauseTicket fetchCauseTicketData(int causeTktId) throws SQLException {
         CauseTicket causeTicket = null;
         String query = "select * from causeticket where SNo = " + causeTktId + ";";
@@ -154,4 +155,5 @@ public class CauseTicketDirectory {
         }
         return causeTicket;
     }
+
 }

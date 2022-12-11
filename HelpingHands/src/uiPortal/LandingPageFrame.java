@@ -100,6 +100,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
         btnBankLink.setVisible(false);
         btnServiceLink.setVisible(false);
         btnJusticeLink.setVisible(false);
+        btnAnalytics1.setVisible(false);
     }
     
     private void setBankLoginFrame(){

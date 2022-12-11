@@ -203,4 +203,47 @@ public class JusticeTicketDirectory {
          DbConnection.query(query);
     }
     
+    public JusticeTicket fetchJusticeTicketByCauseId(int causeId)throws SQLException {
+        JusticeTicket jTkt = null;
+        if ( causeId > 0) {
+            String query = "select * from justiceticket where cause_tkt_id = " + causeId + ";";
+            ResultSet resultSet = DbConnection.selectQuery(query);
+            
+            if (resultSet != null) {
+             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+             Date tktCreatedDate = null;
+             Date tktUdatedDate = null;
+             while (resultSet.next()) {
+                 int jEmpId = 0;
+                 String jEmpCMnt = null;
+                 int j_tkt_id = Integer.parseInt(resultSet.getString("j_tkt_id"));
+                 int cause_tkt_id = Integer.parseInt(resultSet.getString("cause_tkt_id"));
+                 if (resultSet.getString("j_emp_id") != null) {
+                    jEmpId = Integer.parseInt(resultSet.getString("j_emp_id"));
+                 }
+                 if (resultSet.getString("j_emp_cmnt") != null) {
+                     jEmpCMnt = resultSet.getString("j_emp_cmnt");
+                 }
+                 String createdDate = resultSet.getString("created_date");
+                 String updatedDate = resultSet.getString("updated_date");
+                 String status = resultSet.getString("Status");
+                 // String jEmpCmnt = resultSet.getString("j_emp_cmnt");
+                 String jCountry = resultSet.getString("country");
+                 try {
+                    tktCreatedDate = formatter.parse(createdDate); 
+                    tktUdatedDate = formatter.parse(updatedDate);
+                 } catch (Exception e) {
+                     System.out.println(e);
+                 }
+                 
+                  jTkt = new JusticeTicket(cause_tkt_id, tktCreatedDate, status, jCountry, tktUdatedDate);
+                 jTkt.setjTktId(j_tkt_id);
+                 jTkt.setjCmnt(jEmpCMnt);
+                 jTkt.setjEmpId(jEmpId);
+             }   
+            }
+        }
+        return jTkt;
+    } 
+    
 }

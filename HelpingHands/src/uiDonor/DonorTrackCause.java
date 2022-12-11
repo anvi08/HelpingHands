@@ -339,6 +339,8 @@ public class DonorTrackCause extends javax.swing.JPanel {
                             jProgressBar1.setValue(100);                            
                             return;
                         }
+                        
+                        checkForJusticeDeptTickets();
 
                     }
                 }
@@ -380,6 +382,12 @@ public class DonorTrackCause extends javax.swing.JPanel {
             row[3] = cause.getRecCategory();
             row[4] = cause.getCountry();                                     
             model.addRow(row);
+        }
+    }
+    
+    private void checkForJusticeDeptTickets() {
+        if (justiceCauseTicket != null) {
+            
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

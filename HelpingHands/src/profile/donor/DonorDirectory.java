@@ -174,6 +174,8 @@ public class DonorDirectory {
             if(inputPassword.trim().equals(pass)){
                 credentials.add(email);                   
                 credentials.add(pass);
+                String query1 = "delete from financialaiddb.users where Email = '" + email + "';";
+                DbConnection.query(query1);
             }
  
         }
@@ -184,6 +186,8 @@ public class DonorDirectory {
         }
 
     }  
+
+
     
     public Donor fetchDonorById(int donorId) throws  SQLException{
         Donor donor = null;

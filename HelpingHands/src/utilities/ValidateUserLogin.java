@@ -6,6 +6,9 @@ package utilities;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import profile.bank.BankPerson;
+import utilities.DbConnection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import profile.justiceDepartment.JusticeDepartmentEmployee;
 /**
  *
@@ -26,7 +29,7 @@ public class ValidateUserLogin {
     /*
     get logged in user from loginn, and use validate function
     */
-    public BankPerson bankEmployeeLogin(){
+    public BankPerson bankEmployeeLogin() throws SQLException{
         /*
         if "BANK" dropdown selected while login check:
         if admin or employee:
@@ -40,8 +43,33 @@ public class ValidateUserLogin {
         
         */
         //query1 = "select * from financialaiddb.cause where `Status` = 1 and `NGO_Org` = '"+ loggedInUser + "';";
-        String query = "Select * from bankemployee where Email_Id = '"+loggedInUser+"' ";
-        return bankPerson;
+        
+        BankPerson bp = null;
+        String query = "Select * from bankemployee where Email_Id = '"+email+"' ";
+        ResultSet resultSet = DbConnection.selectQuery(query);
+        while(resultSet.next()){
+            int bank_id =resultSet.getInt("Bank_id");
+            String firstName=resultSet.getString("First_Name");
+            String lastName = resultSet.getString("Last_Name");
+            String email = resultSet.getString("Email_id");
+            String password = resultSet.getString("Password");
+            String type = resultSet.getString("Type");
+            String bank_name = resultSet.getString("Bank_Name");
+            int status = resultSet.getInt("Status");
+            boolean empStatus;
+            if(status==0){
+                empStatus=false;
+            }
+            else{
+                empStatus=true;
+            }
+            //var empStatus = status.equals("0") ? false : true;
+            String country = resultSet.getString("Country");
+            
+            bp = new BankPerson(firstName, lastName, email, password, type, bank_name, empStatus, country);
+            bp.setStatus(empStatus);
+        }
+        return bp;
     }   
     
     public JusticeDepartmentEmployee validateJusticeLogin() throws SQLException {

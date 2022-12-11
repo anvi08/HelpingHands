@@ -19,7 +19,7 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
     JusticeDepartmentEmployee justiceDepartmentEmployee = null;
     public JusticeDepartmentLandingPage() {
         initComponents();
-        setDefaultLandingPage();
+        setDefaultLandingPage();    
     }
     
     public JusticeDepartmentLandingPage(JusticeDepartmentEmployee justiceDepartmentEmployee) {
@@ -126,12 +126,16 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
 
     private void btnAssignTicketsLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAssignTicketsLinkActionPerformed
         // TODO add your handling code here:
-        JusticeDepartmentAddEmployee justiceDepartmentAddEmployee;
+        JusticeDepartmentAssignTicketPanel justiceDepartmentAssignTicketPanel;
         if (justiceDepartmentEmployee != null) {
-           justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee(justiceDepartmentEmployee);
+           justiceDepartmentAssignTicketPanel = new JusticeDepartmentAssignTicketPanel(justiceDepartmentEmployee);
         } else {
-           justiceDepartmentAddEmployee = new JusticeDepartmentAddEmployee(); 
+           justiceDepartmentAssignTicketPanel = new JusticeDepartmentAssignTicketPanel(); 
         }
+        cardLayoutPanel.removeAll();
+        cardLayoutPanel.add(justiceDepartmentAssignTicketPanel);
+        cardLayoutPanel.repaint();
+        cardLayoutPanel.revalidate();
     }//GEN-LAST:event_btnAssignTicketsLinkActionPerformed
 
     private void btnViewEmployeeLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewEmployeeLinkActionPerformed

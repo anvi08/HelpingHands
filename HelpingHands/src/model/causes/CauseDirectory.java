@@ -155,6 +155,13 @@ public class CauseDirectory {
         DbConnection.query(sql);
     }    
 
+    public ResultSet getCauseOrgs(){
+        String query = "Select count(Cause_Name) as Count,NGO_Org from  financialaiddb.cause group by NGO_Org;";
+        ResultSet resultSet = DbConnection.selectQuery(query); 
+        return resultSet;
+    }    
+    
+    
     public void updateCause(Cause cause, int causeId){
         
         int status = cause.isStatus() == false ? 0 : 1;
@@ -168,6 +175,28 @@ public class CauseDirectory {
     public void deletCause(String causeName){
             String deleteQuery = "Delete from financialaiddb.cause where Cause_Name = '" + causeName + "';";        
             DbConnection.query(deleteQuery);        
+    }
+    
+    public Cause fetchCauseById(int causeId) throws SQLException {
+        Cause cause = null;
+        String query = "select * from cause where Cause_Id = " + causeId + ";";
+        ResultSet resultSet = DbConnection.selectQuery(query);
+        while(resultSet.next()){
+
+            String organisation = resultSet.getString("NGO_Org");
+            String country = resultSet.getString("Country");
+            String name = resultSet.getString("Cause_Name");
+            String description = resultSet.getString("Cause_Desc");
+            String category = resultSet.getString("R_Category");
+            // String status = resultSet.getString("Status");
+            String id = resultSet.getString("Cause_Id");
+            //System.out.println(causeId);
+            boolean status = Integer.parseInt(resultSet.getString("Status")) == 0 ? false : true;
+            
+            cause = new Cause(name,description,organisation,category,country,true);
+            cause.setCauseId(Integer.valueOf(id));  
+        }
+        return cause;
     }
     
 }

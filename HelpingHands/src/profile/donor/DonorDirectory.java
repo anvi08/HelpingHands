@@ -35,7 +35,11 @@ public class DonorDirectory {
         System.out.print(sql);
         DbConnection.query(sql);    
     }
-    
+    public ResultSet getDonorCount(){
+        String query = "Select count(*) as Count from donortable;";
+        ResultSet resultSet = DbConnection.selectQuery(query); 
+        return resultSet;
+    }    
     public boolean validateDonor(String inputEmail,String inputPassword) throws SQLException{
         ArrayList<String> credentials = new ArrayList();
         String query = "Select Email,Password from donortable";
@@ -61,7 +65,7 @@ public class DonorDirectory {
     public  ArrayList<Cause> popDonorTable(String cause1) throws SQLException{
         ArrayList<Cause> allDonors = new ArrayList();
 
-        String tableQuery = "Select * from cause where NGO_Org = '"+ cause1 + "' and R_Id is not null;";
+        String tableQuery = "Select * from cause where NGO_Org = '"+ cause1 + "' and R_Id is not null and Cause_Id not in (Select Cause_Id from financialaiddb.causeticket);";
         System.out.println(tableQuery); 
         ResultSet resultSet = DbConnection.selectQuery(tableQuery); 
 //        ResultSet resultSet = DbConnection.selectQuery(query1);    
@@ -89,12 +93,12 @@ public class DonorDirectory {
     public  ArrayList<Cause> popDonorTrackingTable(int donorId) throws SQLException{
         ArrayList<Cause> allDonors = new ArrayList();
 
-        String tableQuery = "select * from financialaiddb.cause where Cause_Id in  (Select Cause_Id from financialaiddb.causeticket where Donor_Id = "+donorId+");";
+        String tableQuery = "select * from financialaiddb.cause where Cause_Id in  (Select Cause_Id from financialaiddb.causeticket where Donor_Id = "+donorId+") and R_Id is not null;";
         System.out.println(tableQuery); 
         ResultSet resultSet = DbConnection.selectQuery(tableQuery); 
 //        ResultSet resultSet = DbConnection.selectQuery(query1);    
         while(resultSet.next()){
-
+            
             String organisation = resultSet.getString("NGO_Org");
             String country1 = resultSet.getString("Country");
             String name = resultSet.getString("Cause_Name");
@@ -120,6 +124,12 @@ public class DonorDirectory {
         return resultSet;
     }
 
+    
+    public ResultSet getDonorDemographics(){
+        String query = "Select Country,Count(*) as `Value` from financialaiddb.donortable group by Country;";
+        ResultSet resultSet = DbConnection.selectQuery(query); 
+        return resultSet;
+    }    
     public void add2FA(String tempPass,String email,String user){
         
 
@@ -152,6 +162,23 @@ public class DonorDirectory {
             return true;
         }
 
-    }    
+    }  
+    
+    public Donor fetchDonorById(int donorId) throws  SQLException{
+        Donor donor = null;
+        String query = "select * from donortable where ID = " + donorId + ";";
+        ResultSet resultSet = DbConnection.selectQuery(query);
+        while (resultSet.next()) {
+            String firstName = resultSet.getString("First_Name");
+            String lastName = resultSet.getString("Last_Name");
+            String emailId = resultSet.getString("Email");
+            String password = resultSet.getString("Password");
+            String type = resultSet.getString("Type");
+            String country = resultSet.getString("Country");
+            
+            donor = new Donor(firstName, lastName, emailId, password, null, country, type);
+        }
+        return donor;
+    }
 
 }

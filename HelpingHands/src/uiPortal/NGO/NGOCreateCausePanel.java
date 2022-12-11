@@ -96,6 +96,11 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
                 txtNameFocusLost(evt);
             }
         });
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
 
         txtDescription.setColumns(20);
         txtDescription.setRows(5);
@@ -250,6 +255,10 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
             lblErrFirstName.setText("");
         }                
     }//GEN-LAST:event_lblErrFirstName1FocusLost
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

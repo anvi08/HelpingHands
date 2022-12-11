@@ -13,7 +13,7 @@ import java.util.Map;
  * @author abhis
  */
 public final class Constants {
-     public static String[] enterpriseList = new String[]{"", "NGO", "Bank","Donor","Receiver","Justice Dept."};
+     public static String[] enterpriseList = new String[]{"", "NGO", "Bank","Donor","Receiver","Justice Dept.","Service Provider"};
      public static String profileRoleJustice = "justiceDept";
      public static String profileRoleBank = "bankDept";
      //public static String[] empType = new String[]{"Admin", "Employee"};
@@ -25,6 +25,13 @@ public final class Constants {
         "health", "abcd",
         "disaster", "abcd",
         "education","abcd"
+    );
+    
+        public static Map<String, String> justiceTicketStatus = Map.of(
+        "new", "NEW",
+        "assigned", "ASSIGNED",
+        "wip","WORK IN PROGRESS",
+        "resolved","RESOLVED"
     );
     
     public static Map<String, String> bankDonorCountryList = Map.of(

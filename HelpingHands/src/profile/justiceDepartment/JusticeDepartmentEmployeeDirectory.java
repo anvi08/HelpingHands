@@ -73,5 +73,29 @@ public class JusticeDepartmentEmployeeDirectory {
             String deleteQuery = "Update `justicedepartmentemployee` Set Status = 0 where j_emp_id = '" + justiceDepartmentEmployee.getId() + "';";        
             DbConnection.query(deleteQuery);        
     }
+       
+    public JusticeDepartmentEmployee fetchEmployeeById(int empId) throws SQLException {
+        JusticeDepartmentEmployee justiceDepartmentEmployee = null;
+        String query = "select * from `justicedepartmentemployee` where j_emp_id = " + empId + ";";
+        ResultSet resultSet = DbConnection.selectQuery(query);
+           if (resultSet != null) {
+            while (resultSet.next()) {
+            int id = Integer.parseInt(resultSet.getString("j_emp_id"));
+            String firstName = resultSet.getString("First_Name");
+            String lastName = resultSet.getString("Last_Name");
+            String emailId = resultSet.getString("Email_id");
+            String empType = resultSet.getString("Type");
+            String password = resultSet.getString("Password");
+            String dbCountry = resultSet.getString("Country");
+            String dbStatus = resultSet.getString("Status");
+            justiceDepartmentEmployee = new JusticeDepartmentEmployee(firstName, lastName, emailId, password, empType, dbCountry);            
+            boolean empStatus = dbStatus.equals("0") ? false : true;
+            justiceDepartmentEmployee.setStatus(empStatus);
+            justiceDepartmentEmployee.setId(id);
+            
+        }   
+        }
+        return justiceDepartmentEmployee;
+    }
     
 }

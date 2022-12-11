@@ -60,7 +60,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 jSplitPane.setRightComponent(justiceDepartmentLandingPage);
                 break;
             case "EMPLOYEE":
-                JusticeDepartmentEmployeePanel justiceDepartmentEmployeePanel = new JusticeDepartmentEmployeePanel();
+                JusticeDepartmentEmployeePanel justiceDepartmentEmployeePanel = new JusticeDepartmentEmployeePanel(justiceDepartmentEmp);
                 jSplitPane.setRightComponent(justiceDepartmentEmployeePanel);
                 break;
         } 

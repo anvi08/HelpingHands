@@ -51,6 +51,7 @@ public class DonorTrackCause extends javax.swing.JPanel {
         this.donorID = donorID;
         this.donorDirectory = new DonorDirectory(donor);
         this.causeTicketDirectory = new CauseTicketDirectory(causeTicket);
+        System.out.println("TRACKERRR "+donorID);
         popDonorTrackingTable(donorDirectory.popDonorTrackingTable(donorID));
         System.out.println(donorID+" pop table  ");
         jProgressBar1.setVisible(false);

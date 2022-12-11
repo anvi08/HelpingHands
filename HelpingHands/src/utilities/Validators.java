@@ -27,7 +27,7 @@ public class Validators {
     */
     public String validateName(String name) {
         String msg = null;
-        final Pattern pattern = Pattern.compile("^[A-Za-z-]++$");
+        final Pattern pattern = Pattern.compile("^[\sA-Za-z-\s]++$");
         if (isEmpty(name)) {
             msg = "Name field cannot be empty";
         } else if (!pattern.matcher(name).matches()) {

@@ -19,7 +19,7 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
     JusticeDepartmentEmployee justiceDepartmentEmployee = null;
     public JusticeDepartmentLandingPage() {
         initComponents();
-        setDefaultLandingPage();
+        setDefaultLandingPage();    
     }
     
     public JusticeDepartmentLandingPage(JusticeDepartmentEmployee justiceDepartmentEmployee) {

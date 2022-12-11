@@ -4,6 +4,7 @@
  */
 package uiPortal.justiceDepartment;
 
+import java.awt.Color;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -248,6 +249,25 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
         tblEmpDetails = new javax.swing.JTable();
         btnAssignTickets = new javax.swing.JButton();
         panelTrackDetails = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        lblJusticeUpdatedOn = new javax.swing.JLabel();
+        lblJusticeCreatedon = new javax.swing.JLabel();
+        lblJusticeStatus = new javax.swing.JLabel();
+        assignedTicketEmpPanel = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtComment = new javax.swing.JTextArea();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        txtAssignedLastName = new javax.swing.JTextField();
+        txtAssignedFirstName = new javax.swing.JTextField();
+        txtAssignedEmail = new javax.swing.JTextField();
+        btnTrackCause = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -363,7 +383,7 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
         panelAssignTickets.setLayout(panelAssignTicketsLayout);
         panelAssignTicketsLayout.setHorizontalGroup(
             panelAssignTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAssignTicketsLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnAssignTickets, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -380,18 +400,176 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
 
         panelCardLayout.add(panelAssignTickets, "card3");
 
-        panelTrackDetails.setBackground(new java.awt.Color(204, 204, 204));
+        panelTrackDetails.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel10.setText("STATUS:");
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Justice Ticket Details");
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel12.setText("This Ticket was Created  on ");
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setText("This Ticket was Updated  on ");
+
+        lblJusticeStatus.setBackground(new java.awt.Color(255, 255, 255));
+        lblJusticeStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblJusticeStatus.setForeground(new java.awt.Color(51, 153, 0));
+        lblJusticeStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblJusticeStatus.setText("abcd");
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("ASSIGNED EMP DETAILS");
+
+        txtComment.setColumns(20);
+        txtComment.setRows(5);
+        jScrollPane3.setViewportView(txtComment);
+
+        jLabel14.setText("Comment by Justice Department: ");
+
+        jLabel16.setText("First Name:");
+
+        jLabel17.setText("Last Name: ");
+
+        jLabel18.setText("Email ID:");
+
+        txtAssignedLastName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAssignedLastNameActionPerformed(evt);
+            }
+        });
+
+        txtAssignedFirstName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAssignedFirstNameActionPerformed(evt);
+            }
+        });
+
+        txtAssignedEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAssignedEmailActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout assignedTicketEmpPanelLayout = new javax.swing.GroupLayout(assignedTicketEmpPanel);
+        assignedTicketEmpPanel.setLayout(assignedTicketEmpPanelLayout);
+        assignedTicketEmpPanelLayout.setHorizontalGroup(
+            assignedTicketEmpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(assignedTicketEmpPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(assignedTicketEmpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(assignedTicketEmpPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtAssignedFirstName))
+                    .addGroup(assignedTicketEmpPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtAssignedEmail))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, assignedTicketEmpPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtAssignedLastName)))
+                .addGap(18, 18, 18))
+            .addGroup(assignedTicketEmpPanelLayout.createSequentialGroup()
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 19, Short.MAX_VALUE))
+        );
+
+        assignedTicketEmpPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel14, jLabel16, jLabel17, jLabel18});
+
+        assignedTicketEmpPanelLayout.setVerticalGroup(
+            assignedTicketEmpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(assignedTicketEmpPanelLayout.createSequentialGroup()
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(assignedTicketEmpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAssignedFirstName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(assignedTicketEmpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAssignedLastName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(assignedTicketEmpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAssignedEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(assignedTicketEmpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        btnTrackCause.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTrackCause.setText("TRACK CAUSE");
 
         javax.swing.GroupLayout panelTrackDetailsLayout = new javax.swing.GroupLayout(panelTrackDetails);
         panelTrackDetails.setLayout(panelTrackDetailsLayout);
         panelTrackDetailsLayout.setHorizontalGroup(
             panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 846, Short.MAX_VALUE)
+            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelTrackDetailsLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelTrackDetailsLayout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblJusticeCreatedon, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelTrackDetailsLayout.createSequentialGroup()
+                        .addGroup(panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblJusticeUpdatedOn, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblJusticeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnTrackCause, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(assignedTicketEmpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(151, Short.MAX_VALUE))
         );
         panelTrackDetailsLayout.setVerticalGroup(
             panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 271, Short.MAX_VALUE)
+            .addGroup(panelTrackDetailsLayout.createSequentialGroup()
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelTrackDetailsLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(assignedTicketEmpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelTrackDetailsLayout.createSequentialGroup()
+                        .addGroup(panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelTrackDetailsLayout.createSequentialGroup()
+                                .addGroup(panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelTrackDetailsLayout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelTrackDetailsLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblJusticeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelTrackDetailsLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblJusticeUpdatedOn)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblJusticeCreatedon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnTrackCause, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))))
         );
+
+        panelTrackDetailsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblJusticeCreatedon, lblJusticeStatus, lblJusticeUpdatedOn});
 
         panelCardLayout.add(panelTrackDetails, "card3");
 
@@ -410,44 +588,44 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelCardLayout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(updateDetailsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(updateDetailsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(34, 34, 34)
-                        .addComponent(txtDonorCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8))
-                    .addGroup(updateDetailsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtReceiverName, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(updateDetailsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDonorName, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(updateDetailsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCauseName, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(updateDetailsPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(updateDetailsPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(34, 34, 34)
+                                .addComponent(txtDonorCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel8))
+                            .addGroup(updateDetailsPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtReceiverName, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(updateDetailsPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtDonorName, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(updateDetailsPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCauseName, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNgoOrg, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtReceiverEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDonorEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
+                            .addComponent(txtDonorEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtReceiverCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(updateDetailsPanelLayout.createSequentialGroup()
-                        .addComponent(txtReceiverCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(633, 633, 633)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         updateDetailsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel3, jLabel8});
@@ -483,9 +661,10 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
                         .addComponent(jLabel9))
                     .addGroup(updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8)
-                        .addComponent(txtReceiverCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(txtReceiverCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
                 .addComponent(panelCardLayout, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(131, Short.MAX_VALUE))
         );
@@ -496,13 +675,13 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 939, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
             .addComponent(lblAssignUnassignTkt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 436, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnViewDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnViewUnassignedTkts)
@@ -510,7 +689,7 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
                         .addComponent(btnViewAssignedTkts))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(updateDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 483, Short.MAX_VALUE))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnViewAssignedTkts, btnViewUnassignedTkts});
@@ -545,13 +724,15 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
                 return;
             } 
             updateDetailsPanel.setVisible(true);
-            if (viewUnAssignedTickets) {
-                populateEmpTable();
-            } else {
-                populateTrackDetails();
-            }
+
             selectedJusticeTicketTrack = justiceTicketTrackList.get(selectedRow);
              setCardLayoutPanel();
+             if (viewUnAssignedTickets && justiceDepartmentEmployee != null) {
+                populateEmpTable();
+            } 
+            if (!viewUnAssignedTickets){
+                populateTrackDetails();
+            }
              txtCauseName.setText(selectedJusticeTicketTrack.getCause().getCauseName());
              txtNgoOrg.setText(selectedJusticeTicketTrack.getCause().getNgoOrg());
              if (selectedJusticeTicketTrack.getDonor().getFirstName() != null && !selectedJusticeTicketTrack.getDonor().getFirstName().trim().equals("")) {
@@ -591,12 +772,13 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
     
     
     private void setCardLayoutPanel() {
-        if (viewUnAssignedTickets) {
+        if (viewUnAssignedTickets && justiceDepartmentEmployee != null) {
             panelCardLayout.removeAll();
             panelCardLayout.add(panelAssignTickets);
             panelCardLayout.repaint();
             panelCardLayout.revalidate();
-        } else {
+        } 
+        if (!viewUnAssignedTickets) {
             panelCardLayout.removeAll();
             panelCardLayout.add(panelTrackDetails);
             panelCardLayout.repaint();
@@ -607,7 +789,24 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
     }
     
     private void populateTrackDetails() {
-        
+        if (selectedJusticeTicketTrack != null) {
+            lblJusticeStatus.setText(selectedJusticeTicketTrack.getjTkt().getjTktStatus());
+            setFontColorForJusticeStatus();
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+            if (selectedJusticeTicketTrack.getjTkt().getCreatedDate() != null) {
+                lblJusticeCreatedon.setText(formatter.format(selectedJusticeTicketTrack.getjTkt().getCreatedDate()));
+                 } else {
+                     lblJusticeCreatedon.setText("NA");
+                 }
+                 if (selectedJusticeTicketTrack.getjTkt().getUpdatedDate() != null) {
+                        lblJusticeUpdatedOn.setText(formatter.format(selectedJusticeTicketTrack.getjTkt().getUpdatedDate()));
+                 } else {
+                     lblJusticeUpdatedOn.setText("NA");
+                 } 
+        }
+        if (selectedJusticeTicketTrack.getjTkt().getjTktStatus() != null && !selectedJusticeTicketTrack.getjTkt().getjTktStatus().equals("NEW")) {
+            setAssignedEmpDetails();
+        }
     }
     
     private void populateEmpTable() {
@@ -624,6 +823,54 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
     }
     }
     
+    private void setAssignedEmpDetails() {
+        if (selectedJusticeTicketTrack != null) {
+            try {
+                JusticeDepartmentEmployeeDirectory jdEmpDirectory = new JusticeDepartmentEmployeeDirectory(null);
+                JusticeDepartmentEmployee assignedEmployee =  jdEmpDirectory.fetchEmployeeById(selectedJusticeTicketTrack.getjTkt().getjEmpId());
+                if (assignedEmployee != null) {
+                    txtAssignedFirstName.setText(assignedEmployee.getFirstName());
+                    txtAssignedLastName.setText(assignedEmployee.getLastName());
+                    txtAssignedEmail.setText(assignedEmployee.getEmail());
+                    
+                    txtAssignedEmail.setEnabled(false);
+                    txtAssignedLastName.setEnabled(false);
+                    txtAssignedFirstName.setEnabled(false);
+                    assignedTicketEmpPanel.setVisible(true);
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            
+        }
+    }
+    
+    private void setFontColorForJusticeStatus() {
+        if (selectedJusticeTicketTrack != null) {
+            String status = selectedJusticeTicketTrack.getjTkt().getjTktStatus();
+            switch (status) {
+                case "NEW":
+                    Color newBlue = new Color(102, 255,255);
+                    lblJusticeStatus.setForeground(newBlue);
+                    break;
+                case "ASSIGNED":
+                    Color newOrange = new Color(255, 153,51);
+                    lblJusticeStatus.setForeground(newOrange);
+                    break;
+                case "WIP":
+                    Color  newLeafColor= new Color(255, 153,0);
+                    lblJusticeStatus.setForeground(newLeafColor);
+                    break;
+                case "RESOLVED":
+                    Color  success= new Color(51, 153,0);
+                    lblJusticeStatus.setForeground(success);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        }
+    }
+    
     
     private void btnViewAssignedTktsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewAssignedTktsActionPerformed
         // TODO add your handling code here:
@@ -632,17 +879,35 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
         emptyInputFields();
         emptyEmpTable();
         updateDetailsPanel.setVisible(false);
+        emptyASsignedTicketFields();
+        assignedTicketEmpPanel.setVisible(false);
         fetchTktData();
     }//GEN-LAST:event_btnViewAssignedTktsActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         emptyInputFields();
+        emptyLabels();
         emptyEmpTable();
+        emptyASsignedTicketFields();
         updateDetailsPanel.setVisible(false);
+        assignedTicketEmpPanel.setVisible(false);
         selectedJusticeTicketTrack = null;
     
     }//GEN-LAST:event_btnCancelActionPerformed
+    
+    private void emptyLabels() {
+        lblJusticeCreatedon.setText("");
+        lblJusticeStatus.setText("");
+        lblJusticeUpdatedOn.setText("");
+        txtComment.setText("");
+    }
+    
+    private void emptyASsignedTicketFields() {
+        txtAssignedEmail.setText("");
+        txtAssignedFirstName.setText("");
+        txtAssignedLastName.setText("");
+    }
     
     private void emptyInputFields() {
         txtCauseName.setText("");
@@ -696,19 +961,44 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
         setLableForTable(viewUnAssignedTickets);
         emptyInputFields();
         emptyEmpTable();
+        emptyASsignedTicketFields();
+        assignedTicketEmpPanel.setVisible(false);
         updateDetailsPanel.setVisible(false);
         fetchTktData();
         
     }//GEN-LAST:event_btnViewUnassignedTktsActionPerformed
 
+    private void txtAssignedLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAssignedLastNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAssignedLastNameActionPerformed
+
+    private void txtAssignedFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAssignedFirstNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAssignedFirstNameActionPerformed
+
+    private void txtAssignedEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAssignedEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAssignedEmailActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel assignedTicketEmpPanel;
     private javax.swing.JButton btnAssignTickets;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnTrackCause;
     private javax.swing.JButton btnViewAssignedTkts;
     private javax.swing.JButton btnViewDetails;
     private javax.swing.JButton btnViewUnassignedTkts;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -719,13 +1009,21 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblAssignUnassignTkt;
+    private javax.swing.JLabel lblJusticeCreatedon;
+    private javax.swing.JLabel lblJusticeStatus;
+    private javax.swing.JLabel lblJusticeUpdatedOn;
     private javax.swing.JPanel panelAssignTickets;
     private javax.swing.JPanel panelCardLayout;
     private javax.swing.JPanel panelTrackDetails;
     private javax.swing.JTable tblEmpDetails;
     private javax.swing.JTable tblJusticeTickets;
+    private javax.swing.JTextField txtAssignedEmail;
+    private javax.swing.JTextField txtAssignedFirstName;
+    private javax.swing.JTextField txtAssignedLastName;
     private javax.swing.JTextField txtCauseName;
+    private javax.swing.JTextArea txtComment;
     private javax.swing.JTextField txtDonorCountry;
     private javax.swing.JTextField txtDonorEmail;
     private javax.swing.JTextField txtDonorName;

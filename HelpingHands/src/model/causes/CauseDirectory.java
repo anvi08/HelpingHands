@@ -177,4 +177,9 @@ public class CauseDirectory {
             DbConnection.query(deleteQuery);        
     }
     
+    public ResultSet userGraph(){
+        String query = "Select count(*) as Unit,Country from  financialaiddb.receivertable where Country != '' group by Country;";
+        ResultSet resultSet = DbConnection.selectQuery(query);    
+        return resultSet;
+    }
 }

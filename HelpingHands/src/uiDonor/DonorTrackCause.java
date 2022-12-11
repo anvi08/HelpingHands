@@ -57,7 +57,9 @@ public class DonorTrackCause extends javax.swing.JPanel {
         jProgressBar1.setVisible(false);
         panelJudiciary.setVisible(false);
     }
-
+    
+    
+//    public void()
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

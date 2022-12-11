@@ -5,11 +5,14 @@
 package uiPortal;
 
 //import uiPortal.Bank.BankLandingPage;
+import java.awt.Image;
 import java.sql.SQLException;
 import uiPortal.Bank.BankLandingPage;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import profile.justiceDepartment.JusticeDepartmentEmployee;
@@ -31,10 +34,21 @@ public class LandingPageFrame extends javax.swing.JFrame {
     /**
      * Creates new form LandingPageFrame
      */
+    
     public LandingPageFrame(String loggedInUser) {  
         initComponents();        
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);   
+//        LandingPageFrame landingPageFrame = new LandingPageFrame(loggedInUser);
+//        landingPageFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);   
         validateRole(loggedInUser);
         this.loggedInUser = loggedInUser;
+//        if(loggedInUser==null){
+//            ImageIcon imageIcon = new ImageIcon(getClass().getResource("/Images/admin-rights.png")); // load the image to a imageIcon
+//            Image image = imageIcon.getImage(); // transform it 
+//            Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+//            imageIcon = new ImageIcon(newimg);  // transform it back   
+//            jLabel1.setIcon(imageIcon);    
+//        }
     }
     
     public LandingPageFrame(JusticeDepartmentEmployee justiceDepartmentEmp) {
@@ -165,8 +179,8 @@ public class LandingPageFrame extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
                 .addComponent(btnNGOLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnBankLink)
@@ -191,11 +205,11 @@ public class LandingPageFrame extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 578, Short.MAX_VALUE)
+            .addGap(0, 552, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 464, Short.MAX_VALUE)
+            .addGap(0, 465, Short.MAX_VALUE)
         );
 
         jSplitPane.setRightComponent(jPanel2);
@@ -204,7 +218,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
+            .addComponent(jSplitPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,6 +251,8 @@ public class LandingPageFrame extends javax.swing.JFrame {
 
     private void btnServiceLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiceLinkActionPerformed
         // TODO add your handling code here:
+        ServiceProviderLandingPage serviceProviderLandingPage = new ServiceProviderLandingPage(loggedInUser);
+        jSplitPane.setRightComponent(serviceProviderLandingPage);        
     }//GEN-LAST:event_btnServiceLinkActionPerformed
 
     private void btnBankLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBankLinkActionPerformed
@@ -253,6 +269,14 @@ public class LandingPageFrame extends javax.swing.JFrame {
 
     private void btnAnalytics1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalytics1ActionPerformed
         // TODO add your handling code here:
+        AnalyticScreen analyticScreen;
+        try {
+            analyticScreen = new AnalyticScreen();
+            jSplitPane.setRightComponent(analyticScreen);                    
+        } catch (SQLException ex) {
+            Logger.getLogger(LandingPageFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btnAnalytics1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -333,7 +357,9 @@ public class LandingPageFrame extends javax.swing.JFrame {
             if(loggedInUser.contains("Receiver")){
                 btnBankLink.setVisible(false);
                 btnJusticeLink.setVisible(false);
-                jLabel1.setText(loggedInUser.split("-")[0].trim());
+                jLabel1.setText("<html> Welcome "+loggedInUser.split("-")[0].trim()+"</html>");
+                jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+                jLabel1.setVerticalAlignment(SwingConstants.CENTER);                    
                 // btnBankLink.setVisible(false);
                // btnJusticeLink.setVisible(false);
                 btnServiceLink.setVisible(false);
@@ -346,7 +372,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
             if(loggedInUser.contains("Donor")){
                 btnBankLink.setVisible(false);
                 btnJusticeLink.setVisible(false);
-                jLabel1.setText(loggedInUser.split("-")[0].trim());
+                jLabel1.setText("<html> Welcome "+loggedInUser.split("-")[0].trim()+"</html>");
                 // btnBankLink.setVisible(false);
                // btnJusticeLink.setVisible(false);
                 btnServiceLink.setVisible(false);
@@ -359,7 +385,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
             if(loggedInUser.contains("Service")){
                 btnBankLink.setVisible(false);
                 btnJusticeLink.setVisible(false);
-                jLabel1.setText(loggedInUser.split("-")[0].trim());
+                jLabel1.setText("<html> Welcome "+loggedInUser.split("-")[0].trim().toUpperCase()+" Service"+"<html>");
                 btnServiceLink.setVisible(false);
                 btnAnalytics1.setVisible(false);                
                 btnNGOLink.setVisible(false);

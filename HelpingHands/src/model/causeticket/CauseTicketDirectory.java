@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
+import static utilities.DbConnection.query;
 
 /**
  *
@@ -133,5 +134,7 @@ public class CauseTicketDirectory {
         System.out.println(query1);
         DbConnection.query(query1);
     }
+    
+
     
 }

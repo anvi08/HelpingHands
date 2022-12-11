@@ -61,6 +61,27 @@ public class DonorDirectory {
         }
 
     }
+    
+    public boolean validateDonorEmail(String inputEmail) throws SQLException{
+        ArrayList<String> credentials = new ArrayList();
+        String query = "Select Email,Password from donortable";
+        ResultSet resultSet = DbConnection.selectQuery(query);    
+        while(resultSet.next()){
+
+            String email = resultSet.getString("Email");
+            String pass = resultSet.getString("Password");
+            if(inputEmail.trim().equals(email)){
+                credentials.add(email);                   
+            }
+ 
+        }
+        if(credentials.isEmpty()){
+            return false;            
+        }else{
+            return true;
+        }
+
+    }    
 
     public  ArrayList<Cause> popDonorTable(String cause1) throws SQLException{
         ArrayList<Cause> allDonors = new ArrayList();

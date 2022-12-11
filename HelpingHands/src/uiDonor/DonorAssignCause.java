@@ -26,6 +26,8 @@ import profile.Receiver.Receiver;
 import profile.Receiver.ReceiverDirectory;
 import profile.donor.Donor;
 import profile.donor.DonorDirectory;
+import profile.serviceprovider.ServiceProvider;
+import profile.serviceprovider.ServiceProviderDirectory;
 import utilities.Constants;
 
 /**
@@ -42,6 +44,8 @@ public class DonorAssignCause extends javax.swing.JPanel {
     CauseTicket causeTicket;
     ReceiverDirectory receiverDirectory;
     Receiver receiver;
+    ServiceProviderDirectory serviceProviderDirectory;
+    ServiceProvider serviceProvider;       
     /**
      * Creates new form DonorAssignCause
      */
@@ -51,8 +55,11 @@ public class DonorAssignCause extends javax.swing.JPanel {
         this.causeDirectory = new CauseDirectory(cause);     
         this.causeTicketDirectory = new CauseTicketDirectory(causeTicket);
         this.receiverDirectory =  new ReceiverDirectory(receiver);
+        this.serviceProviderDirectory = new ServiceProviderDirectory(serviceProvider);
         initComponents();
-
+        txtRequirement.setVisible(false);
+        lblRequirement.setVisible(false);
+        lblReqSub.setVisible(false);
         for(String item : Constants.ngoOrganisations){
             combobxCause.addItem(item);
         }        
@@ -107,6 +114,9 @@ public class DonorAssignCause extends javax.swing.JPanel {
         txtCause = new javax.swing.JTextField();
         txtNGO = new javax.swing.JTextField();
         txtDesc = new javax.swing.JTextField();
+        txtRequirement = new javax.swing.JTextField();
+        lblRequirement = new javax.swing.JLabel();
+        lblReqSub = new javax.swing.JLabel();
 
         tblCause.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -184,6 +194,10 @@ public class DonorAssignCause extends javax.swing.JPanel {
 
         jLabel11.setText("Description");
 
+        lblRequirement.setText("Requirements");
+
+        lblReqSub.setText("jLabel12");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -215,11 +229,23 @@ public class DonorAssignCause extends javax.swing.JPanel {
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNGO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCause, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtRec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 193, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNGO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtRec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCause, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblRequirement)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtRequirement, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblReqSub)))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -238,10 +264,10 @@ public class DonorAssignCause extends javax.swing.JPanel {
                                     .addGap(15, 15, 15)
                                     .addComponent(jLabel1)
                                     .addGap(33, 33, 33)
-                                    .addComponent(combobxCause, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(31, 31, 31)
+                                    .addComponent(combobxCause, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(btnSearch))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap())))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCause, txtCountry, txtDesc, txtEmail, txtFirstName, txtLastName, txtNGO, txtRec});
@@ -279,9 +305,15 @@ public class DonorAssignCause extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtCause, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel9))
-                                .addGap(18, 18, 18)
+                                .addGap(19, 19, 19)
                                 .addComponent(txtNGO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel8))
+                            .addComponent(jLabel8)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblRequirement)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtRequirement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblReqSub))))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
@@ -298,7 +330,7 @@ public class DonorAssignCause extends javax.swing.JPanel {
                             .addComponent(txtCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
                         .addGap(6, 6, 6)))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCause, txtCountry, txtDesc, txtEmail, txtFirstName, txtLastName, txtNGO, txtRec});
@@ -322,10 +354,12 @@ public class DonorAssignCause extends javax.swing.JPanel {
         // TODO add your handling code here:
 
 //        ResultSet resultSet = receiverDirectory.getReceiver(loggedInUser.split("-")[0].trim());
-
+        ArrayList<Receiver> allReceivers = null;
         String cause1 = combobxCause.getSelectedItem().toString();
         try {
             popDonorTable(donorDirectory.popDonorTable(cause1));
+            allReceivers = serviceProviderDirectory.getService2(cause1);
+            lblReqSub.setText(allReceivers.get(0).getFirstName().split(" ")[0].trim());
         } catch (SQLException ex) {
             Logger.getLogger(DonorAssignCause.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -336,6 +370,7 @@ public class DonorAssignCause extends javax.swing.JPanel {
         // TODO add your handling code here:
 
         String cause = combobxCause.getSelectedItem().toString();
+        
         ResultSet resultSet = donorDirectory.getdonor(loggedInUser.split("-")[0].trim());
         try {
             if (!resultSet.isBeforeFirst() ) {
@@ -388,6 +423,11 @@ public class DonorAssignCause extends javax.swing.JPanel {
                             txtNGO.setText("");
                             txtDesc.setText("");    
                             txtAmount.setText("");
+                            if(SelectedRecords.getRecCategory().equals("Community")){
+//                                txtRequirement.setVisible(false);
+//                                lblRequirement.setVisible(false);
+                                txtRequirement.setText("");
+                            }                            
                             return;                            
                         } catch (ParseException ex) {
                             Logger.getLogger(DonorAssignCause.class.getName()).log(Level.SEVERE, null, ex);
@@ -440,6 +480,19 @@ public class DonorAssignCause extends javax.swing.JPanel {
                         txtCause.setText(causeName);
                         txtNGO.setText(ngoOrg);
                         txtDesc.setText(causeDesc);
+                        
+                        if(recipientType.equals("Community")){
+                            txtRequirement.setVisible(true);
+                            lblRequirement.setVisible(true);
+                            txtRequirement.setText(resultSet.getString("Requirement"));
+                            lblReqSub.setVisible(true);                                 
+                        }else{
+                            txtRequirement.setVisible(false);
+                            lblRequirement.setVisible(false);
+                            txtRequirement.setText(resultSet.getString("Requirement"));
+                            lblReqSub.setVisible(false);                    
+                        }
+                        
                         break;
                     }
                 }
@@ -487,6 +540,8 @@ public class DonorAssignCause extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblReqSub;
+    private javax.swing.JLabel lblRequirement;
     private javax.swing.JTable tblCause;
     private javax.swing.JTextField txtAmount;
     private javax.swing.JTextField txtCause;
@@ -497,5 +552,6 @@ public class DonorAssignCause extends javax.swing.JPanel {
     private javax.swing.JTextField txtLastName;
     private javax.swing.JTextField txtNGO;
     private javax.swing.JTextField txtRec;
+    private javax.swing.JTextField txtRequirement;
     // End of variables declaration//GEN-END:variables
 }

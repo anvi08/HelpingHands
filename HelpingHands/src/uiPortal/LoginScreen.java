@@ -7,6 +7,8 @@ package uiPortal;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +22,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import model.causes.Cause;
@@ -85,7 +88,9 @@ public class LoginScreen extends javax.swing.JFrame {
         //System.out.println();
         txtTwofa.setVisible(false);
         btnTwoFA.setVisible(false);   
-  
+        txtEmail.setText("");
+        txtPassword.setText("");
+        txtTwofa.setText("");
         dropdownRole1.addActionListener(new ActionListener(){
                 // this is anonymous class
         @Override
@@ -109,13 +114,14 @@ public class LoginScreen extends javax.swing.JFrame {
 //        generateCharts();    
 //        generateDonorCharts();
         popUsers();
-        ImageIcon imageIcon = new ImageIcon("C:\\Users\\abhis\\Desktop\\NEU\\INFO5100 AED\\Pictures\\Helpinghands.png"); // load the image to a imageIcon
+        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/Images/Helpinghands.png")); // load the image to a imageIcon
         Image image = imageIcon.getImage(); // transform it 
         Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
         imageIcon = new ImageIcon(newimg);  // transform it back   
         jLabel1.setIcon(imageIcon);        
-    }
 
+    }
+    //Icon icon = new ImageIcon(getClass().getResource("HelpingHands\\Images\\Helpinghands.png"));
 //    public void generateCharts() throws SQLException{
 //        DefaultPieDataset pie = new DefaultPieDataset();
 //        
@@ -622,24 +628,26 @@ public class LoginScreen extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(410, 410, 410)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnLoginTab, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRegisterTab)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(214, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(209, 209, 209))
+                        .addGap(214, 214, 214)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(247, 247, 247)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnLoginTab, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRegisterTab)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnLoginTab, btnRegisterTab});
@@ -647,11 +655,8 @@ public class LoginScreen extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLoginTab, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegisterTab)
@@ -659,7 +664,11 @@ public class LoginScreen extends javax.swing.JFrame {
                     .addComponent(txtUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(123, 123, 123))
+                .addContainerGap(27, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(114, 114, 114))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnLoginTab, btnRegisterTab});
@@ -698,6 +707,10 @@ public class LoginScreen extends javax.swing.JFrame {
     
     private void btnLoginTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginTabActionPerformed
         // TODO add your handling code here:
+        txtEmail.setText("");
+        txtPassword.setText("");
+        txtTwofa.setText("");       
+        dropdownRole1.setSelectedIndex(-1);
         cardLayoutRegisterLoginPanel.removeAll();
         cardLayoutRegisterLoginPanel.add(panelLogin);
         cardLayoutRegisterLoginPanel.repaint();
@@ -716,6 +729,14 @@ public class LoginScreen extends javax.swing.JFrame {
         cardLayoutRegisterLoginPanel.add(panelRegister);
         cardLayoutRegisterLoginPanel.repaint();
         cardLayoutRegisterLoginPanel.revalidate();
+        txtFirstName.setText("");
+        txtLastName.setText("");
+        txtEmailReg.setText("");
+        txtPasswordReg.setText("");
+        txtConfirmPassword.setText("");
+        combobxType.setSelectedIndex(-1);  
+        combobxCountry.setSelectedIndex(-1);             
+        combobxUserType.setSelectedIndex(-1);        
     }//GEN-LAST:event_btnRegisterTabActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
@@ -747,16 +768,36 @@ public class LoginScreen extends javax.swing.JFrame {
         String country = combobxCountry.getSelectedItem().toString();      
         String userType = combobxUserType.getSelectedItem().toString();                     
             
-            if(userType.equals("Donor")){       
-                Donor donor = new Donor(firstName,lastName,email,pass,userType,country,type);                
-                DonorDirectory donorDirectory = new DonorDirectory(donor);
-                donorDirectory.addDonors();
-                JOptionPane.showMessageDialog(this, "New User Has Been Created");                  
+            if(userType.equals("Donor")){
+            try {
+                if(donorDirectory.validateDonorEmail(email)==false){
+                    Donor donor = new Donor(firstName,lastName,email,pass,userType,country,type);                
+                    DonorDirectory donorDirectory = new DonorDirectory(donor);
+                    donorDirectory.addDonors();
+                    JOptionPane.showMessageDialog(this, "New User Has Been Created");                  
+
+                }else{
+                    JOptionPane.showMessageDialog(this, "An Email Already exists with this account");
+                    return;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }else{
-                Receiver receiver = new Receiver(firstName,lastName,email,pass,userType,country,type);                                
-                ReceiverDirectory receiverDirectory = new ReceiverDirectory(receiver);
-                receiverDirectory.addReceiver();   
-                JOptionPane.showMessageDialog(this, "New User Has Been Created");                    
+            try {
+                if(receiverDirectory.validateReceiverEmail(email)==false){
+                    Receiver receiver = new Receiver(firstName,lastName,email,pass,userType,country,type);                                
+                    ReceiverDirectory receiverDirectory = new ReceiverDirectory(receiver);
+                    receiverDirectory.addReceiver();
+                    JOptionPane.showMessageDialog(this, "New User Has Been Created");                     
+                }else{
+                    JOptionPane.showMessageDialog(this, "An Email Already exists with this account");
+                    return;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                   
             }
             
           
@@ -963,7 +1004,8 @@ public class LoginScreen extends javax.swing.JFrame {
                 try {
                     loginScreen = new LoginScreen();
                     loginScreen.setVisible(true);
-                    loginScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);                    
+                    loginScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);     
+                    loginScreen.setResizable(false);
                 } catch (SQLException ex) {
                     Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -1058,11 +1100,11 @@ public class LoginScreen extends javax.swing.JFrame {
                 break;
             case "Donor":
                 if(donorDirectory.validateDonor(email,password)){
-//                    String passcode = twoFactorAuth.randomPasswordGenerator();
-//                    System.out.println("passsword is "+passcode);
-//                    twoFactorAuth.Send2FA(passcode, txtEmail.getText());
-//                    donorDirectory.add2FA(passcode, txtEmail.getText(), role);
-                    boolean twoFa = true;//donorDirectory.validateDonor2FA(txtTwofa.getText().trim());
+                    String passcode = twoFactorAuth.randomPasswordGenerator();
+                    System.out.println("passsword is "+passcode);
+                    twoFactorAuth.Send2FA(passcode, txtEmail.getText());
+                    donorDirectory.add2FA(passcode, txtEmail.getText(), role);
+                    boolean twoFa = donorDirectory.validateDonor2FA(txtTwofa.getText().trim());
                     if(twoFa){
                         System.out.println("FOUND OUR WAY HERE");
                         navigateToDonorLandingPage(email);
@@ -1152,6 +1194,7 @@ public class LoginScreen extends javax.swing.JFrame {
         landingPage.setTitle("Dashboard");
         landingPage.setVisible(true);
         landingPage.remove(this);
+//        landingPage.setExtendedState(JFrame.MAXIMIZED_BOTH);  
         
     } 
     

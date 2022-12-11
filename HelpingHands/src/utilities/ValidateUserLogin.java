@@ -56,10 +56,18 @@ public class ValidateUserLogin {
             String type = resultSet.getString("Type");
             String bank_name = resultSet.getString("Bank_Name");
             int status = resultSet.getInt("Status");
+            boolean empStatus;
+            if(status==0){
+                empStatus=false;
+            }
+            else{
+                empStatus=true;
+            }
+            //var empStatus = status.equals("0") ? false : true;
             String country = resultSet.getString("Country");
             
-            bp = new BankPerson(firstName, lastName, email, password, type, bank_name, true, country);
-            
+            bp = new BankPerson(firstName, lastName, email, password, type, bank_name, empStatus, country);
+            bp.setStatus(empStatus);
         }
         return bp;
     }   

@@ -40,6 +40,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
+import profile.bank.BankPerson;
 import profile.justiceDepartment.JusticeDepartmentEmployee;
 /**
  *
@@ -941,10 +942,28 @@ public class LoginScreen extends javax.swing.JFrame {
                 navigateToLandingPage();
                 break;
                 
-            case "BANK":
+            case "Bank":
 
-                
-                validateUserLogin.bankEmployeeLogin();
+                BankPerson bp = validateUserLogin.bankEmployeeLogin();
+                if(bp != null){
+                    String dbPassword = bp.getPassword();
+                    if (password.trim().equals(dbPassword.trim())) {
+                        if (bp.isStatus()) {
+                            LandingPageFrame landingPage =  new LandingPageFrame(bp);
+                            switchLandingPage(landingPage);
+                        }else{
+                            lblErrMsg.setText("User is Inactive"); 
+                            return;
+                        }
+                        
+                    }else{
+                        lblErrMsg.setText("Username or password is wrong"); 
+                        return;
+                    }
+                }else{
+                    lblErrMsg.setText("Username not available in DB for this role");  
+                    break;
+                }
                
                 
                 break;

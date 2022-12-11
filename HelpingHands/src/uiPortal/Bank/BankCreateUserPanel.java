@@ -33,24 +33,57 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
         
     }
     
+    public BankCreateUserPanel(BankPerson bp){
+        initComponents();
+        //setCountriesDropdown();
+        setPanelForUser(bp);
+      
+    }
     
+    public void setPanelForUser(BankPerson bp){
+        String userCountry = bp.getCountry();
+        String userType = bp.getEmpType();
+        ArrayList<String> countriesList = new ArrayList<String>();
+        countriesList.addAll(Constants.donorCountries);
+        countriesList.addAll(Constants.receivingCountries);
+        
+        /*
+        for each country in the dropdown/constants 
+        get a list of all countries
+        match user to the country
+        if country matches
+        set the dropdown to that country
+        */
+        for (String country : countriesList )
+        {
+            if(userCountry.equals(country))
+            {
+                dropdownCountry.removeAllItems();
+                dropdownCountry.addItem(userCountry);
+                dropdownCountry.setEnabled(false);
+            }
+        }
+        
+        dropDownType.removeAllItems();
+        dropDownType.addItem("EMPLOYEE");
+        dropDownType.setEnabled(false);
+        
+    }
     
     
     public void setCountriesDropdown() {
         ArrayList<String> countriesList = new ArrayList<String>();
         countriesList.add("");
         countriesList.addAll(Constants.donorCountries);
-        //countriesList.addAll(Constants.receivingCountries);
+        countriesList.addAll(Constants.receivingCountries);
         Vector<String> contryVector = new Vector<>(countriesList);
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(contryVector);
         dropdownCountry.setModel(model);
     }
     
     public void setEmpTypeDropdown() {
-        ArrayList<String> typeList = new ArrayList<String>();
-        typeList.add("");
-        typeList.addAll(typeList);
-        Vector<String> empTypeVector = new Vector<String>(typeList);
+        
+        Vector<String> empTypeVector = new Vector<String>(Arrays.asList(Constants.empType));
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(empTypeVector);
         dropDownType.setModel(model);
         
@@ -253,15 +286,17 @@ public class BankCreateUserPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(dropdownCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblErrCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblErrCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel7)
+                                .addComponent(dropdownCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblErrFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblErrFirstName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

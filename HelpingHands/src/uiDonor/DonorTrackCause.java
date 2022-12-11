@@ -21,10 +21,13 @@ import model.causes.Cause;
 import model.causes.CauseDirectory;
 import model.causeticket.CauseTicket;
 import model.causeticket.CauseTicketDirectory;
+import model.justiceTicket.JusticeTicket;
+import model.justiceTicket.JusticeTicketDirectory;
 import profile.Receiver.Receiver;
 import profile.Receiver.ReceiverDirectory;
 import profile.donor.Donor;
 import profile.donor.DonorDirectory;
+import utilities.Constants;
 
 /**
  *
@@ -345,8 +348,19 @@ public class DonorTrackCause extends javax.swing.JPanel {
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
         // TODO add your handling code here:
         panelJudiciary.setVisible(true);
-         System.out.println(" cause_tkt_id"+justiceCauseTicket.getTktId());
-         System.out.println("justice country "+ justiceCauseTicket.getDonorCountry());
+        int causeTktId = justiceCauseTicket.getTktId();
+        String country = justiceCauseTicket.getDonorCountry();
+         if ((causeTktId == 0 || causeTktId > 0) && country != null && !country.trim().equals("")) {
+             Date date = new Date();
+             JusticeTicket jTicket = new JusticeTicket(causeTktId, date, Constants.justiceTicketStatus.get("new"), country, date);
+             JusticeTicketDirectory jtktDirectory = new JusticeTicketDirectory(jTicket); 
+             try {
+                jtktDirectory.createJusticeTicket();
+             } catch (Exception e) {
+                 System.out.println(e);
+             }
+             
+         }
         // System.out.println("justice country "+jTracCause.getCountry());
         
     }//GEN-LAST:event_btnHelpActionPerformed

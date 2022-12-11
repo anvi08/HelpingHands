@@ -27,6 +27,13 @@ public final class Constants {
         "education","abcd"
     );
     
+        public static Map<String, String> justiceTicketStatus = Map.of(
+        "new", "NEW",
+        "assigned", "ASSIGNED",
+        "wip","WORK IN PROGRESS",
+        "resolved","RESOLVED"
+    );
+    
     public static Map<String, String> bankDonorCountryList = Map.of(
         "USA", "Bank of America",
         "Canada", "National bank of Canada"

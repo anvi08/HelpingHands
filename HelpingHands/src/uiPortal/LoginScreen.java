@@ -4,16 +4,23 @@
  */
 package uiPortal;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import model.causes.Cause;
 import profile.Receiver.Receiver;
@@ -27,6 +34,7 @@ import static utilities.DbConnection.query;
 import utilities.ValidateUserLogin;
 import utilities.Validators;
 import javax.swing.JFrame;
+import model.causes.CauseDirectory;
 //import java.awt.image.BufferedImage;
 //import java.io.File;
 //import java.awt.Image;
@@ -38,6 +46,8 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import profile.justiceDepartment.JusticeDepartmentEmployee;
@@ -51,14 +61,16 @@ public class LoginScreen extends javax.swing.JFrame {
     /**
      * Creates new form LoginScreen
      */
+    CauseDirectory causeDirectory;
+    Cause cause;
     ReceiverDirectory receiverDirectory;
     DonorDirectory donorDirectory;
     Receiver receiver;
     Donor donor;
-    public LoginScreen() {
+    public LoginScreen() throws SQLException {
 
         initComponents();
-        generateCharts();        
+        getContentPane().setBackground(Color.cyan);
         for (String item :Constants.userType){
             combobxUserType.addItem(item);
         }  
@@ -67,6 +79,7 @@ public class LoginScreen extends javax.swing.JFrame {
         }
         this.receiverDirectory = new ReceiverDirectory(receiver);
         this.donorDirectory = new DonorDirectory(donor);
+        this.causeDirectory = new CauseDirectory(cause);
         combobxUserType.setSelectedIndex(-1);  
         dropdownRole1.setSelectedIndex(-1);
         //System.out.println();
@@ -93,23 +106,79 @@ public class LoginScreen extends javax.swing.JFrame {
         }
         }); 
         userDropDowns();   
-
+//        generateCharts();    
+//        generateDonorCharts();
+        popUsers();
+        ImageIcon imageIcon = new ImageIcon("C:\\Users\\abhis\\Desktop\\NEU\\INFO5100 AED\\Pictures\\Helpinghands.png"); // load the image to a imageIcon
+        Image image = imageIcon.getImage(); // transform it 
+        Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+        imageIcon = new ImageIcon(newimg);  // transform it back   
+        jLabel1.setIcon(imageIcon);        
     }
 
-    public void generateCharts(){
-        DefaultPieDataset pie = new DefaultPieDataset();
-        pie.setValue("health", 6);
-        pie.setValue("disaster",5);
-        pie.setValue("education", 2);
-        JFreeChart chart = ChartFactory.createPieChart("Donation for Causes", pie);       
-        PiePlot piePlot1 =  (PiePlot) chart.getPlot();
-        ChartFrame frame = new ChartFrame("Pie Chart",chart);
-        ChartPanel CP = new ChartPanel(chart);
-        chartPanel1.add(CP);
-        chartPanel1.updateUI();
-        chartPanel1.setPreferredSize(new Dimension(400, 200));     
-    }
+//    public void generateCharts() throws SQLException{
+//        DefaultPieDataset pie = new DefaultPieDataset();
+//        
+//        ResultSet resultSet1 = causeDirectory.getCauseOrgs();
+//        
+//        while(resultSet1.next()){
+//            pie.setValue(resultSet1.getString("NGO_Org"), Integer.valueOf(resultSet1.getString("Count")));          
+//        }
+//        JFreeChart chart = ChartFactory.createPieChart("Organisations on Platform", pie); 
+//        chart.setBackgroundPaint(Color.ORANGE);
+//        PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator(
+//                   "{0}: {1} ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));        
+//        PiePlot piePlot1 =  (PiePlot) chart.getPlot();
+//        piePlot1.setLabelGenerator(gen);
+//        ChartFrame frame = new ChartFrame("Pie Chart",chart);
+//        ChartPanel CP = new ChartPanel(chart);
+//        chartPanel2.add(CP);
+//        chartPanel2.updateUI();
+//        chartPanel2.setPreferredSize(new Dimension(400, 200));     
+//
+//
+//    }
+//    
+//    public void generateDonorCharts() throws SQLException{
+//        DefaultPieDataset pie = new DefaultPieDataset();
+//        ResultSet resultSet = donorDirectory.getDonorDemographics();
+//        while(resultSet.next()){
+//            pie.setValue(resultSet.getString("Country"), Integer.valueOf(resultSet.getString("Value")));          
+//        }
+//        PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator(
+//                   "{0}: {1} ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));
+//
+//        JFreeChart chart = ChartFactory.createPieChart("Donor Demographics", pie);
+//        chart.setBackgroundPaint(Color.RED );
+//        PiePlot piePlot1 =  (PiePlot) chart.getPlot();
+//        piePlot1.setLabelGenerator(gen);
+//        ChartFrame frame = new ChartFrame("Pie Chart",chart);
+//        ChartPanel CP = new ChartPanel(chart);
+//        System.out.println("CHARTTTTTT");
+//        jPanel1.add(CP);
+//        jPanel1.updateUI();
+//        jPanel1.setPreferredSize(new Dimension(400, 200));   
+//        jPanel1.setVisible(true);
+//    }    
+    public void popUsers() throws SQLException{
+        ResultSet resultSet1 = donorDirectory.getDonorCount();
+        ResultSet resultSet2 = receiverDirectory.getReceiverCount();
+        while(resultSet1.next()&&resultSet2.next()){
+            int donorsCount = Integer.valueOf(resultSet1.getString("Count"));            
+            int receiversCount = Integer.valueOf(resultSet2.getString("Count"));
+            String total = String.valueOf(donorsCount+receiversCount);
+            txtUsers.setText(total);
+            txtUsers.setVisible(true);
+        }
+        
+        
 
+
+    
+    
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -158,10 +227,13 @@ public class LoginScreen extends javax.swing.JFrame {
         lblErrConfirmPassword = new javax.swing.JLabel();
         lblErrPassword = new javax.swing.JLabel();
         lblErrContact = new javax.swing.JLabel();
-        chartPanel1 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtUsers = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(51, 255, 255));
 
         btnLoginTab.setText("LOGIN");
         btnLoginTab.setBorder(null);
@@ -182,7 +254,7 @@ public class LoginScreen extends javax.swing.JFrame {
         cardLayoutRegisterLoginPanel.setBackground(new java.awt.Color(255, 255, 255));
         cardLayoutRegisterLoginPanel.setLayout(new java.awt.CardLayout());
 
-        panelLogin.setBackground(new java.awt.Color(255, 255, 255));
+        panelLogin.setBackground(new java.awt.Color(153, 255, 153));
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -241,32 +313,34 @@ public class LoginScreen extends javax.swing.JFrame {
         panelLoginLayout.setHorizontalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLoginLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
                 .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(dropdownRole1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(38, 38, 38)
+                        .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelLoginLayout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(dropdownRole1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelLoginLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(lblTwoFa, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelLoginLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtTwofa, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblErrMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelLoginLayout.createSequentialGroup()
+                                .addGap(92, 92, 92)
+                                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(lblTwoFa, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTwofa, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblErrMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(25, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnTwoFA)
-                .addGap(123, 123, 123))
+                        .addGap(155, 155, 155)
+                        .addComponent(btnTwoFA)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         panelLoginLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel4, jLabel5, jLabel6});
@@ -296,9 +370,9 @@ public class LoginScreen extends javax.swing.JFrame {
                 .addComponent(lblErrMsg)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnTwoFA)
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLogin)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         panelLoginLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel4, jLabel5, jLabel6});
@@ -307,7 +381,7 @@ public class LoginScreen extends javax.swing.JFrame {
 
         cardLayoutRegisterLoginPanel.add(panelLogin, "card2");
 
-        panelRegister.setBackground(new java.awt.Color(255, 255, 255));
+        panelRegister.setBackground(new java.awt.Color(255, 255, 204));
 
         txtLastName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -459,11 +533,11 @@ public class LoginScreen extends javax.swing.JFrame {
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblErrFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                            .addComponent(lblErrFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                             .addComponent(lblErrLastName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblErrEmailId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblErrPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblErrContact, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                            .addComponent(lblErrContact, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                             .addComponent(lblErrConfirmPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(27, 27, 27))
         );
@@ -483,25 +557,25 @@ public class LoginScreen extends javax.swing.JFrame {
                             .addComponent(lblErrFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblErrLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                            .addComponent(lblErrLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                             .addGroup(panelRegisterLayout.createSequentialGroup()
                                 .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
                                     .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 21, Short.MAX_VALUE)))
+                                .addGap(0, 17, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtEmailReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel8))
                             .addComponent(lblErrEmailId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblErrPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel9)
                                 .addComponent(txtPasswordReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addGroup(panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel15)
@@ -533,55 +607,59 @@ public class LoginScreen extends javax.swing.JFrame {
 
         cardLayoutRegisterLoginPanel.add(panelRegister, "card3");
 
-        chartPanel1.setLayout(new javax.swing.BoxLayout(chartPanel1, javax.swing.BoxLayout.LINE_AXIS));
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 2, 48)); // NOI18N
+        jLabel2.setText("      HelpingHands");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 198, Short.MAX_VALUE)
-        );
+        jLabel3.setBackground(new java.awt.Color(153, 255, 51));
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel3.setText("Total Users");
+
+        txtUsers.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(chartPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(410, 410, 410)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnLoginTab, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRegisterTab)
-                        .addContainerGap(541, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(214, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(209, 209, 209))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnLoginTab, btnRegisterTab});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(123, 123, 123)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnLoginTab, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnRegisterTab))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(chartPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLoginTab, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegisterTab)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cardLayoutRegisterLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(123, 123, 123))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnLoginTab, btnRegisterTab});
@@ -624,6 +702,12 @@ public class LoginScreen extends javax.swing.JFrame {
         cardLayoutRegisterLoginPanel.add(panelLogin);
         cardLayoutRegisterLoginPanel.repaint();
         cardLayoutRegisterLoginPanel.revalidate();
+        try {
+            popUsers();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLoginTabActionPerformed
 
     private void btnRegisterTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterTabActionPerformed
@@ -875,9 +959,15 @@ public class LoginScreen extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                LoginScreen loginScreen = new LoginScreen();
-                loginScreen.setVisible(true);
-                loginScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                LoginScreen loginScreen;
+                try {
+                    loginScreen = new LoginScreen();
+                    loginScreen.setVisible(true);
+                    loginScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         });
     }
@@ -889,23 +979,24 @@ public class LoginScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnRegisterTab;
     private javax.swing.JButton btnTwoFA;
     private javax.swing.JPanel cardLayoutRegisterLoginPanel;
-    private javax.swing.JPanel chartPanel1;
     private javax.swing.JComboBox<String> combobxCountry;
     private javax.swing.JComboBox<String> combobxType;
     private javax.swing.JComboBox<String> combobxUserType;
     private javax.swing.JComboBox<String> dropdownRole1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblErrConfirmPassword;
     private javax.swing.JLabel lblErrContact;
     private javax.swing.JLabel lblErrEmailId;
@@ -924,6 +1015,7 @@ public class LoginScreen extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JPasswordField txtPasswordReg;
     private javax.swing.JPasswordField txtTwofa;
+    private javax.swing.JTextField txtUsers;
     // End of variables declaration//GEN-END:variables
     public void validateRole(String role, String email, String password) throws SQLException{
         if(role==null){
@@ -958,9 +1050,11 @@ public class LoginScreen extends javax.swing.JFrame {
                 if(receiverDirectory.validateReceiver(email,password)){
                     System.out.println("FOUND OUR WAY HERE");
                     navigateToReceiverLandingPage(email);
-                    return;                        
 
+                    return;                        
+                    
                 }
+                lblErrMsg.setText("Username not available in DB for this role");                
                 break;
             case "Donor":
                 if(donorDirectory.validateDonor(email,password)){
@@ -982,6 +1076,16 @@ public class LoginScreen extends javax.swing.JFrame {
                    lblErrMsg.setText("Username not available in DB for this role"); 
                 }
                 break;
+            case "Service Provider":
+                if(receiverDirectory.validateReceiver(email,password)){
+                    System.out.println("FOUND OUR WAY HERE");
+                    navigateToServiceLandingPage(email);
+
+                    return;                        
+                    
+                }
+                lblErrMsg.setText("Username not available in DB for this role");                
+                break;                
             case "Justice Dept.":
                 try {
                     JusticeDepartmentEmployee justiceDepartmentEmployee = validateUserLogin.validateJusticeLogin();
@@ -1051,6 +1155,25 @@ public class LoginScreen extends javax.swing.JFrame {
         
     } 
     
+    public void navigateToServiceLandingPage(String role){
+        String loggedInUser = null;        
+        if(role.trim().equals("shelter")){
+            loggedInUser = "shelter"+" - Natural Disasters - Service";
+        }
+        else if(role.trim().equals("meds")){
+            loggedInUser = "meds"+" - Healthcare - Service";
+        }
+        else{
+            loggedInUser = "book"+" - Education - Service";
+        }
+        dispose();
+        LandingPageFrame landingPage =  new LandingPageFrame(loggedInUser);
+        landingPage.setTitle("Dashboard");
+        landingPage.setVisible(true);
+        landingPage.remove(this);
+        
+    }     
+    
     private void switchLandingPage(LandingPageFrame landingPageFrame) {
         dispose();
         landingPageFrame.setTitle("Dashboard");
@@ -1063,6 +1186,7 @@ public class LoginScreen extends javax.swing.JFrame {
         LandingPageFrame landingPage =  new LandingPageFrame(loggedInUser);
         landingPage.setTitle("Dashboard");
         landingPage.setVisible(true);
+        
         Component[] componentList = landingPage.getComponents();
 
         //Loop through the components

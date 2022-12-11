@@ -13,6 +13,8 @@ import utilities.DbConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Calendar;
 
 /**
  *
@@ -118,5 +120,17 @@ public class CauseTicketDirectory {
         
         return tracker;
     }    
+
+    public void moneyReceived(int cause_Id,int receiver_Id) throws ParseException{
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String cd = dateFormat.format(cal.getTime());
+//        Date createdDate = dateFormat.parse(cd);
+//        System.out.println(createdDate);        
+        String query1 = "Update financialaiddb.causeticket set Money_Received = '"+cd
+                +"' where Cause_Id = "+cause_Id+" and Receiver_Id = "+receiver_Id+" ;";
+        System.out.println(query1);
+        DbConnection.query(query1);
+    }
     
 }

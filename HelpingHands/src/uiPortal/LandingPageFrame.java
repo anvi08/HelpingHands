@@ -5,8 +5,11 @@
 package uiPortal;
 
 //import uiPortal.Bank.BankLandingPage;
+import java.sql.SQLException;
 import uiPortal.Bank.BankLandingPage;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import profile.justiceDepartment.JusticeDepartmentEmployee;
@@ -15,6 +18,7 @@ import uiPortal.NGO.NGOLandingPage;
 import uiPortal.justiceDepartment.JusticeDepartmentEmployeePanel;
 import utilities.Constants;
 import uiPortal.justiceDepartment.JusticeDepartmentLandingPage;
+import uiPortal.serviceprovider.ServiceProviderLandingPage;
 import uiReceiver.ReceiverAssignCause;
 import uiReceiver.ReceiverLandingPage;
 
@@ -79,6 +83,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
         btnLogout = new javax.swing.JButton();
         btnBankLink = new javax.swing.JButton();
         btnJusticeLink = new javax.swing.JButton();
+        btnAnalytics1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -126,6 +131,13 @@ public class LandingPageFrame extends javax.swing.JFrame {
             }
         });
 
+        btnAnalytics1.setText("Analytics");
+        btnAnalytics1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnalytics1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -143,7 +155,8 @@ public class LandingPageFrame extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnJusticeLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnServiceLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))))
+                            .addComponent(btnServiceLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
+                    .addComponent(btnAnalytics1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -161,7 +174,9 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 .addComponent(btnJusticeLink)
                 .addGap(18, 18, 18)
                 .addComponent(btnServiceLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
+                .addComponent(btnAnalytics1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                 .addComponent(btnLogout))
         );
 
@@ -169,7 +184,8 @@ public class LandingPageFrame extends javax.swing.JFrame {
 
         jSplitPane.setLeftComponent(jPanel1);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 204));
+        jPanel2.setForeground(new java.awt.Color(255, 255, 204));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -202,9 +218,15 @@ public class LandingPageFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         dispose();
-        LoginScreen loginScreen = new LoginScreen();
-        loginScreen.setTitle("Dashboard");
-        loginScreen.setVisible(true);
+        LoginScreen loginScreen;
+        try {
+            loginScreen = new LoginScreen();
+            loginScreen.setTitle("Dashboard");
+            loginScreen.setVisible(true);            
+        } catch (SQLException ex) {
+            Logger.getLogger(LandingPageFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnNGOLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNGOLinkActionPerformed
@@ -228,6 +250,10 @@ public class LandingPageFrame extends javax.swing.JFrame {
         JusticeDepartmentLandingPage justiceDepartmentLandingPage = new JusticeDepartmentLandingPage();
         jSplitPane.setRightComponent(justiceDepartmentLandingPage);
     }//GEN-LAST:event_btnJusticeLinkActionPerformed
+
+    private void btnAnalytics1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalytics1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAnalytics1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
@@ -273,6 +299,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnalytics1;
     private javax.swing.JButton btnBankLink;
     private javax.swing.JButton btnJusticeLink;
     private javax.swing.JButton btnLogout;
@@ -294,10 +321,10 @@ public class LandingPageFrame extends javax.swing.JFrame {
 
             btnBankLink.setVisible(false);
             btnJusticeLink.setVisible(false);
-
+            btnServiceLink.setVisible(false);
             // btnBankLink.setVisible(false);
            // btnJusticeLink.setVisible(false);
-            btnServiceLink.setVisible(false);
+            btnAnalytics1.setVisible(false);
             jLabel1.setText(loggedInUser);
             jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
             jLabel1.setVerticalAlignment(SwingConstants.CENTER);            
@@ -311,6 +338,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
                // btnJusticeLink.setVisible(false);
                 btnServiceLink.setVisible(false);
                 btnNGOLink.setVisible(false);
+                btnAnalytics1.setVisible(false);                
                 ReceiverLandingPage receiverLandingPage = new ReceiverLandingPage(loggedInUser);
                 jSplitPane.setRightComponent(receiverLandingPage);            
                 return;
@@ -322,13 +350,23 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 // btnBankLink.setVisible(false);
                // btnJusticeLink.setVisible(false);
                 btnServiceLink.setVisible(false);
+                btnAnalytics1.setVisible(false);                
                 btnNGOLink.setVisible(false);
                 DonorLandingPage donorLandingPage = new DonorLandingPage(loggedInUser);
                 jSplitPane.setRightComponent(donorLandingPage);            
-                return;
-                
-                
-            }                  
+                return;   
+            } 
+            if(loggedInUser.contains("Service")){
+                btnBankLink.setVisible(false);
+                btnJusticeLink.setVisible(false);
+                jLabel1.setText(loggedInUser.split("-")[0].trim());
+                btnServiceLink.setVisible(false);
+                btnAnalytics1.setVisible(false);                
+                btnNGOLink.setVisible(false);
+                ServiceProviderLandingPage serviceProviderLanding = new ServiceProviderLandingPage(loggedInUser);
+                jSplitPane.setRightComponent(serviceProviderLanding);            
+                return;   
+            }             
         }catch(Exception e){
             System.out.println("WRONG");
         }

@@ -70,6 +70,7 @@
                                   <Component id="btnServiceLink" linkSize="1" alignment="1" pref="125" max="32767" attributes="0"/>
                               </Group>
                           </Group>
+                          <Component id="btnAnalytics1" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -87,7 +88,9 @@
                       <Component id="btnJusticeLink" linkSize="2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnServiceLink" linkSize="2" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace pref="150" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <Component id="btnAnalytics1" min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace pref="84" max="32767" attributes="0"/>
                       <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -151,12 +154,23 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnJusticeLinkActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JButton" name="btnAnalytics1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Analytics"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnalytics1ActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+              <Color blue="cc" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="cc" green="ff" red="ff" type="rgb"/>
             </Property>
           </Properties>
           <Constraints>

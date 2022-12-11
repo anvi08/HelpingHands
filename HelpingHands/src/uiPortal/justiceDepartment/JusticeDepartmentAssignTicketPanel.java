@@ -4,6 +4,8 @@
  */
 package uiPortal.justiceDepartment;
 
+import java.awt.HeadlessException;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,9 +83,27 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
     
     private void fetchTktData() {
         JusticeTicketDirectory jTicketDirectory = new JusticeTicketDirectory(null);
-        
+        String country = null; 
+        int empId = 0;
+        String empProfileRole = null;
+        if (justiceDepartmentEmployee != null) {
+            country = justiceDepartmentEmployee.getCountry();
+            empId = justiceDepartmentEmployee.getId();
+            empProfileRole = justiceDepartmentEmployee.getEmpType();
+        }
         try {
-            ArrayList<JusticeTicket>jTicketList = jTicketDirectory.fetchTicketDataForJsticeAdmin(justiceDepartmentEmployee.getCountry());
+            ArrayList<JusticeTicket>jTicketList = new ArrayList<JusticeTicket>();
+            if (viewUnAssignedTickets) {
+                 jTicketList = jTicketDirectory.fetchTicketDataForJsticeAdmin(country);
+            } else {
+                if (empProfileRole != null && empProfileRole.equals("EMPLOYEE")) {
+                    jTicketList = jTicketDirectory.fetchAssignedTickets(country, empId);
+                } else {
+                    jTicketList = jTicketDirectory.fetchAssignedTickets(country, 0);
+                }
+                 
+            }
+           justiceTicketTrackList = new ArrayList<JusticeTicketTrack>();
             for (JusticeTicket jTkt: jTicketList) { 
                JusticeTicketTrack justiceTicketTrack  = new JusticeTicketTrack(jTkt);
                 CauseTicket causeTicket = fetchCauseTicketData(jTkt.getCauseTktId());
@@ -107,6 +127,9 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
             
          if (justiceTicketTrackList != null && !justiceTicketTrackList.isEmpty()) {
              this.populateAssignTicketTable();
+         } else {
+               DefaultTableModel model = (DefaultTableModel)tblJusticeTickets.getModel();
+          model.setRowCount(0);
          }
         
     }  catch(Exception e) {
@@ -220,11 +243,11 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         txtReceiverCountry = new javax.swing.JTextField();
         panelCardLayout = new javax.swing.JPanel();
-        panelTrackDetails = new javax.swing.JPanel();
         panelAssignTickets = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpDetails = new javax.swing.JTable();
         btnAssignTickets = new javax.swing.JButton();
+        panelTrackDetails = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -264,6 +287,11 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
 
         btnViewUnassignedTkts.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnViewUnassignedTkts.setText("VIEW UNASSSIGNED TICKETS");
+        btnViewUnassignedTkts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewUnassignedTktsActionPerformed(evt);
+            }
+        });
 
         btnViewDetails.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnViewDetails.setText("VIEW");
@@ -295,22 +323,12 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
 
         jLabel9.setText("Donor Country:");
 
+        panelCardLayout.setBackground(new java.awt.Color(255, 255, 255));
         panelCardLayout.setLayout(new java.awt.CardLayout());
 
-        javax.swing.GroupLayout panelTrackDetailsLayout = new javax.swing.GroupLayout(panelTrackDetails);
-        panelTrackDetails.setLayout(panelTrackDetailsLayout);
-        panelTrackDetailsLayout.setHorizontalGroup(
-            panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 846, Short.MAX_VALUE)
-        );
-        panelTrackDetailsLayout.setVerticalGroup(
-            panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 271, Short.MAX_VALUE)
-        );
-
-        panelCardLayout.add(panelTrackDetails, "card3");
-
         panelAssignTickets.setBackground(new java.awt.Color(255, 255, 255));
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
         tblEmpDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -361,6 +379,21 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
         );
 
         panelCardLayout.add(panelAssignTickets, "card3");
+
+        panelTrackDetails.setBackground(new java.awt.Color(204, 204, 204));
+
+        javax.swing.GroupLayout panelTrackDetailsLayout = new javax.swing.GroupLayout(panelTrackDetails);
+        panelTrackDetails.setLayout(panelTrackDetailsLayout);
+        panelTrackDetailsLayout.setHorizontalGroup(
+            panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 846, Short.MAX_VALUE)
+        );
+        panelTrackDetailsLayout.setVerticalGroup(
+            panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 271, Short.MAX_VALUE)
+        );
+
+        panelCardLayout.add(panelTrackDetails, "card3");
 
         btnCancel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnCancel.setText("CANCEL");
@@ -425,11 +458,12 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNgoOrg, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCauseName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCauseName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNgoOrg, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -522,13 +556,15 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
              txtNgoOrg.setText(selectedJusticeTicketTrack.getCause().getNgoOrg());
              if (selectedJusticeTicketTrack.getDonor().getFirstName() != null && !selectedJusticeTicketTrack.getDonor().getFirstName().trim().equals("")) {
                  if (selectedJusticeTicketTrack.getDonor().getLastName()!= null && !selectedJusticeTicketTrack.getDonor().getLastName().trim().equals("")) {
-                txtDonorName.setText(selectedJusticeTicketTrack.getDonor().getFirstName() + " " + selectedJusticeTicketTrack.getDonor().getLastName());
+                     String fullName = selectedJusticeTicketTrack.getDonor().getFirstName() + " " + selectedJusticeTicketTrack.getDonor().getLastName();
+                txtDonorName.setText(fullName);
              } 
                 txtDonorName.setText(selectedJusticeTicketTrack.getDonor().getFirstName());
              } 
              if (selectedJusticeTicketTrack.getReceiver().getFirstName() != null && !selectedJusticeTicketTrack.getReceiver().getFirstName().trim().equals("")) {
                  if (selectedJusticeTicketTrack.getReceiver().getLastName()!= null && !selectedJusticeTicketTrack.getReceiver().getLastName().trim().equals("")) {
-                txtReceiverName.setText(selectedJusticeTicketTrack.getReceiver().getFirstName() + " " + selectedJusticeTicketTrack.getReceiver().getLastName());
+                 String fullName = selectedJusticeTicketTrack.getReceiver().getFirstName() + " " + selectedJusticeTicketTrack.getReceiver().getLastName();
+                 txtReceiverName.setText(fullName);
              } 
                 txtReceiverName.setText(selectedJusticeTicketTrack.getReceiver().getFirstName());
              } 
@@ -560,6 +596,11 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
             panelCardLayout.add(panelAssignTickets);
             panelCardLayout.repaint();
             panelCardLayout.revalidate();
+        } else {
+            panelCardLayout.removeAll();
+            panelCardLayout.add(panelTrackDetails);
+            panelCardLayout.repaint();
+            panelCardLayout.revalidate(); 
         }
         
         
@@ -586,15 +627,79 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
     
     private void btnViewAssignedTktsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewAssignedTktsActionPerformed
         // TODO add your handling code here:
+        viewUnAssignedTickets = false;
+        setLableForTable(viewUnAssignedTickets);
+        emptyInputFields();
+        emptyEmpTable();
+        updateDetailsPanel.setVisible(false);
+        fetchTktData();
     }//GEN-LAST:event_btnViewAssignedTktsActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
+        emptyInputFields();
+        emptyEmpTable();
+        updateDetailsPanel.setVisible(false);
+        selectedJusticeTicketTrack = null;
+    
     }//GEN-LAST:event_btnCancelActionPerformed
-
+    
+    private void emptyInputFields() {
+        txtCauseName.setText("");
+        txtDonorCountry.setText("");
+        txtDonorEmail.setText("");
+        txtDonorName.setText("");
+        txtNgoOrg.setText("");
+        txtReceiverCountry.setText("");
+        txtReceiverName.setText("");
+        txtReceiverEmail.setText("");
+        
+    }
+    
+    private void emptyEmpTable() {
+        DefaultTableModel model = (DefaultTableModel)tblEmpDetails.getModel();
+        model.setRowCount(0);
+    }
+    
+    
     private void btnAssignTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAssignTicketsActionPerformed
         // TODO add your handling code here:
+        if (justiceDepartmentEmployeeList != null && !justiceDepartmentEmployeeList.isEmpty()) {
+            int selectedRow = tblEmpDetails.getSelectedRow();
+            if (selectedRow < 0) {
+                JOptionPane.showMessageDialog(this, "Select one row to Assign Tickets");
+                return;
+            }
+            JusticeDepartmentEmployee selectedJusticeDeptEmployee = justiceDepartmentEmployeeList.get(selectedRow);
+            JusticeTicketDirectory justiceTicketDirectory = new JusticeTicketDirectory(null);
+            try {
+                int jTktid = selectedJusticeTicketTrack.getjTkt().getjTktId();
+                int empId = selectedJusticeDeptEmployee.getId();
+                justiceTicketDirectory.assignJusticeEmployeeToTicket(jTktid,empId);
+                JOptionPane.showMessageDialog(this, "Ticket assigned");
+                fetchTktData();
+            } catch (HeadlessException | SQLException e){
+                System.out.println(e);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No employee present to assign tickets.");
+            return;
+        }
+        
+        
+        
     }//GEN-LAST:event_btnAssignTicketsActionPerformed
+
+    private void btnViewUnassignedTktsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewUnassignedTktsActionPerformed
+        // TODO add your handling code here:
+        viewUnAssignedTickets = true;
+        setLableForTable(viewUnAssignedTickets);
+        emptyInputFields();
+        emptyEmpTable();
+        updateDetailsPanel.setVisible(false);
+        fetchTktData();
+        
+    }//GEN-LAST:event_btnViewUnassignedTktsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

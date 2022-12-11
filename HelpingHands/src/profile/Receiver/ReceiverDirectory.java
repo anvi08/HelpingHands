@@ -27,7 +27,7 @@ public class ReceiverDirectory {
         ArrayList<Cause> allReceiver = new ArrayList();
 
         String tableQuery = "Select * from cause where country = '"+ country +"' and `R_Category` = '"+r_Categeory+
-                    "' and NGO_Org = '"+ cause1 + "';";
+                    "' and NGO_Org = '"+ cause1 + "' and R_Id is null;";
         System.out.println(tableQuery); 
         ResultSet resultSet = DbConnection.selectQuery(tableQuery); 
 //        ResultSet resultSet = DbConnection.selectQuery(query1);    
@@ -107,6 +107,11 @@ public class ReceiverDirectory {
         ResultSet resultSet = DbConnection.selectQuery(query); 
         return resultSet;
     }
+    public ResultSet getReceiverCount(){
+        String query = "Select count(*) as Count from receivertable;";
+        ResultSet resultSet = DbConnection.selectQuery(query); 
+        return resultSet;
+    }
     
     public void updateCause(int rId,int causeId){
         String sql = "UPDATE cause SET R_Id = "+ rId+" where Cause_Id = " + causeId  + ";";
@@ -137,7 +142,7 @@ public class ReceiverDirectory {
         }
         return allReceiver;           
     }
-    
+
     public Receiver fetchReceiverById(int receiverId) throws SQLException {
         Receiver reciever = null;
         String query = "select * from receivertable where ID = " + receiverId + ";";
@@ -154,6 +159,10 @@ public class ReceiverDirectory {
         }
         return receiver;
     }
-    
+    public ResultSet getCauseBackground(int causeId){
+        String query = "Select * from financialaiddb.cause a inner Join financialaiddb.receivertable b on a.R_Id = b.ID where Cause_Id = "+causeId+";";
+        ResultSet resultSet = DbConnection.selectQuery(query); 
+        return resultSet;
+    }
     
 }

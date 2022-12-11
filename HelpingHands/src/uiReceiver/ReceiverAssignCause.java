@@ -114,7 +114,7 @@ public class ReceiverAssignCause extends javax.swing.JPanel {
 
         jLabel1.setText("Select Cause");
 
-        btnSearch.setText("Search");
+        btnSearch.setText("Search Cause");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);

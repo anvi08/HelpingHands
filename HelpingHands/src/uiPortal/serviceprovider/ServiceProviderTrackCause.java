@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package uiReceiver;
+package uiPortal.serviceprovider;
 
+import uiReceiver.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
@@ -35,13 +36,15 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import profile.Receiver.Receiver;
 import profile.Receiver.ReceiverDirectory;
+import profile.serviceprovider.ServiceProvider;
+import profile.serviceprovider.ServiceProviderDirectory;
 import uiDonor.DonorTrackCause;
 
 /**
  *
  * @author abhis
  */
-public class ReceiverTrackCause extends javax.swing.JPanel {
+public class ServiceProviderTrackCause extends javax.swing.JPanel {
 
     /**
      * Creates new form ReceiverTrackCause
@@ -53,14 +56,19 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
     Receiver receiver;    
     private int receiverID;
     CauseTicketDirectory causeTicketDirectory;
-    CauseTicket causeTicket;     
-    public ReceiverTrackCause(int receiverID) throws SQLException {
+    CauseTicket causeTicket;  
+    ServiceProviderDirectory serviceProviderDirectory;
+    ServiceProvider serviceProvider;    
+    public ServiceProviderTrackCause(int receiverID, String loggedInUser) throws SQLException {
         initComponents();
         this.receiverID = receiverID;
+        this.loggedInUser = loggedInUser;
         this.causeDirectory = new CauseDirectory(cause);
         this.receiverDirectory = new ReceiverDirectory(receiver);
         this.causeTicketDirectory = new CauseTicketDirectory(causeTicket);
-        popReceiverTable(receiverDirectory.trackCause(receiverID));
+        this.serviceProviderDirectory = new ServiceProviderDirectory(serviceProvider);
+        System.out.println("HERE");
+        popReceiverTable(serviceProviderDirectory.trackCause(loggedInUser.split("-")[1].trim(), receiverID));
         jProgressBar1.setVisible(false);
         panelJudiciary1.setVisible(false);        
         btnReceived.setVisible(false);        
@@ -252,7 +260,7 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelTracker, javax.swing.GroupLayout.PREFERRED_SIZE, 985, Short.MAX_VALUE)
+            .addComponent(panelTracker, javax.swing.GroupLayout.DEFAULT_SIZE, 985, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,9 +439,9 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ReceiverTrackCause.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiceProviderTrackCause.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            Logger.getLogger(ReceiverTrackCause.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiceProviderTrackCause.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnReceivedActionPerformed
 

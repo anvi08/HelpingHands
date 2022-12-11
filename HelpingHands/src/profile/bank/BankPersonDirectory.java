@@ -26,15 +26,17 @@ public class BankPersonDirectory {
     }
     
     
-    public ArrayList<BankPerson> populateBankPerson(String query)throws SQLException{
+    public ArrayList<BankPerson> populateBankPerson()throws SQLException{
         
             ArrayList<BankPerson> allBankPersons = new ArrayList();
             
-            query = "Select * from financialaiddb.bankemployee;";
+            String query = "Select * from bankemployee;";
             ResultSet resultset = DbConnection.selectQuery(query);
+            System.out.println("resultSet " +resultset );
             //System.out.println("profile.bank.BankPersonDirectory.populateBankPerson()");
             while(resultset.next()){
                 int bankPersonId = resultset.getInt("Bank_Id");
+                System.out.println(bankPersonId);
                 String firstName =resultset.getString("First_Name");
                 String lastName = resultset.getString("Last_Name");
                 String email = resultset.getString("Email_Id");
@@ -46,17 +48,113 @@ public class BankPersonDirectory {
                 
                 BankPerson newbankPerson = new BankPerson(firstName, lastName, email, password, empType, bankName, status, country);
                 newbankPerson.setBankPersonId(bankPersonId);
-                this.allBankPersons.add(newbankPerson);
+                allBankPersons.add(newbankPerson);
             }
-            System.out.println(this.allBankPersons.isEmpty());
             
-            
+        return allBankPersons;
+    }
+    
+    public ArrayList<BankPerson> populateActiveBp() throws SQLException{
         
-        return this.allBankPersons;
+        
+        ArrayList<BankPerson> activeBankPersons = new ArrayList();
+        String query = "Select * from bankemployee where Status = 1;";
+        ResultSet resultset = DbConnection.selectQuery(query);
+        while(resultset.next()){
+                int bankPersonId = resultset.getInt("Bank_Id");
+                System.out.println(bankPersonId);
+                String firstName =resultset.getString("First_Name");
+                String lastName = resultset.getString("Last_Name");
+                String email = resultset.getString("Email_Id");
+                String password = resultset.getString("Password");
+                String empType = resultset.getString("Type");
+                String bankName = resultset.getString("Bank_Name");
+                boolean status = resultset.getBoolean("Status");
+                String country = resultset.getString("Country");
+                
+                BankPerson newbankPerson = new BankPerson(firstName, lastName, email, password, empType, bankName, status, country);
+                newbankPerson.setBankPersonId(bankPersonId);
+                activeBankPersons.add(newbankPerson);
+            }
+        return activeBankPersons;
+    }
+    
+    public ArrayList<BankPerson> populateCountryActiveBp(String userCountry) throws SQLException{
+        
+        
+        ArrayList<BankPerson> activeBankPersons = new ArrayList();
+        String userType ="EMPLOYEE";
+        String query = "Select * from bankemployee where Status = 1 and Country = '"+userCountry+"' and Type = '"+userType+"';";
+        ResultSet resultset = DbConnection.selectQuery(query);
+        while(resultset.next()){
+                int bankPersonId = resultset.getInt("Bank_Id");
+                System.out.println(bankPersonId);
+                String firstName =resultset.getString("First_Name");
+                String lastName = resultset.getString("Last_Name");
+                String email = resultset.getString("Email_Id");
+                String password = resultset.getString("Password");
+                String empType = resultset.getString("Type");
+                String bankName = resultset.getString("Bank_Name");
+                boolean status = resultset.getBoolean("Status");
+                String country = resultset.getString("Country");
+                
+                BankPerson newbankPerson = new BankPerson(firstName, lastName, email, password, empType, bankName, status, country);
+                newbankPerson.setBankPersonId(bankPersonId);
+                activeBankPersons.add(newbankPerson);
+            }
+        return activeBankPersons;
+    }
+    
+    public ArrayList<BankPerson> populateCountryInactiveBp(String userCountry) throws SQLException{
+        ArrayList<BankPerson> inactiveBankPersons = new ArrayList();
+        String userType ="EMPLOYEE";
+        String query = "Select * from bankemployee where Status = 0 and Country = '"+userCountry+"' and Type = '"+userType+"';";
+        ResultSet resultset = DbConnection.selectQuery(query);
+        while(resultset.next()){
+                int bankPersonId = resultset.getInt("Bank_Id");
+                System.out.println(bankPersonId);
+                String firstName =resultset.getString("First_Name");
+                String lastName = resultset.getString("Last_Name");
+                String email = resultset.getString("Email_Id");
+                String password = resultset.getString("Password");
+                String empType = resultset.getString("Type");
+                String bankName = resultset.getString("Bank_Name");
+                boolean status = resultset.getBoolean("Status");
+                String country = resultset.getString("Country");
+                
+                BankPerson newbankPerson = new BankPerson(firstName, lastName, email, password, empType, bankName, status, country);
+                newbankPerson.setBankPersonId(bankPersonId);
+                inactiveBankPersons.add(newbankPerson);
+            }
+        return inactiveBankPersons;
+    }
+    
+    public ArrayList<BankPerson> populateInactiveBp() throws SQLException{
+        ArrayList<BankPerson> inactiveBankPersons = new ArrayList();
+        //String userType ="EMPLOYEE";
+        String query = "Select * from bankemployee where Status = 0";
+        ResultSet resultset = DbConnection.selectQuery(query);
+        while(resultset.next()){
+                int bankPersonId = resultset.getInt("Bank_Id");
+                System.out.println(bankPersonId);
+                String firstName =resultset.getString("First_Name");
+                String lastName = resultset.getString("Last_Name");
+                String email = resultset.getString("Email_Id");
+                String password = resultset.getString("Password");
+                String empType = resultset.getString("Type");
+                String bankName = resultset.getString("Bank_Name");
+                boolean status = resultset.getBoolean("Status");
+                String country = resultset.getString("Country");
+                
+                BankPerson newbankPerson = new BankPerson(firstName, lastName, email, password, empType, bankName, status, country);
+                newbankPerson.setBankPersonId(bankPersonId);
+                inactiveBankPersons.add(newbankPerson);
+            }
+        return inactiveBankPersons;
     }
     
     public void addBankPerson(){
-        int status = bankPerson.isStatus() == false ? 0 : 1;
+        int status = 1;
         //boolean status = false;
         System.out.println("Status "+bankPerson.isStatus());
         //System.out.println(status);
@@ -75,9 +173,18 @@ public class BankPersonDirectory {
     }
     */
     
-    public void deleteBankPerson(String firstName){
-        String deleteQuery = "Delete from financialaiddb.bankemployee where First_Name = '" + firstName + "';";        
+    public void deleteBankPerson(String email){
+       // String deleteQuery = "Delete from financialaiddb.bankemployee where Email_id = '" + email + "';";  
+        String deleteQuery = "Update financialaiddb.bankemployee set Status = 0 where Email_id = '" + email + "';";
         DbConnection.query(deleteQuery);        
     }
+    
+    public void updateBankPerson(int bankPersonId, BankPerson bp){
+        
+        String updateQuery = "Update financialaiddb.bankemployee set First_Name ='"+ bp.getFirstName() +"' ,Last_Name ='"+ bp.getLastName()+"',Country = '"+bp.getCountry()+"', Type = '"+bp.getEmpType() +"' where Email_id = '"+bp.getEmail()+"'; ";
+        DbConnection.query(updateQuery);
+    }
+    
+    
     
 }

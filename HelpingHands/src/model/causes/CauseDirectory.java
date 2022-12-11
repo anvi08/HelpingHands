@@ -155,6 +155,13 @@ public class CauseDirectory {
         DbConnection.query(sql);
     }    
 
+    public ResultSet getCauseOrgs(){
+        String query = "Select count(Cause_Name) as Count,NGO_Org from  financialaiddb.cause group by NGO_Org;";
+        ResultSet resultSet = DbConnection.selectQuery(query); 
+        return resultSet;
+    }    
+    
+    
     public void updateCause(Cause cause, int causeId){
         
         int status = cause.isStatus() == false ? 0 : 1;

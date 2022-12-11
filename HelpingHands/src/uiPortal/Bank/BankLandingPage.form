@@ -43,11 +43,13 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="340" max="32767" attributes="0"/>
+                  <EmptySpace pref="319" max="32767" attributes="0"/>
                   <Component id="btnCreateBankUser" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnViewBankUser" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="btnAssignTicket" min="-2" pref="112" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -58,6 +60,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnCreateBankUser" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnViewBankUser" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAssignTicket" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -79,6 +82,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewBankUserActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnAssignTicket">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Assign Tickets"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAssignTicketActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -15,8 +15,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import profile.bank.BankPerson;
 import profile.justiceDepartment.JusticeDepartmentEmployee;
 import uiDonor.DonorLandingPage;
+import uiPortal.Bank.BankEmployeePanel;
 import uiPortal.NGO.NGOLandingPage;
 import uiPortal.justiceDepartment.JusticeDepartmentEmployeePanel;
 import utilities.Constants;
@@ -58,6 +60,13 @@ public class LandingPageFrame extends javax.swing.JFrame {
         setJusticeLandingPage(justiceDepartmentEmp.getEmpType(), justiceDepartmentEmp);
     }
     
+    public LandingPageFrame(BankPerson bp) {
+        initComponents();
+        this.loggedInUser = bp.getFirstName() + " " + bp.getLastName();
+        setBankLoginFrame();
+        setBankLandingPage(bp.getEmpType(), bp);
+    }
+    
     private void setJusticeLandingPage(String empType, JusticeDepartmentEmployee justiceDepartmentEmp) {
         switch(empType) {
             case "ADMIN":
@@ -65,14 +74,35 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 jSplitPane.setRightComponent(justiceDepartmentLandingPage);
                 break;
             case "EMPLOYEE":
-                JusticeDepartmentEmployeePanel justiceDepartmentEmployeePanel = new JusticeDepartmentEmployeePanel();
+                JusticeDepartmentEmployeePanel justiceDepartmentEmployeePanel = new JusticeDepartmentEmployeePanel(justiceDepartmentEmp);
                 jSplitPane.setRightComponent(justiceDepartmentEmployeePanel);
+                break;
+        } 
+    }
+    
+    private void setBankLandingPage(String empType, BankPerson bp) {
+        switch(empType) {
+            case "ADMIN":
+                //BankLandingPage justiceDepartmentLandingPage = new JusticeDepartmentLandingPage(justiceDepartmentEmp);
+                BankLandingPage bankLandingPage = new BankLandingPage(bp);
+                jSplitPane.setRightComponent(bankLandingPage);
+                break;
+            case "EMPLOYEE":
+                BankEmployeePanel bankEmployeePanel = new BankEmployeePanel();
+                jSplitPane.setRightComponent(bankEmployeePanel);
                 break;
         } 
     }
 
     
     private void setJusticeLoginFrame() {
+        btnNGOLink.setVisible(false);
+        btnBankLink.setVisible(false);
+        btnServiceLink.setVisible(false);
+        btnJusticeLink.setVisible(false);
+    }
+    
+    private void setBankLoginFrame(){
         btnNGOLink.setVisible(false);
         btnBankLink.setVisible(false);
         btnServiceLink.setVisible(false);

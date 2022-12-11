@@ -92,6 +92,11 @@ public class JusticeTicket {
     public void setjCountry(String jCOuntry) {
         this.jCountry = jCOuntry;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(jTktId);
+    }
     
     
 }

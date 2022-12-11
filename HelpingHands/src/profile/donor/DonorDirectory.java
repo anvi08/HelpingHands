@@ -183,6 +183,23 @@ public class DonorDirectory {
             return true;
         }
 
-    }    
+    }  
+    
+    public Donor fetchDonorById(int donorId) throws  SQLException{
+        Donor donor = null;
+        String query = "select * from donortable where ID = " + donorId + ";";
+        ResultSet resultSet = DbConnection.selectQuery(query);
+        while (resultSet.next()) {
+            String firstName = resultSet.getString("First_Name");
+            String lastName = resultSet.getString("Last_Name");
+            String emailId = resultSet.getString("Email");
+            String password = resultSet.getString("Password");
+            String type = resultSet.getString("Type");
+            String country = resultSet.getString("Country");
+            
+            donor = new Donor(firstName, lastName, emailId, password, null, country, type);
+        }
+        return donor;
+    }
 
 }

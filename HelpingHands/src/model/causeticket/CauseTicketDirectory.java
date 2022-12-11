@@ -134,7 +134,26 @@ public class CauseTicketDirectory {
         System.out.println(query1);
         DbConnection.query(query1);
     }
-    
 
-    
+    public CauseTicket fetchCauseTicketData(int causeTktId) throws SQLException {
+        CauseTicket causeTicket = null;
+        String query = "select * from causeticket where SNo = " + causeTktId + ";";
+        ResultSet resultSet = DbConnection.selectQuery(query); 
+        while (resultSet.next()) {
+            int donorId = Integer.valueOf(resultSet.getString("Donor_Id"));
+            int receiverId = Integer.valueOf(resultSet.getString("Receiver_Id"));
+            int causeId = Integer.valueOf(resultSet.getString("Cause_Id"));
+            Date createdDate = resultSet.getDate("Created_Date");
+            Date moneyDonorCountry = resultSet.getDate("Money_Donor_Country"); 
+            Date moneyReceiverCountry = resultSet.getDate("Money_Received"); 
+            Date moneyReceived = resultSet.getDate("Money_Received");
+            String donorCountry = resultSet.getString("Donor_Country"); 
+            String receivingCountry = resultSet.getString("Receiving_Country");
+            int amount = Integer.valueOf(resultSet.getString("Amount"));
+            
+            causeTicket = new CauseTicket(donorId,receiverId,causeId,createdDate,moneyDonorCountry,moneyReceiverCountry,moneyReceived,donorCountry,receivingCountry,amount);
+        }
+        return causeTicket;
+    }
+
 }

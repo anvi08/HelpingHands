@@ -7,18 +7,25 @@ package uiPortal.Bank;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import profile.bank.BankPerson;
 
 /**
  *
- * @author HP
+ * @author Anvi Jain
  */
 public class BankLandingPage extends javax.swing.JPanel {
 
     /**
      * Creates new form BankLandingPage
      */
+    BankPerson bankPerson = null;
     public BankLandingPage() {
         initComponents();
+    }
+    
+    public BankLandingPage(BankPerson bp) {
+        initComponents();
+        this.bankPerson = bp;
     }
     
     
@@ -101,23 +108,41 @@ public class BankLandingPage extends javax.swing.JPanel {
         cardLayoutPanel.add(ngoCreateCausePanel);
         cardLayoutPanel.repaint();
         cardLayoutPanel.revalidate();*/
+        if(bankPerson == null){
+            BankCreateUserPanel bankCreateUserPanel = new BankCreateUserPanel();
+            bankCardLayoutPanel.removeAll();
+            bankCardLayoutPanel.add(bankCreateUserPanel);
+            bankCardLayoutPanel.repaint();
+            bankCardLayoutPanel.revalidate();
+        }else{
+            BankCreateUserPanel bankCreateUserPanel = new BankCreateUserPanel(bankPerson);
+            bankCardLayoutPanel.removeAll();
+            bankCardLayoutPanel.add(bankCreateUserPanel);
+            bankCardLayoutPanel.repaint();
+            bankCardLayoutPanel.revalidate();
+        }
         
-        BankCreateUserPanel bankCreateUserPanel = new BankCreateUserPanel();
-        bankCardLayoutPanel.removeAll();
-        bankCardLayoutPanel.add(bankCreateUserPanel);
-        bankCardLayoutPanel.repaint();
-        bankCardLayoutPanel.revalidate();
+        
         
     }//GEN-LAST:event_btnCreateBankUserActionPerformed
 
     private void btnViewBankUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewBankUserActionPerformed
         try {
             // TODO add your handling code here:
-            BankViewUserPanel bankViewUserPanel = new BankViewUserPanel();
-            bankCardLayoutPanel.removeAll();
-            bankCardLayoutPanel.add(bankViewUserPanel);
-            bankCardLayoutPanel.repaint();
-            bankCardLayoutPanel.revalidate();
+            if(bankPerson == null){
+                BankViewUserPanel bankViewUserPanel = new BankViewUserPanel();
+                bankCardLayoutPanel.removeAll();
+                bankCardLayoutPanel.add(bankViewUserPanel);
+                bankCardLayoutPanel.repaint();
+                bankCardLayoutPanel.revalidate();
+            }else{
+                BankViewUserPanel bankViewUserPanel = new BankViewUserPanel(bankPerson);
+                bankCardLayoutPanel.removeAll();
+                bankCardLayoutPanel.add(bankViewUserPanel);
+                bankCardLayoutPanel.repaint();
+                bankCardLayoutPanel.revalidate();
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(BankLandingPage.class.getName()).log(Level.SEVERE, null, ex);
         }

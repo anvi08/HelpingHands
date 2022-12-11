@@ -53,6 +53,7 @@ import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
+import profile.bank.BankPerson;
 import profile.justiceDepartment.JusticeDepartmentEmployee;
 /**
  *
@@ -683,9 +684,12 @@ public class LoginScreen extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here: 
+        
         String emailId = txtEmail.getText();
         String password =String.valueOf(txtPassword.getPassword());
         String role = (String)dropdownRole1.getSelectedItem();
+        
+        
         if (emailId == null || emailId.trim().equals("") || password == null || password.equals("")) {
             lblErrMsg.setText("User Name or Password cannot be empty.");
         } else {
@@ -1072,7 +1076,29 @@ public class LoginScreen extends javax.swing.JFrame {
                 navigateToLandingPage();
                 break;
                 
-            case "BANK":
+            case "Bank":
+
+                BankPerson bp = validateUserLogin.bankEmployeeLogin();
+                if(bp != null){
+                    String dbPassword = bp.getPassword();
+                    if (password.trim().equals(dbPassword.trim())) {
+                        if (bp.isStatus()) {
+                            LandingPageFrame landingPage =  new LandingPageFrame(bp);
+                            switchLandingPage(landingPage);
+                        }else{
+                            lblErrMsg.setText("User is Inactive"); 
+                            return;
+                        }
+                        
+                    }else{
+                        lblErrMsg.setText("Username or password is wrong"); 
+                        return;
+                    }
+                }else{
+                    lblErrMsg.setText("Username not available in DB for this role");  
+                    break;
+                }
+               
                 
                 break;
                 

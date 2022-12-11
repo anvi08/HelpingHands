@@ -31,6 +31,7 @@ public class DbConnection {
     public static void connection(){
        try{
             connection = DriverManager.getConnection(URL, USER_NAME, ABHI_PASSWORD);
+
             statement = connection.createStatement();
             System.out.println("Connection Opened");
         }catch(SQLException e){            

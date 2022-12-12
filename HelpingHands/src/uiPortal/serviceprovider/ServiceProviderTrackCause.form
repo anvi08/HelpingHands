@@ -16,7 +16,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panelTracker" alignment="0" pref="985" max="32767" attributes="0"/>
+          <Component id="panelTracker" alignment="0" pref="0" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -33,11 +33,15 @@
                               <Component id="btnReceived" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                               <Component id="btnHelp2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                              <Component id="lblReq" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="txtReq" min="-2" pref="90" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="41" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -53,6 +57,8 @@
                           <Component id="btnTrack" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnHelp2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnReceived" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblReq" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtReq" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -287,6 +293,13 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReceivedActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblReq">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Requirement Status"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtReq">
     </Component>
   </SubComponents>
 </Form>

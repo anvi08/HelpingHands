@@ -8,9 +8,11 @@ import uiPortal.NGO.*;
 import utilities.DbConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import profile.Receiver.Receiver;
 import profile.serviceprovider.ServiceProvider;
 import profile.serviceprovider.ServiceProviderDirectory;
 /**
@@ -40,9 +42,23 @@ public class ServiceProviderLandingPage extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        cardLayoutPanel = new javax.swing.JPanel();
         btnTrackCause = new javax.swing.JButton();
         btnAssignCause = new javax.swing.JButton();
-        cardLayoutPanel = new javax.swing.JPanel();
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 645, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 38, Short.MAX_VALUE)
+        );
+
+        cardLayoutPanel.setBackground(new java.awt.Color(255, 255, 255));
+        cardLayoutPanel.setLayout(new java.awt.CardLayout());
 
         btnTrackCause.setBackground(new java.awt.Color(0, 153, 0));
         btnTrackCause.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -63,30 +79,6 @@ public class ServiceProviderLandingPage extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(382, Short.MAX_VALUE)
-                .addComponent(btnTrackCause)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAssignCause)
-                .addGap(35, 35, 35))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTrackCause)
-                    .addComponent(btnAssignCause))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        cardLayoutPanel.setBackground(new java.awt.Color(255, 255, 255));
-        cardLayoutPanel.setLayout(new java.awt.CardLayout());
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -94,12 +86,22 @@ public class ServiceProviderLandingPage extends javax.swing.JPanel {
             .addComponent(cardLayoutPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTrackCause)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAssignCause)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnTrackCause)
+                            .addComponent(btnAssignCause))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cardLayoutPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -109,19 +111,25 @@ public class ServiceProviderLandingPage extends javax.swing.JPanel {
         // TODO add your handling code here:
         
         
-        
+        ArrayList<Receiver> allReceivers = null;
 
         try {
-            
-            ResultSet resultSet = serviceProviderDirectory.getService(loggedInUser);
-            while(resultSet.next()){
-                int id1 = Integer.valueOf(resultSet.getString("Id"));
+            if(loggedInUser!=null){
+                allReceivers = serviceProviderDirectory.getService(loggedInUser);
+                int id1 = Integer.valueOf(allReceivers.get(0).getId());
                 ServiceProviderTrackCause ngoCreateCausePanel = new ServiceProviderTrackCause(id1,loggedInUser);            
                 cardLayoutPanel.removeAll();
                 cardLayoutPanel.add(ngoCreateCausePanel);
                 cardLayoutPanel.repaint();
-                cardLayoutPanel.revalidate();                 
+                cardLayoutPanel.revalidate();                                
+            }else{
+                    ServiceProviderTrackCause ngoCreateCausePanel = new ServiceProviderTrackCause(0,null);            
+                    cardLayoutPanel.removeAll();
+                    cardLayoutPanel.add(ngoCreateCausePanel);
+                    cardLayoutPanel.repaint();
+                    cardLayoutPanel.revalidate();                   
             }
+
             
             
                    

@@ -171,12 +171,35 @@ public class CauseDirectory {
                    "' where Cause_Id = " + causeId +";"; 
         DbConnection.query(updateQuery);
     }        
-    
+
+    public void updateAmount(int amount,int causeId){
+        
+        String updateQuery = "Update financialaiddb.cause Set Requirement = "+ String.valueOf(amount)+" where Cause_Id = " + causeId +";";  
+        System.out.println("AMount "+updateQuery);
+        DbConnection.query(updateQuery);
+    }        
     public void deletCause(String causeName){
             String deleteQuery = "Delete from financialaiddb.cause where Cause_Name = '" + causeName + "';";        
             DbConnection.query(deleteQuery);        
     }
     
+    public int Requirement(int causeId) throws SQLException{
+        int reqd = 0;
+        String query2 = "Select Requirement from financialaiddb.cause where Cause_Id = "+causeId+";";
+        ResultSet resultSet = DbConnection.selectQuery(query2); 
+        while(resultSet.next()){
+            reqd  = Integer.parseInt(resultSet.getString("Requirement"));    
+
+        }
+        return reqd;
+    }
+
+    public ResultSet userGraph(){
+        String query = "Select count(*) as Unit,Country from  financialaiddb.receivertable where Country != '' group by Country;";
+        ResultSet resultSet = DbConnection.selectQuery(query);    
+        return resultSet;
+    }
+
     public Cause fetchCauseById(int causeId) throws SQLException {
         Cause cause = null;
         String query = "select * from cause where Cause_Id = " + causeId + ";";
@@ -198,5 +221,5 @@ public class CauseDirectory {
         }
         return cause;
     }
-    
+
 }

@@ -16,6 +16,7 @@ import profile.Receiver.Receiver;
 import profile.Receiver.ReceiverDirectory;
 import profile.serviceprovider.ServiceProvider;
 import profile.serviceprovider.ServiceProviderDirectory;
+import uiDonor.DonorAssignCause;
 import uiReceiver.ReceiverAssignCause;
 import utilities.Constants;
 
@@ -39,17 +40,43 @@ public class ServiceProviderAssign extends javax.swing.JPanel {
         initComponents();
         this.causeDirectory = new CauseDirectory(cause);        
         this.loggedInUser = loggedInUser;
-        btnSearch.setVisible(false);
+
         this.receiverDirectory = new ReceiverDirectory(receiver);
         this.serviceProviderDirectory = new ServiceProviderDirectory(serviceProvider);        
-        for(String item : Constants.ngoOrganisations){
-            if(loggedInUser.split("-")[1].trim().equals(item))
-            combobxCause.removeAllItems();
-            combobxCause.addItem(loggedInUser.split("-")[1].trim());
-            combobxCause.setEnabled(false);              
+        if(loggedInUser==null){
+            popServiceTable(serviceProviderDirectory.popServiceTable(null));
+            btnSearch.setVisible(true);
+            txtRequirement.setVisible(false);
+            jLabel2.setVisible(false);
+            btnAssignCause.setVisible(false);
+        }else{
+            popServiceTable(serviceProviderDirectory.popServiceTable(loggedInUser.split("-")[1].trim()));
+            btnSearch.setVisible(false);
         }
-        popServiceTable(serviceProviderDirectory.popServiceTable(loggedInUser.split("-")[1].trim()));
+        
+        for(String item : Constants.ngoOrganisations){
+            if(loggedInUser!=null){
+                if(item.equals(loggedInUser.split("-")[1].trim())){
+                     combobxCause.removeAllItems();
+                     combobxCause.addItem(loggedInUser.split("-")[1].trim());
+                     combobxCause.setEnabled(false);                        
+                    }
+                
+            }
+        }    
+        for(String item : Constants.ngoOrganisations){       
 
+            if(loggedInUser==null){
+                System.out.println(item);                
+                combobxCause.addItem(item);
+            }
+
+        }
+        if(loggedInUser==null){
+            combobxCause.setEnabled(true);
+            combobxCause.setSelectedIndex(-1);    
+        }
+        
     }
     private void popServiceTable(ArrayList<Cause> receiverTable) throws SQLException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -135,24 +162,24 @@ public class ServiceProviderAssign extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
+                                .addGap(37, 37, 37)
                                 .addComponent(jLabel1)
                                 .addGap(33, 33, 33)
                                 .addComponent(combobxCause, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnSearch))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtRequirement, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(btnAssignCause)))
-                .addContainerGap(69, Short.MAX_VALUE))
+                                .addComponent(btnSearch))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtRequirement, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(btnAssignCause)))
+                        .addGap(0, 245, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,20 +202,21 @@ public class ServiceProviderAssign extends javax.swing.JPanel {
 
     private void btnAssignCauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAssignCauseActionPerformed
         // TODO add your handling code here:
-
-       String cause = loggedInUser.split("-")[1].trim();
-        ResultSet resultSet = serviceProviderDirectory.getService(loggedInUser.split("-")[0].trim());
-//        try {
-//            if (!resultSet.isBeforeFirst() ) {
-//                System.out.println("No data");
-//                return;
-//            }   } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(this, "No Causes Available for this Category");
-//            }
-//            try {
-//                while(resultSet.next()){
-
-
+        ArrayList<Receiver> allReceivers = null;
+        String cause = combobxCause.getSelectedItem().toString();//loggedInUser.split("-")[1].trim();
+        if(loggedInUser!=null){
+            try {            
+                allReceivers = serviceProviderDirectory.getService(loggedInUser.split("-")[0].trim());
+            } catch (SQLException ex) {
+                java.util.logging.Logger.getLogger(ServiceProviderAssign.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }else{
+            try {
+                ArrayList<Receiver> receiver = serviceProviderDirectory.getUser(cause);
+            } catch (SQLException ex) {
+                java.util.logging.Logger.getLogger(ServiceProviderAssign.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
         int SelectedRow = tblCause.getSelectedRow();
         if(SelectedRow<0){
             JOptionPane.showMessageDialog(this, "Please Select a row");
@@ -206,20 +234,14 @@ public class ServiceProviderAssign extends javax.swing.JPanel {
             String category = SelectedRecords.getRecCategory();
             String recCause = SelectedRecords.getCauseName();
             int causeId = SelectedRecords.getCauseId();
-           try {
-                while(resultSet.next()){
-                int  recId = Integer.valueOf(resultSet.getString("ID"));
-                int req = Integer.valueOf(txtRequirement.getText());
-                serviceProviderDirectory.updateCause(recId, causeId, req);
-    //            receiverDirectory.updateCause(Integer.valueOf(resultSet.getString("ID")), Integer.valueOf(SelectedRecords.getCauseId()));
-                return;                            
-                }
-       
-           } catch (SQLException ex) {
-               java.util.logging.Logger.getLogger(ServiceProviderAssign.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-           }
-
+            int  recId = Integer.valueOf(allReceivers.get(0).getId());
+            int req = Integer.valueOf(txtRequirement.getText());
+            serviceProviderDirectory.updateCause(recId, causeId, req);
+            txtRequirement.setText("");
+            //            receiverDirectory.updateCause(Integer.valueOf(resultSet.getString("ID")), Integer.valueOf(SelectedRecords.getCauseId()));
         }
+
+
 //                }
 //
 //            } catch (SQLException ex) {
@@ -229,7 +251,12 @@ public class ServiceProviderAssign extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAssignCauseActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-
+        String cause1 = combobxCause.getSelectedItem().toString();
+        try {
+            popServiceTable(serviceProviderDirectory.popServiceTable(cause1));
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(DonorAssignCause.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void combobxCauseFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_combobxCauseFocusGained

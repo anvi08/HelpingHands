@@ -52,9 +52,16 @@ public class JusticeTicketDirectory {
              Date tktCreatedDate = null;
              Date tktUdatedDate = null;
              while (resultSet.next()) {
+                 int jEmpId = 0;
+                 String jEmpCMnt = null;
                  int j_tkt_id = Integer.parseInt(resultSet.getString("j_tkt_id"));
                  int cause_tkt_id = Integer.parseInt(resultSet.getString("cause_tkt_id"));
-                 // int j_emp_id = Integer.parseInt(resultSet.getString("j_emp_id"));
+                 if (resultSet.getString("j_emp_id") != null) {
+                    jEmpId = Integer.parseInt(resultSet.getString("j_emp_id"));
+                 }
+                 if (resultSet.getString("j_emp_cmnt") != null) {
+                     jEmpCMnt = resultSet.getString("j_emp_cmnt");
+                 }
                  String createdDate = resultSet.getString("created_date");
                  String updatedDate = resultSet.getString("updated_date");
                  String status = resultSet.getString("Status");
@@ -69,8 +76,8 @@ public class JusticeTicketDirectory {
                  
                  JusticeTicket jTicket = new JusticeTicket(cause_tkt_id, tktCreatedDate, status, jCountry, tktUdatedDate);
                  jTicket.setjTktId(j_tkt_id);
-                // jTicket.setjCmnt(jEmpCmnt);
-              //   jTicket.setjEmpId(j_emp_id);
+                 jTicket.setjCmnt(jEmpCMnt);
+                 jTicket.setjEmpId(jEmpId);
                          
                  justiceTicketList.add(jTicket);
              }
@@ -89,6 +96,8 @@ public class JusticeTicketDirectory {
              DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
              Date tktCreatedDate = null;
              Date tktUdatedDate = null;
+              int jEmpId = 0;
+              String jEmpCMnt = null;
              while (resultSet.next()) {
                  int j_tkt_id = Integer.parseInt(resultSet.getString("j_tkt_id"));
                  int cause_tkt_id = Integer.parseInt(resultSet.getString("cause_tkt_id"));
@@ -98,6 +107,12 @@ public class JusticeTicketDirectory {
                  String status = resultSet.getString("Status");
                  // String jEmpCmnt = resultSet.getString("j_emp_cmnt");
                  String jCountry = resultSet.getString("country");
+                 if (resultSet.getString("j_emp_id") != null) {
+                    jEmpId = Integer.parseInt(resultSet.getString("j_emp_id"));
+                 }
+                 if (resultSet.getString("j_emp_cmnt") != null) {
+                     jEmpCMnt = resultSet.getString("j_emp_cmnt");
+                 }
                  try {
                     tktCreatedDate = formatter.parse(createdDate); 
                     tktUdatedDate = formatter.parse(updatedDate);
@@ -107,8 +122,8 @@ public class JusticeTicketDirectory {
                  
                  JusticeTicket jTicket = new JusticeTicket(cause_tkt_id, tktCreatedDate, status, jCountry, tktUdatedDate);
                  jTicket.setjTktId(j_tkt_id);
-                // jTicket.setjCmnt(jEmpCmnt);
-              //   jTicket.setjEmpId(j_emp_id);
+                 jTicket.setjCmnt(jEmpCMnt);
+                 jTicket.setjEmpId(jEmpId);
                          
                  justiceTicketList.add(jTicket);
              }
@@ -125,5 +140,110 @@ public class JusticeTicketDirectory {
          System.out.println ("query " + query);
          DbConnection.query(query);
      }
+     
+    public ArrayList<JusticeTicket> fetchAssignedTicketsByJEmpID(int justEmpId)throws SQLException {
+         ArrayList<JusticeTicket> justiceTicketList = new ArrayList<JusticeTicket>();
+         String query = "select * from justiceticket where j_emp_id = " + justEmpId + ";"; 
+         ResultSet resultSet = DbConnection.selectQuery(query);
+             if (resultSet != null) {
+             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+             Date tktCreatedDate = null;
+             Date tktUdatedDate = null;
+              int jEmpId = 0;
+              String jEmpCMnt = null;
+             while (resultSet.next()) {
+                 int j_tkt_id = Integer.parseInt(resultSet.getString("j_tkt_id"));
+                 int cause_tkt_id = Integer.parseInt(resultSet.getString("cause_tkt_id"));
+                 // int j_emp_id = Integer.parseInt(resultSet.getString("j_emp_id"));
+                 String createdDate = resultSet.getString("created_date");
+                 String updatedDate = resultSet.getString("updated_date");
+                 String status = resultSet.getString("Status");
+                 // String jEmpCmnt = resultSet.getString("j_emp_cmnt");
+                 String jCountry = resultSet.getString("country");
+                 if (resultSet.getString("j_emp_id") != null) {
+                    jEmpId = Integer.parseInt(resultSet.getString("j_emp_id"));
+                 }
+                 if (resultSet.getString("j_emp_cmnt") != null) {
+                     jEmpCMnt = resultSet.getString("j_emp_cmnt");
+                 }
+                 try {
+                    tktCreatedDate = formatter.parse(createdDate); 
+                    tktUdatedDate = formatter.parse(updatedDate);
+                 } catch (Exception e) {
+                     System.out.println(e);
+                 }
+                 
+                 JusticeTicket jTicket = new JusticeTicket(cause_tkt_id, tktCreatedDate, status, jCountry, tktUdatedDate);
+                 jTicket.setjTktId(j_tkt_id);
+                 jTicket.setjCmnt(jEmpCMnt);
+                 jTicket.setjEmpId(jEmpId);
+                         
+                 justiceTicketList.add(jTicket);
+             }
+         }
+             
+        return  justiceTicketList;
+    }
+    
+    public void acceptTicket(int jTktId) throws SQLException {
+         Date date = new Date();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+        String updatedDate = formatter.format(date);
+         String query = "Update `justiceticket` Set Status = 'WIP',  updated_date = '" + updatedDate +  "' where j_tkt_id = " + jTktId + ";";     
+         System.out.println ("query " + query);
+         DbConnection.query(query);
+    }
+    
+    public void resolveTicket(int jTktId, String comment) throws SQLException {
+         Date date = new Date();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+        String updatedDate = formatter.format(date);
+         String query = "Update `justiceticket` Set Status = 'RESOLVED',  updated_date = '" + updatedDate + "' , j_emp_cmnt = '" + comment +"' where j_tkt_id = " + jTktId + ";";     
+         System.out.println ("query " + query);
+         DbConnection.query(query);
+    }
+    
+    public JusticeTicket fetchJusticeTicketByCauseId(int causeId)throws SQLException {
+        JusticeTicket jTkt = null;
+        if ( causeId > 0) {
+            String query = "select * from justiceticket where cause_tkt_id = " + causeId + ";";
+            ResultSet resultSet = DbConnection.selectQuery(query);
+            
+            if (resultSet != null) {
+             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+             Date tktCreatedDate = null;
+             Date tktUdatedDate = null;
+             while (resultSet.next()) {
+                 int jEmpId = 0;
+                 String jEmpCMnt = null;
+                 int j_tkt_id = Integer.parseInt(resultSet.getString("j_tkt_id"));
+                 int cause_tkt_id = Integer.parseInt(resultSet.getString("cause_tkt_id"));
+                 if (resultSet.getString("j_emp_id") != null) {
+                    jEmpId = Integer.parseInt(resultSet.getString("j_emp_id"));
+                 }
+                 if (resultSet.getString("j_emp_cmnt") != null) {
+                     jEmpCMnt = resultSet.getString("j_emp_cmnt");
+                 }
+                 String createdDate = resultSet.getString("created_date");
+                 String updatedDate = resultSet.getString("updated_date");
+                 String status = resultSet.getString("Status");
+                 // String jEmpCmnt = resultSet.getString("j_emp_cmnt");
+                 String jCountry = resultSet.getString("country");
+                 try {
+                    tktCreatedDate = formatter.parse(createdDate); 
+                    tktUdatedDate = formatter.parse(updatedDate);
+                 } catch (Exception e) {
+                     System.out.println(e);
+                 }
+                 
+                  jTkt = new JusticeTicket(cause_tkt_id, tktCreatedDate, status, jCountry, tktUdatedDate);
+                 jTkt.setjTktId(j_tkt_id);
+                 jTkt.setjCmnt(jEmpCMnt);
+                 jTkt.setjEmpId(jEmpId);
+             }   
+            }
+        }
+        return jTkt;
+    } 
     
 }

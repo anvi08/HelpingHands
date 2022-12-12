@@ -48,21 +48,7 @@ public class ReceiverDirectory {
             allReceiver.add(cause);
         }
         return allReceiver;   
-//        while(resultSet.next()){
-//
-//            String fname = resultSet.getString("First_Name");
-//            String country1 = resultSet.getString("Country");
-//            String lname = resultSet.getString("Last_Name");
-//            String email = resultSet.getString("E_Mail");
-//            String pass = resultSet.getString("Password");
-//            // String status = resultSet.getString("Status");
-//            String user = resultSet.getString("User");
-//            String type = resultSet.getString("Type");
-//            //System.out.println(causeId);
-//            Receiver receiver = new Receiver(fname,lname,email,pass,user,country,type);
-//            allReceiver.add(receiver);    
-//        }
-//        return allReceiver;
+
     }
     
     public void addReceiver(){
@@ -91,6 +77,27 @@ public class ReceiverDirectory {
             if(inputEmail.trim().equals(email) && inputPassword.trim().equals(pass)){
                 credentials.add(email);                   
                 credentials.add(pass);
+            }
+ 
+        }
+        if(credentials.isEmpty()){
+            return false;            
+        }else{
+            return true;
+        }
+
+    }
+
+    public boolean validateReceiverEmail(String inputEmail) throws SQLException{
+        ArrayList<String> credentials = new ArrayList();
+        String query = "Select Email,Password from receivertable";
+        ResultSet resultSet = DbConnection.selectQuery(query);    
+        while(resultSet.next()){
+
+            String email = resultSet.getString("Email");
+            String pass = resultSet.getString("Password");
+            if(inputEmail.trim().equals(email)){
+                credentials.add(email);                   
             }
  
         }

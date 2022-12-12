@@ -150,6 +150,8 @@ public class CauseTicketDirectory {
 //        System.out.println(query1);
 //        DbConnection.query(query1);
 //    }    
+    public void moneyDonorCountry(){
+    }
 
     public CauseTicket fetchCauseTicketData(int causeTktId) throws SQLException {
         CauseTicket causeTicket = null;

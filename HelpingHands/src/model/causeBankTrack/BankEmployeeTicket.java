@@ -20,6 +20,7 @@ public class BankEmployeeTicket {
     private BankTicket bankTicket;
     private int bk_tk_no;
     
+    
     //public ArrayList<BankEmployeeTicket> allBankEmployeeTicket;
     
     public BankEmployeeTicket(BankTicket bankTcket) {

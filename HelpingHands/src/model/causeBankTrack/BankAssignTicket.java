@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  *
- * @author HP
+ * @author Anvi Jain
  */
 public class BankAssignTicket {
     private String causeName;

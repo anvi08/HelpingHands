@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import profile.donor.Donor;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -38,8 +39,10 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import profile.Receiver.Receiver;
 import profile.Receiver.ReceiverDirectory;
+import profile.donor.DonorDirectory;
 import profile.justiceDepartment.JusticeDepartmentEmployee;
 import profile.justiceDepartment.JusticeDepartmentEmployeeDirectory;
+import twofa.EmailNotification;
 import uiDonor.DonorTrackCause;
 import utilities.Constants;
 
@@ -294,6 +297,11 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
         });
 
         btnOrangeFlag.setText("Raise Orange Flag");
+        btnOrangeFlag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrangeFlagActionPerformed(evt);
+            }
+        });
 
         btnTrackJusticeTkt.setText("Track Justice Ticket");
         btnTrackJusticeTkt.addActionListener(new java.awt.event.ActionListener() {
@@ -533,7 +541,7 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
         // TODO add your handling code here:
                 if (justiceCauseTicket != null) {
             int causeTktId = justiceCauseTicket.getTktId();
-            String country = justiceCauseTicket.getDonorCountry();
+            String country = justiceCauseTicket.getReceivingCountry();
          if ((causeTktId == 0 || causeTktId > 0) && country != null && !country.trim().equals("")) {
              Date date = new Date();
              JusticeTicket jTicket = new JusticeTicket(causeTktId, date, Constants.justiceTicketStatus.get("new"), country, date);
@@ -587,6 +595,16 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
         // TODO add your handling code here:
         setJusticeTicketData();
     }//GEN-LAST:event_btnTrackJusticeTktActionPerformed
+
+    private void btnOrangeFlagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrangeFlagActionPerformed
+        // TODO add your handling code here:
+        if (justiceCauseTicket != null) {
+            Donor donor = fetchDonorData();
+            if (donor != null) {
+                EmailNotification.SendEmail("abcd", donor.getEmail());
+            }
+        }
+    }//GEN-LAST:event_btnOrangeFlagActionPerformed
         private void setJusticeTicketData() {
         if (justiceCauseTicket != null) {
             JusticeTicket jtkt  = checkIfJusticeTicketExist(justiceCauseTicket);
@@ -625,6 +643,20 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
             panelJudiciary1.setVisible(true);
         }
     }
+        
+        private Donor fetchDonorData() {
+            Donor donor = null;
+            if (justiceCauseTicket != null && justiceCauseTicket.getDonorId() > 0) {
+                try {
+                    DonorDirectory donorDirectory = new DonorDirectory(null); 
+                    donor = donorDirectory.fetchDonorById(justiceCauseTicket.getDonorId());
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+                
+            }
+            return donor;
+        }
     
             
            private void setFontColorForJusticeStatus(String status) {

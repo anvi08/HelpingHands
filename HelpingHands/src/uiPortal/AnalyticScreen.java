@@ -48,8 +48,54 @@ public class AnalyticScreen extends javax.swing.JPanel {
         this.donorDirectory = new DonorDirectory(donor);
         this.causeDirectory = new CauseDirectory(cause);      
         generateReceiverCharts();
+        generateCharts();    
+        generateDonorCharts();        
     }
-    
+
+        public void generateDonorCharts() throws SQLException{
+            DefaultPieDataset pie = new DefaultPieDataset();
+            ResultSet resultSet = donorDirectory.getDonorDemographics();
+            while(resultSet.next()){
+                pie.setValue(resultSet.getString("Country"), Integer.valueOf(resultSet.getString("Value")));          
+            }
+            PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator(
+                       "{0}: {1} ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));
+
+            JFreeChart chart = ChartFactory.createPieChart("Donor Demographics", pie);
+            chart.setBackgroundPaint(Color.RED );
+            PiePlot piePlot1 =  (PiePlot) chart.getPlot();
+            piePlot1.setLabelGenerator(gen);
+            ChartFrame frame = new ChartFrame("Pie Chart",chart);
+            ChartPanel CP = new ChartPanel(chart);
+            System.out.println("CHARTTTTTT");
+            jPanel1.add(CP);
+            jPanel1.updateUI();
+            jPanel1.setPreferredSize(new Dimension(400, 200));   
+            jPanel1.setVisible(true);
+        }    
+	
+	public void generateCharts() throws SQLException{
+            DefaultPieDataset pie = new DefaultPieDataset();
+
+            ResultSet resultSet1 = causeDirectory.getCauseOrgs();
+
+            while(resultSet1.next()){
+                pie.setValue(resultSet1.getString("NGO_Org"), Integer.valueOf(resultSet1.getString("Count")));          
+            }
+            JFreeChart chart = ChartFactory.createPieChart("Organisations on Platform", pie); 
+            chart.setBackgroundPaint(Color.ORANGE);
+            PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator(
+                       "{0}: {1} ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));        
+            PiePlot piePlot1 =  (PiePlot) chart.getPlot();
+            piePlot1.setLabelGenerator(gen);
+            ChartFrame frame = new ChartFrame("Pie Chart",chart);
+            ChartPanel CP = new ChartPanel(chart);
+            chartPanel2.add(CP);
+            chartPanel2.updateUI();
+            chartPanel2.setPreferredSize(new Dimension(400, 200));     
+
+
+        }    
     
     public void generateReceiverCharts() throws SQLException{
         DefaultPieDataset pie = new DefaultPieDataset();
@@ -99,28 +145,29 @@ public class AnalyticScreen extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(28, 28, 28)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(chartPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(279, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(190, 190, 190)
                 .addComponent(chartPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(138, 138, 138))
+                .addContainerGap(227, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                .addGap(184, 184, 184))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(chartPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chartPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(chartPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addComponent(chartPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
     }// </editor-fold>//GEN-END:initComponents
 

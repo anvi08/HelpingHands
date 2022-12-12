@@ -4,6 +4,21 @@
  */
 package uiPortal.Bank;
 
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.causeBankTrack.BankTicket;
+import model.causeBankTrack.BankTicketDirectory;
+import model.causes.CauseDirectory;
+import model.causeticket.CauseTicket;
+import model.causeticket.CauseTicketDirectory;
+import profile.bank.BankPerson;
+import utilities.Constants;
+
 /**
  *
  * @author HP
@@ -13,10 +28,48 @@ public class BankEmployeePanel extends javax.swing.JPanel {
     /**
      * Creates new form BankEmployeePanel
      */
-    public BankEmployeePanel() {
+    BankPerson bankPerson;
+    BankTicket bankTicket;
+    ArrayList<BankTicket> allBankTickets;
+    int bk_person_id;
+    BankTicketDirectory bankTicketDirectory;
+    String loggedInUserCountry="";
+    CauseTicket causeTicket;
+    CauseTicketDirectory causeTicketDirectory;
+    
+        
+    public BankEmployeePanel(BankPerson bp) {
         initComponents();
+        //this.bankPerson = new BankPerson(bp);
+        this.bankTicket= new BankTicket(bp.getBankPersonId());
+        this.bankTicketDirectory = new BankTicketDirectory(bankTicket);
+        bk_person_id = bp.getEmpId();
+        loggedInUserCountry = bp.getCountry();
+        System.out.print(loggedInUserCountry);
+        setPanelForUser(loggedInUserCountry);
+        System.out.print("User is from"+setPanelForUser(loggedInUserCountry));
+        allBankTickets = new ArrayList<BankTicket>();
+        populateTkTable();
     }
+    
+    public String setPanelForUser(String userCountry){
+        //String userCountry = bp.getCountry();
+        
+        ArrayList<String> donorCountriesList = new ArrayList<String>();
+        ArrayList<String> receiverCountriesList = new ArrayList<String>();
+        donorCountriesList.addAll(Constants.donorCountries);
+        receiverCountriesList.addAll(Constants.receivingCountries);
+        ArrayList<String> countriesList = new ArrayList<String>();
+        if(donorCountriesList.contains(userCountry)){
+            return "Donor";
+        }
+        
+        
+        return "Receiver";
 
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,50 +80,145 @@ public class BankEmployeePanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        tblCauseDetails = new javax.swing.JTable();
+        btnAcceptForward = new javax.swing.JButton();
+        txtCauseTkt = new javax.swing.JTextField();
+        btnView = new javax.swing.JButton();
+        lblCountry = new javax.swing.JLabel();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        tblCauseDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Cause Ticket number", "Created Date"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblCauseDetails);
 
-        jButton1.setText("jButton1");
+        btnAcceptForward.setText("Accept and Forward");
+        btnAcceptForward.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptForwardActionPerformed(evt);
+            }
+        });
+
+        btnView.setText("View");
+        btnView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAcceptForward)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtCauseTkt, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnView))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
+                .addGap(14, 14, 14)
+                .addComponent(lblCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jButton1)
-                .addContainerGap(348, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(txtCauseTkt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(btnView)))
+                .addGap(18, 18, 18)
+                .addComponent(btnAcceptForward)
+                .addContainerGap(319, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAcceptForwardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptForwardActionPerformed
+        // TODO add your handling code here:
+        
+        /*
+        txtEmailId.setEditable(false);
+        int selectedRow = tblBankEmployee.getSelectedRow();
+        BankPerson bp= bankPersonList.get(selectedRow);
+        //System.out.println(bp.getBankPersonId());
+        txtFirstName.setText(bp.getFirstName());
+        txtLastName.setText(bp.getLastName());
+        txtEmailId.setText(bp.getEmail());
+        */
+        int cause_tk_num = Integer.parseInt(txtCauseTkt.getText());
+        //if(loggedInUserCountry = )
+        if(setPanelForUser(loggedInUserCountry)=="Donor"){
+            try {
+               
+                causeTicketDirectory = new CauseTicketDirectory();
+                causeTicketDirectory.moneyDonorCountry(cause_tk_num);
+                JOptionPane.showMessageDialog(this, "Money ");
+            } catch (ParseException ex) {
+                Logger.getLogger(BankEmployeePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            try {
+               
+                causeTicketDirectory = new CauseTicketDirectory();
+                causeTicketDirectory.moneyReceiverCountry(cause_tk_num);
+                JOptionPane.showMessageDialog(this, "Money ");
+            } catch (ParseException ex) {
+                Logger.getLogger(BankEmployeePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnAcceptForwardActionPerformed
+
+    private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = tblCauseDetails.getSelectedRow();
+        txtCauseTkt.setText(String.valueOf(allBankTickets.get(selectedRow).getCauseTkId()));
+    }//GEN-LAST:event_btnViewActionPerformed
+    public void populateTkTable(){
+        //ArrayList<BankTicket> myBankTickets = new ArrayList<BankTicket>();
+        try {
+            allBankTickets = bankTicketDirectory.fetchEmployeeBankTicket(bk_person_id);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+
+//Logger.getLogger(BankEmployeePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DefaultTableModel model = (DefaultTableModel)tblCauseDetails.getModel();
+        model.setRowCount(0);
+        
+        for(BankTicket bankTicket:allBankTickets){
+            Object[] row = new Object[2];
+            row[0] = bankTicket.getCauseTkId();
+            row[1] = bankTicket.getAssignedDate();
+            model.addRow(row);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnAcceptForward;
+    private javax.swing.JButton btnView;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblCountry;
+    private javax.swing.JTable tblCauseDetails;
+    private javax.swing.JTextField txtCauseTkt;
     // End of variables declaration//GEN-END:variables
 }

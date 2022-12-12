@@ -31,6 +31,11 @@ public class BankPerson extends Person{
         this.empType = empType;
     }
 
+    public BankPerson(String firstName, String lastName, String email, String password) {
+        super(firstName, lastName, email, password);
+    }
+
+    
     public String getProfileRole() {
         return profileRole;
     }

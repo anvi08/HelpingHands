@@ -35,7 +35,7 @@ public class BankEmployeeTicketDirectory {
         String createdDate = formatter.format(bankEmployeeTicket.getCauseTicket().getCreatedDate());
         String sql;
         sql = "Insert into `bankempticket` (`Cause_Tk_Id`, `Assigned_Date`)" + 
-                "VALUES ('"+bankEmployeeTicket.getCauseTicket().getCauseId()+"','"+ createdDate+"')";
+                "VALUES ('"+bankEmployeeTicket.getCauseTicket().getTktId()+"','"+ createdDate+"')";
         System.out.println(sql);
         DbConnection.query(sql);
         

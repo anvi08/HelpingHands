@@ -89,7 +89,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 jSplitPane.setRightComponent(bankLandingPage);
                 break;
             case "EMPLOYEE":
-                BankEmployeePanel bankEmployeePanel = new BankEmployeePanel();
+                BankEmployeePanel bankEmployeePanel = new BankEmployeePanel(bp);
                 jSplitPane.setRightComponent(bankEmployeePanel);
                 break;
         } 
@@ -445,7 +445,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 ServiceProviderLandingPage serviceProviderLanding = new ServiceProviderLandingPage(loggedInUser);
                 jSplitPane.setRightComponent(serviceProviderLanding);            
                 return;   
-            }             
+            }
         }catch(Exception e){
             System.out.println("WRONG");
         }

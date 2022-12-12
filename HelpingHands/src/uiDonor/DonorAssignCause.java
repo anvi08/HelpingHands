@@ -423,13 +423,17 @@ public class DonorAssignCause extends javax.swing.JPanel {
                             CauseTicket assignCause = new CauseTicket(donorId, receiverId, causeId, createdDate,moneyDonorCountry,moneyReceiverCountry,moneyReceived,dCountry, rCountry,amount);
                             CauseTicketDirectory causeTicketDirectory = new CauseTicketDirectory(assignCause);
                             causeTicketDirectory.addTicket();
+                            if (donorId > 0 && receiverId > 0 && causeId > 0 ) {
+                                CauseTicketDirectory causeTkt = new CauseTicketDirectory(null);
+                                CauseTicket causeTktSno = causeTkt.fetchPrimaryKey(donorId, causeId, receiverId);
+                                     BankPerson bankPerson = null;
                             
-                            BankPerson bankPerson = null;
-                            
-                            BankEmployeeTicket bankEmployeeTicket = new BankEmployeeTicket(assignCause); 
+                            BankEmployeeTicket bankEmployeeTicket = new BankEmployeeTicket(causeTktSno); 
                             
                             BankEmployeeTicketDirectory bankEmployeeTicketDirectory = new BankEmployeeTicketDirectory(bankEmployeeTicket);
                             bankEmployeeTicketDirectory.addBankEmployeeTicket(bankEmployeeTicket);
+                            }
+                       
                             txtFirstName.setText("");
                             txtLastName.setText("");
                             txtEmail.setText("");

@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.causeBankTrack.BankAssignTicket;
 import model.causeBankTrack.BankAssignTicketDirectory;
@@ -33,7 +34,8 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
     /**
      * Creates new form BankAssignTicket
      */
-    
+    BankTicket bankTicket;
+    BankTicketDirectory bankTicketDirectory; 
     BankAssignTicketDirectory bankAssignTicketDirectory;
     BankAssignTicket bankAssignTicket;
     ArrayList<BankAssignTicket> allBankAssignTicket;
@@ -42,7 +44,8 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
     ArrayList<BankPerson> activeBankPersonList;
     BankPersonDirectory bankPersonDirectory; 
     
-    String loggedInUserCountry = "";
+    
+    String loggedInUserCountry = null;
     public BankAssignTicketPanel() throws SQLException {
         initComponents();
         
@@ -60,12 +63,13 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
         
         this.bankPersonDirectory = new BankPersonDirectory(bankPerson);
         this.bankAssignTicketDirectory = new BankAssignTicketDirectory(bankAssignTicket);
+        this.loggedInUserCountry=bankPerson.getCountry();
         allBankAssignTicket = new ArrayList<BankAssignTicket>();
-        populateBankAssignTable();
+        this.loggedInUserCountry = bankPerson.getCountry();
         bankEmpTktList = new ArrayList<BankEmployeeTicket>();
-        fetchBankEmpTicketData();
+        fetchBankEmpTicketDataForEmp(bankPerson);
         activeBankPersonList = new ArrayList<BankPerson>();
-        populateBankEmpTable();
+        populateBankEmpTableforCountry();
     }
 
     /**
@@ -75,6 +79,52 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     
+    private void fetchBankEmpTicketDataForEmp(BankPerson bp) {
+        BankTicketDirectory bnkDirectory = new BankTicketDirectory(null);
+        ArrayList<BankTicket> allBankTicketsforemp = new ArrayList<BankTicket>();
+        try {
+            allBankTicketsforemp = bnkDirectory.fetchBankTicket();
+            if(allBankTicketsforemp != null && !allBankTicketsforemp.isEmpty()) {
+               bankEmpTktList = new ArrayList<BankEmployeeTicket>(); 
+               for(BankTicket bnkTkt : allBankTicketsforemp) {
+                   BankEmployeeTicket bnkEmpTkt = new BankEmployeeTicket(bnkTkt);
+                   CauseTicket causeTicket = fetchCauseTicketData(bnkTkt.getCauseTkId());
+                   if (causeTicket != null) {
+                       String bpCountry = bp.getCountry();
+                       if ( bpCountry !=null && !bpCountry.trim().equals("")) {
+                           if (bpCountry.equals("USA") || bpCountry.equals("Canada")) {
+                               if( causeTicket.getDonorCountry() != null && !causeTicket.getDonorCountry().equals("")) {
+                                   if (bpCountry.equals(causeTicket.getDonorCountry())) {
+                                        bnkEmpTkt.setCauseTicket(causeTicket);
+                       Cause cause = fetchCauseData(causeTicket.getCauseId());
+                       if (cause != null) {
+                           bnkEmpTkt.setCause(cause);
+                       }
+                                   }
+                               }
+                           } else if (bpCountry.equals("India") || bpCountry.equals("Uganda") || bpCountry.equals("Kenya")) {
+                                if (causeTicket.getReceivingCountry() != null && !causeTicket.getReceivingCountry().equals("")) {
+                                      if (bpCountry.trim().equals(causeTicket.getReceivingCountry().trim())) {
+                                        bnkEmpTkt.setCauseTicket(causeTicket);
+                       Cause cause = fetchCauseData(causeTicket.getCauseId());
+                       if (cause != null) {
+                           bnkEmpTkt.setCause(cause);
+                       }
+                                }
+                           }
+                       }
+                      
+                   }
+                   bankEmpTktList.add(bnkEmpTkt);
+               }
+               
+               populateBankAssignTable();
+            }
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
+    }
     
     public void populateBankAssignTable(){
         
@@ -92,11 +142,23 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
     }
     
     public void populateBankEmpTable() throws SQLException{
+        try{
+            DefaultTableModel model = (DefaultTableModel)tblEmployee.getModel();
+            model.setRowCount(0);
+            //activeBankPersonList = bankPersonDirectory.populateActiveBp();
         
-        DefaultTableModel model = (DefaultTableModel)tblEmployee.getModel();
-        model.setRowCount(0);
-        activeBankPersonList = bankPersonDirectory.populateActiveBp();
-        
+            /*****************************/
+            ArrayList<BankPerson> localArrList= new ArrayList<BankPerson>();
+            localArrList = bankPersonDirectory.populateActiveBp();
+            activeBankPersonList = new ArrayList<BankPerson>();
+                for(BankPerson bankPerson: localArrList){
+                    if(bankPerson.getEmpType().equals("EMPLOYEE")){
+                        activeBankPersonList.add(bankPerson);
+                    }
+                }
+            
+            /*****************************/
+            
         for(BankPerson bankPerson: activeBankPersonList){
             Object[] row = new Object[6];
             //row[0] = bankPerson;
@@ -109,13 +171,62 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
             model.addRow(row);
             System.out.print("BANK PERSON"+bankPerson.getFirstName());
         }
+        }catch(Exception e){
+            
+        }
+        
     }
+    
+    
+        public void populateBankEmpTableforCountry() throws SQLException{
+        try{
+            DefaultTableModel model = (DefaultTableModel)tblEmployee.getModel();
+            model.setRowCount(0);
+            //activeBankPersonList = bankPersonDirectory.populateActiveBp();
+        
+            /*****************************/
+            ArrayList<BankPerson> localArrList= new ArrayList<BankPerson>();
+            if (loggedInUserCountry != null && !loggedInUserCountry.trim().equals("")) {
+                        localArrList = bankPersonDirectory.populateCountryActiveBp(loggedInUserCountry);
+            activeBankPersonList = new ArrayList<BankPerson>();
+                for(BankPerson bankPerson: localArrList){
+                    if(bankPerson.getEmpType().equals("EMPLOYEE")){
+                        activeBankPersonList.add(bankPerson);
+                    }
+                }
+            
+            /*****************************/
+            
+        for(BankPerson bankPerson: activeBankPersonList){
+            Object[] row = new Object[6];
+            //row[0] = bankPerson;
+            if(bankPerson.getEmpType().equals("EMPLOYEE")){
+                row[0] = bankPerson.getFirstName();
+                row[1] = bankPerson.getLastName();
+                row[2] = bankPerson.getEmail();
+            }
+            
+            model.addRow(row);
+            System.out.print("BANK PERSON"+bankPerson.getFirstName());
+        }
+            }
+    
+        }catch(Exception e){
+            
+        }
+        
+    }
+    
+    /*public BankPerson updateBanktktTable(int rownum){
+        
+        return  
+    }*/
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAssignTicket = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnSelect = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -126,6 +237,8 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
         btnAssign = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblEmployee = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        txtBankTktnum = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -142,7 +255,12 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tblAssignTicket);
 
-        jButton1.setText("Select Ticket");
+        btnSelect.setText("Select Ticket");
+        btnSelect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("View Assigned");
 
@@ -181,65 +299,75 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(tblEmployee);
 
+        jLabel3.setText("Bank Ticket number");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1091, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(209, 209, 209))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
-                        .addGap(56, 56, 56))))
+                .addContainerGap(700, Short.MAX_VALUE)
+                .addComponent(btnSelect)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addGap(56, 56, 56))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCauseName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(74, 74, 74)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCreateDate, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(107, 107, 107)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnAssign)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(355, 355, 355)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtBankTktnum))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCauseName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(74, 74, 74)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCreateDate, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnSelect)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addGap(52, 52, 52)
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtBankTktnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCauseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCreateDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAssign)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -249,8 +377,37 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
 
     private void btnAssignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAssignActionPerformed
         // TODO add your handling code here:
-        
+        int selectedRow = tblEmployee.getSelectedRow();
+        BankPerson bankPerson;
+        int bank_tk_num = Integer.parseInt(txtBankTktnum.getText());
+        bankPerson = activeBankPersonList.get(selectedRow);
+        bankTicketDirectory = new BankTicketDirectory(bankTicket);
+        bankTicketDirectory.updateBankEmptktTable(bankPerson, bank_tk_num);
+        JOptionPane.showMessageDialog(this, "Ticket assigned toemployee");
     }//GEN-LAST:event_btnAssignActionPerformed
+
+    private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
+        // TODO add your handling code here:
+        //bankEmpTktList
+        /*
+        BankPerson bp= bankPersonList.get(selectedRow);
+        //System.out.println(bp.getBankPersonId());
+        txtFirstName.setText(bp.getFirstName());
+        txtLastName.setText(bp.getLastName());
+        txtEmailId.setText(bp.getEmail());
+        */
+        int selectedRow = tblAssignTicket.getSelectedRow();
+        if(selectedRow < 0){
+            JOptionPane.showMessageDialog(this, "Please Select a row");
+        }else{
+            BankEmployeeTicket bankEmployeeTicket = bankEmpTktList.get(selectedRow);
+            txtCauseName.setText(bankEmployeeTicket.getCause().toString());
+            txtCreateDate.setText(bankEmployeeTicket.getCauseTicket().getCreatedDate().toString());
+            int banktk_num=bankEmployeeTicket.getBankTicket().getBankTkId();
+            txtBankTktnum.setText(String.valueOf(banktk_num));
+        }
+        
+    }//GEN-LAST:event_btnSelectActionPerformed
     private void fetchBankEmpTicketData(){
         BankTicketDirectory bnkDirectory = new BankTicketDirectory(null);
         ArrayList<BankTicket> allBankTickets = new ArrayList<BankTicket>();
@@ -303,16 +460,18 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAssign;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSelect;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblAssignTicket;
     private javax.swing.JTable tblEmployee;
+    private javax.swing.JTextField txtBankTktnum;
     private javax.swing.JTextField txtCauseName;
     private javax.swing.JTextField txtCreateDate;
     // End of variables declaration//GEN-END:variables

@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  *
- * @author HP
+ * @author Anvi Jain
  */
 public class BankTicket {
     
@@ -23,6 +23,12 @@ public class BankTicket {
         this.bankEmpId = bankEmpId;
         this.assignedDate = assignedDate;
     }
+
+    public BankTicket(int bankEmpId) {
+        this.bankEmpId = bankEmpId;
+    }
+    
+    
     
     
 

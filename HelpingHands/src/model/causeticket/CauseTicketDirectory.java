@@ -35,7 +35,11 @@ public class CauseTicketDirectory {
         this.causeTicket = causeTicket;
         // this.allCauses = allCauses;
         
-    }    
+    }  
+
+    public CauseTicketDirectory() {
+    }
+    
 
     public void addTicket() throws SQLException{
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
@@ -64,6 +68,7 @@ public class CauseTicketDirectory {
         
         System.out.println(sql);
         DbConnection.query(sql);
+        
 //        PreparedStatement pstmt = DbConnection.getPreStatement(sql);
 //        pstmt.setNull(6, java.sql.Types.DATE);
     }    
@@ -138,6 +143,31 @@ public class CauseTicketDirectory {
         System.out.println(query1);
         DbConnection.query(query1);
     }
+    
+    
+    public void moneyDonorCountry(int cause_tk_id) throws ParseException{
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String cd = dateFormat.format(cal.getTime());
+//        Date createdDate = dateFormat.parse(cd);
+//        System.out.println(createdDate);        
+        String query1 = "Update financialaiddb.causeticket set Money_Donor_Country = '"+cd
+                +"' where SNo = "+cause_tk_id+";";
+        System.out.println(query1);
+        DbConnection.query(query1);
+    }
+    
+    public void moneyReceiverCountry(int cause_tk_id) throws ParseException{
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String cd = dateFormat.format(cal.getTime());
+//        Date createdDate = dateFormat.parse(cd);
+//        System.out.println(createdDate);        
+        String query1 = "Update financialaiddb.causeticket set Money_Receiving_Country = '"+cd
+                +"' where SNo = "+cause_tk_id+";";
+        System.out.println(query1);
+        DbConnection.query(query1);
+    }
 
 //    public void moneyReceivedCommunity(int cause_Id,int receiver_Id) throws ParseException{
 //        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -173,6 +203,29 @@ public class CauseTicketDirectory {
         }
         return causeTicket;
     }
+    
+    public CauseTicket fetchPrimaryKey (int donroId, int causeID, int receiverId) throws SQLException {
+        CauseTicket causeTkt = null;
+        String query = "select * from causeticket where Donor_Id ="+ donroId + " AND Cause_Id = "+ causeID + " AND Receiver_Id = " + receiverId + ";";
+        ResultSet resultSet = DbConnection.selectQuery(query); 
+        while (resultSet.next()) {
+            int donorId = Integer.valueOf(resultSet.getString("Donor_Id"));
+            int rId = Integer.valueOf(resultSet.getString("Receiver_Id"));
+            int causeId = Integer.valueOf(resultSet.getString("Cause_Id"));
+            int pk = Integer.valueOf(resultSet.getString("SNo"));
+            Date createdDate = resultSet.getDate("Created_Date");
+            Date moneyDonorCountry = resultSet.getDate("Money_Donor_Country"); 
+            Date moneyReceiverCountry = resultSet.getDate("Money_Received"); 
+            Date moneyReceived = resultSet.getDate("Money_Received");
+            String donorCountry = resultSet.getString("Donor_Country"); 
+            String receivingCountry = resultSet.getString("Receiving_Country");
+            int amount = Integer.valueOf(resultSet.getString("Amount"));
+              causeTicket = new CauseTicket(donorId,receiverId,causeId,createdDate,moneyDonorCountry,moneyReceiverCountry,moneyReceived,donorCountry,receivingCountry,amount);
+              causeTicket.setTktId(pk);
+        }
+        return causeTicket;
+    }
+    
  
 
 }

@@ -68,6 +68,7 @@ public class ValidateUserLogin {
             
             bp = new BankPerson(firstName, lastName, email, password, type, bank_name, empStatus, country);
             bp.setStatus(empStatus);
+            bp.setEmpId(bank_id);
         }
         return bp;
     }   

@@ -172,11 +172,15 @@ public class BankLandingPage extends javax.swing.JPanel {
                 Logger.getLogger(BankLandingPage.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            BankAssignTicketPanel bankAssignTicketPanel = new BankAssignTicketPanel(bankPerson);
-            bankCardLayoutPanel.removeAll();
-            bankCardLayoutPanel.add(bankAssignTicketPanel);
-            bankCardLayoutPanel.repaint();
-            bankCardLayoutPanel.revalidate();
+            try {
+                BankAssignTicketPanel bankAssignTicketPanel = new BankAssignTicketPanel(bankPerson);
+                bankCardLayoutPanel.removeAll();
+                bankCardLayoutPanel.add(bankAssignTicketPanel);
+                bankCardLayoutPanel.repaint();
+                bankCardLayoutPanel.revalidate();
+            } catch (SQLException ex) {
+                Logger.getLogger(BankLandingPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         

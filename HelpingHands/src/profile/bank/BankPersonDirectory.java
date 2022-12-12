@@ -79,6 +79,32 @@ public class BankPersonDirectory {
         return activeBankPersons;
     }
     
+        
+    public ArrayList<BankPerson> populateActiveBp(String country) throws SQLException{
+        
+        
+        ArrayList<BankPerson> activeBankPersons = new ArrayList();
+        String query = "Select * from bankemployee where Status = 1 AND Country = '" +country+"';" ;
+        ResultSet resultset = DbConnection.selectQuery(query);
+        while(resultset.next()){
+                int bankPersonId = resultset.getInt("Bank_Id");
+                System.out.println(bankPersonId);
+                String firstName =resultset.getString("First_Name");
+                String lastName = resultset.getString("Last_Name");
+                String email = resultset.getString("Email_Id");
+                String password = resultset.getString("Password");
+                String empType = resultset.getString("Type");
+                String bankName = resultset.getString("Bank_Name");
+                boolean status = resultset.getBoolean("Status");
+                String selectedCountry = resultset.getString("Country");
+                
+                BankPerson newbankPerson = new BankPerson(firstName, lastName, email, password, empType, bankName, status, selectedCountry);
+                newbankPerson.setBankPersonId(bankPersonId);
+                activeBankPersons.add(newbankPerson);
+            }
+        return activeBankPersons;
+    }
+    
     public ArrayList<BankPerson> populateCountryActiveBp(String userCountry) throws SQLException{
         
         

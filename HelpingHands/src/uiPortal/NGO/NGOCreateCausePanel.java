@@ -106,10 +106,10 @@ public class NGOCreateCausePanel extends javax.swing.JPanel {
         txtDescription.setRows(5);
         jScrollPane1.setViewportView(txtDescription);
 
-        btnCreateCause.setBackground(new java.awt.Color(0, 153, 0));
+        btnCreateCause.setBackground(new java.awt.Color(51, 102, 0));
         btnCreateCause.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnCreateCause.setForeground(new java.awt.Color(255, 255, 255));
-        btnCreateCause.setText("Create");
+        btnCreateCause.setText("CREARTE");
         btnCreateCause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreateCauseActionPerformed(evt);

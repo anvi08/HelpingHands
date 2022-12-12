@@ -115,7 +115,9 @@ public class JusticeDepartmentViewEmployee extends javax.swing.JPanel {
         lblEmpDetails.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEmpDetails.setText("View Employee Details");
 
+        btnViewLink.setBackground(new java.awt.Color(0, 0, 102));
         btnViewLink.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnViewLink.setForeground(new java.awt.Color(255, 255, 255));
         btnViewLink.setText("VIEW");
         btnViewLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,6 +125,7 @@ public class JusticeDepartmentViewEmployee extends javax.swing.JPanel {
             }
         });
 
+        btnViewInactiveEmp.setBackground(new java.awt.Color(153, 153, 0));
         btnViewInactiveEmp.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnViewInactiveEmp.setText("VIEW INACTIVE EMPLOYEES");
         btnViewInactiveEmp.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +134,7 @@ public class JusticeDepartmentViewEmployee extends javax.swing.JPanel {
             }
         });
 
+        btnViewActiveEmp.setBackground(new java.awt.Color(153, 153, 0));
         btnViewActiveEmp.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnViewActiveEmp.setText("VIEW ACTIVE EMPLOYEES");
         btnViewActiveEmp.addActionListener(new java.awt.event.ActionListener() {

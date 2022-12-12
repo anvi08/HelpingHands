@@ -56,6 +56,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
     public LandingPageFrame(JusticeDepartmentEmployee justiceDepartmentEmp) {
         initComponents();
         this.loggedInUser = justiceDepartmentEmp.getFirstName() + " " + justiceDepartmentEmp.getLastName();
+        jLabel1.setText(loggedInUser);
         setJusticeLoginFrame();
         setJusticeLandingPage(justiceDepartmentEmp.getEmpType(), justiceDepartmentEmp);
     }
@@ -135,6 +136,9 @@ public class LandingPageFrame extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        btnNGOLink.setBackground(new java.awt.Color(0, 51, 102));
+        btnNGOLink.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnNGOLink.setForeground(new java.awt.Color(255, 255, 255));
         btnNGOLink.setText("NGO");
         btnNGOLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,8 +148,12 @@ public class LandingPageFrame extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 51, 102));
         jLabel1.setText("Welcome Sys Admin");
 
+        btnServiceLink.setBackground(new java.awt.Color(0, 51, 102));
+        btnServiceLink.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnServiceLink.setForeground(new java.awt.Color(255, 255, 255));
         btnServiceLink.setText("Service Provider");
         btnServiceLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,6 +162,7 @@ public class LandingPageFrame extends javax.swing.JFrame {
         });
 
         btnLogout.setBackground(new java.awt.Color(153, 51, 0));
+        btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLogout.setForeground(new java.awt.Color(255, 255, 255));
         btnLogout.setText("LOGOUT");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -162,6 +171,9 @@ public class LandingPageFrame extends javax.swing.JFrame {
             }
         });
 
+        btnBankLink.setBackground(new java.awt.Color(0, 51, 102));
+        btnBankLink.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBankLink.setForeground(new java.awt.Color(255, 255, 255));
         btnBankLink.setText("BANK");
         btnBankLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,6 +181,9 @@ public class LandingPageFrame extends javax.swing.JFrame {
             }
         });
 
+        btnJusticeLink.setBackground(new java.awt.Color(0, 51, 102));
+        btnJusticeLink.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnJusticeLink.setForeground(new java.awt.Color(255, 255, 255));
         btnJusticeLink.setText("JUSTICE DEPT.");
         btnJusticeLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,6 +191,9 @@ public class LandingPageFrame extends javax.swing.JFrame {
             }
         });
 
+        btnAnalytics1.setBackground(new java.awt.Color(0, 51, 102));
+        btnAnalytics1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAnalytics1.setForeground(new java.awt.Color(255, 255, 255));
         btnAnalytics1.setText("Analytics");
         btnAnalytics1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,12 +218,14 @@ public class LandingPageFrame extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnJusticeLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnServiceLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
-                    .addComponent(btnAnalytics1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnServiceLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                            .addComponent(btnAnalytics1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBankLink, btnJusticeLink, btnNGOLink, btnServiceLink});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAnalytics1, btnLogout});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,15 +241,17 @@ public class LandingPageFrame extends javax.swing.JFrame {
                 .addComponent(btnServiceLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(btnAnalytics1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(btnLogout))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBankLink, btnJusticeLink, btnNGOLink, btnServiceLink});
 
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAnalytics1, btnLogout});
+
         jSplitPane.setLeftComponent(jPanel1);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 204));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setForeground(new java.awt.Color(255, 255, 204));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

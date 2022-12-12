@@ -46,6 +46,8 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        btnAssignTicketsLink.setBackground(new java.awt.Color(153, 153, 0));
+        btnAssignTicketsLink.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAssignTicketsLink.setText("Assign Tickets");
         btnAssignTicketsLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -53,6 +55,8 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
             }
         });
 
+        btnViewEmployeeLink.setBackground(new java.awt.Color(153, 153, 0));
+        btnViewEmployeeLink.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnViewEmployeeLink.setText("View Employee");
         btnViewEmployeeLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -60,6 +64,8 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
             }
         });
 
+        btnAddEmployeeLink.setBackground(new java.awt.Color(153, 153, 0));
+        btnAddEmployeeLink.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAddEmployeeLink.setText("Add Employee");
         btnAddEmployeeLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,9 +78,9 @@ public class JusticeDepartmentLandingPage extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(514, Short.MAX_VALUE)
+                .addContainerGap(508, Short.MAX_VALUE)
                 .addComponent(btnAddEmployeeLink)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnViewEmployeeLink)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAssignTicketsLink)

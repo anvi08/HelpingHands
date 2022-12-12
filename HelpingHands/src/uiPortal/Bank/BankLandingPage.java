@@ -161,11 +161,25 @@ public class BankLandingPage extends javax.swing.JPanel {
 
     private void btnAssignTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAssignTicketActionPerformed
         // TODO add your handling code here:
-        BankAssignTicketPanel bankAssignTicketPanel = new BankAssignTicketPanel();
-        bankCardLayoutPanel.removeAll();
-        bankCardLayoutPanel.add(bankAssignTicketPanel);
-        bankCardLayoutPanel.repaint();
-        bankCardLayoutPanel.revalidate();
+        if(bankPerson == null){
+            try {
+                BankAssignTicketPanel bankAssignTicketPanel = new BankAssignTicketPanel();
+                bankCardLayoutPanel.removeAll();
+                bankCardLayoutPanel.add(bankAssignTicketPanel);
+                bankCardLayoutPanel.repaint();
+                bankCardLayoutPanel.revalidate();
+            } catch (SQLException ex) {
+                Logger.getLogger(BankLandingPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            BankAssignTicketPanel bankAssignTicketPanel = new BankAssignTicketPanel(bankPerson);
+            bankCardLayoutPanel.removeAll();
+            bankCardLayoutPanel.add(bankAssignTicketPanel);
+            bankCardLayoutPanel.repaint();
+            bankCardLayoutPanel.revalidate();
+        }
+        
+        
     }//GEN-LAST:event_btnAssignTicketActionPerformed
 
 

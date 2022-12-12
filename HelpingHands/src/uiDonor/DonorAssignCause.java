@@ -18,12 +18,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.causeBankTrack.BankEmployeeTicket;
+import model.causeBankTrack.BankEmployeeTicketDirectory;
 import model.causes.Cause;
 import model.causes.CauseDirectory;
 import model.causeticket.CauseTicket;
 import model.causeticket.CauseTicketDirectory;
 import profile.Receiver.Receiver;
 import profile.Receiver.ReceiverDirectory;
+import profile.bank.BankPerson;
 import profile.donor.Donor;
 import profile.donor.DonorDirectory;
 import profile.serviceprovider.ServiceProvider;
@@ -44,6 +47,8 @@ public class DonorAssignCause extends javax.swing.JPanel {
     CauseTicket causeTicket;
     ReceiverDirectory receiverDirectory;
     Receiver receiver;
+    BankEmployeeTicket bankEmployeeTicket;
+
     ServiceProviderDirectory serviceProviderDirectory;
     ServiceProvider serviceProvider;       
     /**
@@ -369,9 +374,13 @@ public class DonorAssignCause extends javax.swing.JPanel {
     private void btnAssignCauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAssignCauseActionPerformed
         // TODO add your handling code here:
 
-        String cause = combobxCause.getSelectedItem().toString();
-        
+
+        if(txtAmount.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please Enter a valid Amount");
+            return;
+        }
         ResultSet resultSet = donorDirectory.getdonor(loggedInUser.split("-")[0].trim());
+        String cause = combobxCause.getSelectedItem().toString();
         try {
             if (!resultSet.isBeforeFirst() ) {
                 System.out.println("No data");
@@ -414,6 +423,13 @@ public class DonorAssignCause extends javax.swing.JPanel {
                             CauseTicket assignCause = new CauseTicket(donorId, receiverId, causeId, createdDate,moneyDonorCountry,moneyReceiverCountry,moneyReceived,dCountry, rCountry,amount);
                             CauseTicketDirectory causeTicketDirectory = new CauseTicketDirectory(assignCause);
                             causeTicketDirectory.addTicket();
+                            
+                            BankPerson bankPerson = null;
+                            
+                            BankEmployeeTicket bankEmployeeTicket = new BankEmployeeTicket(assignCause, null); 
+                            
+                            BankEmployeeTicketDirectory bankEmployeeTicketDirectory = new BankEmployeeTicketDirectory(bankEmployeeTicket);
+                            bankEmployeeTicketDirectory.addBankEmployeeTicket(bankEmployeeTicket);
                             txtFirstName.setText("");
                             txtLastName.setText("");
                             txtEmail.setText("");
@@ -427,6 +443,15 @@ public class DonorAssignCause extends javax.swing.JPanel {
 //                                txtRequirement.setVisible(false);
 //                                lblRequirement.setVisible(false);
                                 txtRequirement.setText("");
+                            }
+                            ArrayList<Receiver> allReceivers = null;
+                            String cause1 = combobxCause.getSelectedItem().toString();
+                            try {
+                                popDonorTable(donorDirectory.popDonorTable(cause1));
+                                allReceivers = serviceProviderDirectory.getService2(cause1);
+                                lblReqSub.setText(allReceivers.get(0).getFirstName().split(" ")[0].trim());
+                            } catch (SQLException ex) {
+                                Logger.getLogger(DonorAssignCause.class.getName()).log(Level.SEVERE, null, ex);
                             }                            
                             return;                            
                         } catch (ParseException ex) {
@@ -485,7 +510,8 @@ public class DonorAssignCause extends javax.swing.JPanel {
                             txtRequirement.setVisible(true);
                             lblRequirement.setVisible(true);
                             txtRequirement.setText(resultSet.getString("Requirement"));
-                            lblReqSub.setVisible(true);                                 
+                            lblReqSub.setVisible(true);
+                            lblReqSub.setText(resultSet.getString("Email"));
                         }else{
                             txtRequirement.setVisible(false);
                             lblRequirement.setVisible(false);

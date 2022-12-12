@@ -1130,13 +1130,16 @@ public class LoginScreen extends javax.swing.JFrame {
             case "Donor":
                 boolean twoFa = false;
                 if(donorDirectory.validateDonor(email,password)){
+                    //Change twoFACheck to != 0 
+                    //Toggle 2FA while Loggin in 
+                    //uncomment twoFa = true in line 1142
                     if(twoFaCheck!=0){
                         String passcode = twoFactorAuth.randomPasswordGenerator();
                         System.out.println("passsword is "+passcode);
 //                        twoFactorAuth.Send2FA(passcode, txtEmail.getText());
 //                        donorDirectory.add2FA(passcode, txtEmail.getText(), role);
                         twoFa = donorDirectory.validateDonor2FA(txtTwofa.getText().trim());                        
-                        
+//                        twoFa = true;
                     }else{
                         JOptionPane.showMessageDialog(this, "Please Select the 2FA to generate an OTP");
                         return;

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -27,6 +28,8 @@ import model.causes.Cause;
 import model.causes.CauseDirectory;
 import model.causeticket.CauseTicket;
 import model.causeticket.CauseTicketDirectory;
+import model.justiceTicket.JusticeTicket;
+import model.justiceTicket.JusticeTicketDirectory;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
@@ -35,7 +38,10 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import profile.Receiver.Receiver;
 import profile.Receiver.ReceiverDirectory;
+import profile.justiceDepartment.JusticeDepartmentEmployee;
+import profile.justiceDepartment.JusticeDepartmentEmployeeDirectory;
 import uiDonor.DonorTrackCause;
+import utilities.Constants;
 
 /**
  *
@@ -52,8 +58,10 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
     ReceiverDirectory receiverDirectory;
     Receiver receiver;    
     private int receiverID;
+    CauseTicket justiceCauseTicket;
     CauseTicketDirectory causeTicketDirectory;
-    CauseTicket causeTicket;     
+    CauseTicket causeTicket;
+    int receiverCheck = 0;
     public ReceiverTrackCause(int receiverID) throws SQLException {
         initComponents();
         this.receiverID = receiverID;
@@ -62,7 +70,10 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
         this.causeTicketDirectory = new CauseTicketDirectory(causeTicket);
         popReceiverTable(receiverDirectory.trackCause(receiverID));
         jProgressBar1.setVisible(false);
-        panelJudiciary1.setVisible(false);        
+        panelJudiciary1.setVisible(false);
+        btnTrackJusticeTkt.setVisible(false);
+        btnRedFlag.setVisible(false);
+        btnOrangeFlag.setVisible(false);        
         btnReceived.setVisible(false);        
     }
     private void popReceiverTable(ArrayList<Cause> receiverTable) throws SQLException {
@@ -106,9 +117,16 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        btnHelp2 = new javax.swing.JButton();
+        lblStatus = new javax.swing.JLabel();
+        lblCreateDate = new javax.swing.JLabel();
+        lblUpdateDate = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblEmail = new javax.swing.JLabel();
+        btnRedFlag = new javax.swing.JButton();
         txtnew = new javax.swing.JLabel();
         btnReceived = new javax.swing.JButton();
+        btnOrangeFlag = new javax.swing.JButton();
+        btnTrackJusticeTkt = new javax.swing.JButton();
 
         tblCause.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -142,11 +160,21 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
 
         panelJudiciary1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel5.setText("jLabel1");
+        jLabel5.setText("Status");
 
-        jLabel6.setText("jLabel2");
+        jLabel6.setText("Created On: ");
 
-        jLabel7.setText("jLabel3");
+        jLabel7.setText("Updated On:");
+
+        lblStatus.setText("jLabel1");
+
+        lblCreateDate.setText("jLabel2");
+
+        lblUpdateDate.setText("jLabel3");
+
+        jLabel4.setText("Email:");
+
+        lblEmail.setText("jLabel8");
 
         javax.swing.GroupLayout panelJudiciary1Layout = new javax.swing.GroupLayout(panelJudiciary1);
         panelJudiciary1.setLayout(panelJudiciary1Layout);
@@ -154,22 +182,39 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
             panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelJudiciary1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
+                .addGroup(panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel5))
-                .addContainerGap(125, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCreateDate, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(lblUpdateDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         panelJudiciary1Layout.setVerticalGroup(
             panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelJudiciary1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(jLabel5)
+                .addGroup(panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel6)
+                .addGroup(panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(lblCreateDate))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel7)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addGroup(panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(lblUpdateDate))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lblEmail))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelTrackerLayout = new javax.swing.GroupLayout(panelTracker);
@@ -234,10 +279,10 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
 
         panelTrackerLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCreated, txtCreated1, txtCreated2, txtCreated3});
 
-        btnHelp2.setText("Help");
-        btnHelp2.addActionListener(new java.awt.event.ActionListener() {
+        btnRedFlag.setText("Raise Red Flag");
+        btnRedFlag.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHelp2ActionPerformed(evt);
+                btnRedFlagActionPerformed(evt);
             }
         });
 
@@ -245,6 +290,15 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
         btnReceived.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReceivedActionPerformed(evt);
+            }
+        });
+
+        btnOrangeFlag.setText("Raise Orange Flag");
+
+        btnTrackJusticeTkt.setText("Track Justice Ticket");
+        btnTrackJusticeTkt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTrackJusticeTktActionPerformed(evt);
             }
         });
 
@@ -266,8 +320,12 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(btnReceived)
-                                .addGap(25, 25, 25)
-                                .addComponent(btnHelp2)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRedFlag)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnOrangeFlag, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnTrackJusticeTkt, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -280,8 +338,10 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnTrack)
-                            .addComponent(btnHelp2)
-                            .addComponent(btnReceived)))
+                            .addComponent(btnRedFlag)
+                            .addComponent(btnReceived)
+                            .addComponent(btnOrangeFlag)
+                            .addComponent(btnTrackJusticeTkt)))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                         .addComponent(txtnew)))
@@ -294,6 +354,7 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
     private void btnTrackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrackActionPerformed
         // TODO add your handling code here:
         int SelectedRow = tblCause.getSelectedRow();
+        panelJudiciary1.setVisible(false);
         if(SelectedRow<0){
             JOptionPane.showMessageDialog(this, "Please Select a row");
         }else{
@@ -302,7 +363,7 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
             System.out.println("CAUSE IDDDDD "+SelectedRecords.getCauseId());
             JOptionPane.showMessageDialog(this,"The Exact location of your funds is given below");
             try {
-                ArrayList<CauseTicket> trackCauses = causeTicketDirectory.trackCauseReceiver(receiverID);
+                ArrayList<CauseTicket> trackCauses = causeTicketDirectory.trackCauseReceiver(SelectedRecords.getCauseId());
                 panelTracker.setVisible(true);
                 jProgressBar1.setVisible(true);
                 int MY_MINIMUM = 0;
@@ -327,10 +388,10 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
                     return;
                 }                
                 for(CauseTicket causetix : trackCauses){
-                    if(causetix.getReceiverId()==receiverID){
+                    if(causetix.getCauseId()== SelectedRecords.getCauseId()){
                         Date createdDate = causetix.getCreatedDate();
                         System.out.println(createdDate+"YOOOOOOOOOOOOOOOO");
-                   
+                        checkForJusticeDeptTickets(causetix);
                         Date moneyDonorCountry = causetix.getMoneyDonorCountry();
                         Date moneyReceiverCountry = causetix.getMoneyReceiverCountry();
                         Date moneyReceived = causetix.getMoneyReceived();
@@ -354,7 +415,7 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
                             
                         }                               
                         if(moneyReceiverCountry!=null){
-                            btnReceived.setVisible((true));
+//                            btnReceived.setVisible((true));
                             check+=1;
 //                            jProgressBar1.setString("Your funds are almost there");
                             txtCreated1.setText("<html>Your Funds were processed by the bank in \n "+ causetix.getReceivingCountry() +" and will be in the hands of the benificiary soon</html>");
@@ -376,7 +437,11 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
                             final String html = "<html><body style='width: %1spx'>%1s";
                
                         }
-                    
+                        if((moneyReceived==null) && moneyReceiverCountry!=null){
+                            btnReceived.setVisible((true));
+                        }else{
+                            btnReceived.setVisible((false));
+                        }
                         if(check==1){
                             jProgressBar1.setValue(25);
                             return;
@@ -403,9 +468,90 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnTrackActionPerformed
 
-    private void btnHelp2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelp2ActionPerformed
+    
+    
+        
+    private void checkForJusticeDeptTickets( CauseTicket causetix) {
+        if (causetix != null) {
+            JusticeTicket  jtkt = checkIfJusticeTicketExist(causetix);
+            if (jtkt != null) {
+                 btnTrackJusticeTkt.setVisible(true);
+                 btnRedFlag.setVisible(false);
+                 btnOrangeFlag.setVisible(false);
+                  justiceCauseTicket = causetix;
+            } else {
+              if (causetix.getMoneyDonorCountry()== null) { 
+              Date today = new Date();
+             Date createdDate = causetix.getCreatedDate();
+             long timeDiff = Math.abs(today.getTime() - createdDate.getTime());
+             long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+             if (daysDiff > 10 || daysDiff == 10) {
+                 btnTrackJusticeTkt.setVisible(false);
+                 btnRedFlag.setVisible(false);
+                 btnOrangeFlag.setVisible(true);
+                 justiceCauseTicket = causetix;
+             }
+              } else if (causetix.getMoneyReceiverCountry()== null) {
+              Date today = new Date();
+             Date createdDate = causetix.getCreatedDate();
+             long timeDiff = Math.abs(today.getTime() - createdDate.getTime());
+             long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+             if (daysDiff > 10 || daysDiff == 10) {
+                 btnTrackJusticeTkt.setVisible(false);
+                 btnRedFlag.setVisible(true);
+                 btnOrangeFlag.setVisible(false);
+                 justiceCauseTicket = causetix;
+             }
+              } else {
+                 btnTrackJusticeTkt.setVisible(false);
+                 btnRedFlag.setVisible(false);
+                 btnOrangeFlag.setVisible(false);
+              }
+
+
+                }
+        }
+    }
+    
+        
+    private JusticeTicket checkIfJusticeTicketExist(CauseTicket causetix) {
+        JusticeTicket  jtkt = null;
+        JusticeTicketDirectory jTktDirectory = new JusticeTicketDirectory(null);
+        try {
+             jtkt = jTktDirectory.fetchJusticeTicketByCauseId(causetix.getTktId());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return jtkt;
+                
+    }
+    
+    
+    
+    
+    private void btnRedFlagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedFlagActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnHelp2ActionPerformed
+                if (justiceCauseTicket != null) {
+            int causeTktId = justiceCauseTicket.getTktId();
+            String country = justiceCauseTicket.getDonorCountry();
+         if ((causeTktId == 0 || causeTktId > 0) && country != null && !country.trim().equals("")) {
+             Date date = new Date();
+             JusticeTicket jTicket = new JusticeTicket(causeTktId, date, Constants.justiceTicketStatus.get("new"), country, date);
+             JusticeTicketDirectory jtktDirectory = new JusticeTicketDirectory(jTicket); 
+             try {
+                jtktDirectory.createJusticeTicket();
+                JOptionPane.showMessageDialog(this, "Justice ticket has been created");
+                setJusticeTicketData();
+                btnOrangeFlag.setVisible(false);
+                btnRedFlag.setVisible(false);
+                btnTrackJusticeTkt.setVisible(true);
+             } catch (Exception e) {
+                 System.out.println(e);
+             }
+             
+         }
+        }
+    }//GEN-LAST:event_btnRedFlagActionPerformed
 
     private void btnReceivedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceivedActionPerformed
         try {
@@ -437,17 +583,91 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnReceivedActionPerformed
 
+    private void btnTrackJusticeTktActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrackJusticeTktActionPerformed
+        // TODO add your handling code here:
+        setJusticeTicketData();
+    }//GEN-LAST:event_btnTrackJusticeTktActionPerformed
+        private void setJusticeTicketData() {
+        if (justiceCauseTicket != null) {
+            JusticeTicket jtkt  = checkIfJusticeTicketExist(justiceCauseTicket);
+            lblStatus.setText(jtkt.getjTktStatus());
+             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+            if (jtkt.getCreatedDate() != null) {
+                lblCreateDate.setText(formatter.format(jtkt.getCreatedDate()));
+                 } else {
+                     lblCreateDate.setText("NA");
+                 }
+                 if (jtkt.getUpdatedDate() != null) {
+                        lblUpdateDate.setText(formatter.format(jtkt.getUpdatedDate()));
+                 } else {
+                     lblUpdateDate.setText("NA");
+                 } 
+            setFontColorForJusticeStatus(jtkt.getjTktStatus());
+            if (jtkt != null && !jtkt.getjTktStatus().trim().equals("NEW")) {
+                JusticeDepartmentEmployeeDirectory jdEmpDirectory = new JusticeDepartmentEmployeeDirectory(null);
+                JusticeDepartmentEmployee jDemp = null;
+                try {
+                    int jEmpId = jtkt.getjEmpId();
+                    if (jEmpId > 0) {
+                        jDemp = jdEmpDirectory.fetchEmployeeById(jEmpId); 
+                        if (jDemp != null) {
+                            lblEmail.setText(jDemp.getEmail());
+                            lblEmail.setVisible(true);
+                        }
+                    }
+                   
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            } else {
+                 lblEmail.setText("NA");
+            }
+            panelJudiciary1.setVisible(true);
+        }
+    }
+    
+            
+           private void setFontColorForJusticeStatus(String status) {
+            switch (status) {
+                case "NEW":
+                    Color newBlue = new Color(102, 255,255);
+                    lblStatus.setForeground(newBlue);
+                    break;
+                case "ASSIGNED":
+                    Color newOrange = new Color(255, 153,51);
+                    lblStatus.setForeground(newOrange);
+                    break;
+                case "WIP":
+                    Color  newLeafColor= new Color(255, 153,0);
+                    lblStatus.setForeground(newLeafColor);
+                    break;
+                case "RESOLVED":
+                    Color  success= new Color(51, 153,0);
+                    lblStatus.setForeground(success);
+                    break;
+                default:
+                    throw new AssertionError();
+            
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnHelp2;
+    private javax.swing.JButton btnOrangeFlag;
     private javax.swing.JButton btnReceived;
+    private javax.swing.JButton btnRedFlag;
     private javax.swing.JButton btnTrack;
+    private javax.swing.JButton btnTrackJusticeTkt;
     private javax.swing.JPanel chartPanel;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCreateDate;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblUpdateDate;
     private javax.swing.JPanel panelJudiciary1;
     private javax.swing.JPanel panelTracker;
     private javax.swing.JTable tblCause;

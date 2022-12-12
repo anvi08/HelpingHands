@@ -76,7 +76,10 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
         }
         jProgressBar1.setVisible(false);
         panelJudiciary1.setVisible(false);        
-        btnReceived.setVisible(false);        
+        btnReceived.setVisible(false);  
+        btnReceived.setVisible((false));
+        lblReq.setVisible(false);
+        txtReq.setVisible(false);            
     }
     private void popReceiverTable(ArrayList<Cause> receiverTable) throws SQLException {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -122,6 +125,8 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
         btnHelp2 = new javax.swing.JButton();
         txtnew = new javax.swing.JLabel();
         btnReceived = new javax.swing.JButton();
+        lblReq = new javax.swing.JLabel();
+        txtReq = new javax.swing.JTextField();
 
         tblCause.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -261,6 +266,8 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
             }
         });
 
+        lblReq.setText("Requirement Status");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -280,7 +287,11 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnReceived)
                                 .addGap(25, 25, 25)
-                                .addComponent(btnHelp2)))))
+                                .addComponent(btnHelp2)
+                                .addGap(78, 78, 78)
+                                .addComponent(lblReq)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtReq, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -294,7 +305,9 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnTrack)
                             .addComponent(btnHelp2)
-                            .addComponent(btnReceived)))
+                            .addComponent(btnReceived)
+                            .addComponent(lblReq)
+                            .addComponent(txtReq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                         .addComponent(txtnew)))
@@ -315,7 +328,7 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
             System.out.println("CAUSE IDDDDD "+SelectedRecords.getCauseId());
             JOptionPane.showMessageDialog(this,"The Exact location of your funds is given below");
             try {
-                ArrayList<CauseTicket> trackCauses = causeTicketDirectory.trackCauseReceiver(receiverID);
+                ArrayList<CauseTicket> trackCauses = causeTicketDirectory.trackCauseReceiver(SelectedRecords.getCauseId());
                 panelTracker.setVisible(true);
                 jProgressBar1.setVisible(true);
                 int MY_MINIMUM = 0;
@@ -340,7 +353,7 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
                     return;
                 }                
                 for(CauseTicket causetix : trackCauses){
-                    if(causetix.getReceiverId()==receiverID){
+                    if(causetix.getCauseId()==SelectedRecords.getCauseId()){
                         Date createdDate = causetix.getCreatedDate();
                         System.out.println(createdDate+"YOOOOOOOOOOOOOOOO");
                    
@@ -389,7 +402,15 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
                             final String html = "<html><body style='width: %1spx'>%1s";
                
                         }
-                    
+                       if((moneyReceived==null) && moneyReceiverCountry!=null){
+                            btnReceived.setVisible((true));
+                            lblReq.setVisible(true);
+                            txtReq.setVisible(true);
+                        }else{
+                            btnReceived.setVisible((false));
+                            lblReq.setVisible(false);
+                            txtReq.setVisible(false);                            
+                        }                    
                         if(check==1){
                             jProgressBar1.setValue(25);
                             return;
@@ -421,6 +442,10 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
     }//GEN-LAST:event_btnHelp2ActionPerformed
 
     private void btnReceivedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceivedActionPerformed
+        if(txtReq.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please Enter a requirement which was satisfied");
+           return;
+        }
         try {
             // TODO add your handling code here:
             int SelectedRow = tblCause.getSelectedRow();            
@@ -431,7 +456,15 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
                 if(causetix.getMoneyReceiverCountry()!=null && Integer.valueOf(causetix.getCauseId())==Integer.valueOf(SelectedRecords.getCauseId())){
                     int dId = Integer.valueOf(causetix.getCauseId());
                     int rId = Integer.valueOf(causetix.getReceiverId());
+                    int amount = causeDirectory.Requirement(dId);
+                    int amountField = Integer.valueOf(txtReq.getText());
+                    int diff = amount - amountField;
+                    if(amountField>amount){
+                        JOptionPane.showMessageDialog(this, "Please Enter a valid Number");
+                        return;
+                    }
                     causeTicketDirectory.moneyReceived(dId,rId);
+                    causeDirectory.updateAmount(diff, dId);
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Calendar cal = Calendar.getInstance();
                     String cd = dateFormat.format(cal.getTime());                    
@@ -441,6 +474,10 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
                     txtDate1.setText(cd.toString()); 
                     jProgressBar1.setValue(100); 
                     jProgressBar1.setForeground(Color.GREEN);
+                    btnReceived.setVisible(false);
+                    txtReq.setText("");
+                    txtReq.setVisible(false);
+                    lblReq.setVisible(false);
                 }
             }
         } catch (SQLException ex) {
@@ -461,6 +498,7 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblReq;
     private javax.swing.JPanel panelJudiciary1;
     private javax.swing.JPanel panelTracker;
     private javax.swing.JTable tblCause;
@@ -472,6 +510,7 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
     private javax.swing.JLabel txtDate2;
     private javax.swing.JLabel txtDate3;
     private javax.swing.JLabel txtDate4;
+    private javax.swing.JTextField txtReq;
     private javax.swing.JLabel txtnew;
     // End of variables declaration//GEN-END:variables
 }

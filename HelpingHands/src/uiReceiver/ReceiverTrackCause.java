@@ -533,7 +533,7 @@ public class ReceiverTrackCause extends javax.swing.JPanel {
         // TODO add your handling code here:
                 if (justiceCauseTicket != null) {
             int causeTktId = justiceCauseTicket.getTktId();
-            String country = justiceCauseTicket.getDonorCountry();
+            String country = justiceCauseTicket.getReceivingCountry();
          if ((causeTktId == 0 || causeTktId > 0) && country != null && !country.trim().equals("")) {
              Date date = new Date();
              JusticeTicket jTicket = new JusticeTicket(causeTktId, date, Constants.justiceTicketStatus.get("new"), country, date);

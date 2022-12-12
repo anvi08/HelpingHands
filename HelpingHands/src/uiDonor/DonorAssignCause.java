@@ -426,7 +426,7 @@ public class DonorAssignCause extends javax.swing.JPanel {
                             
                             BankPerson bankPerson = null;
                             
-                            BankEmployeeTicket bankEmployeeTicket = new BankEmployeeTicket(assignCause, null); 
+                            BankEmployeeTicket bankEmployeeTicket = new BankEmployeeTicket(assignCause); 
                             
                             BankEmployeeTicketDirectory bankEmployeeTicketDirectory = new BankEmployeeTicketDirectory(bankEmployeeTicket);
                             bankEmployeeTicketDirectory.addBankEmployeeTicket(bankEmployeeTicket);

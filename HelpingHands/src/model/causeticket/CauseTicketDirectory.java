@@ -171,10 +171,6 @@ public class CauseTicketDirectory {
         }
         return causeTicket;
     }
-
-    
-    public void populateBankEmployeeTicketTable(){
-        BankEmployeeTicket bankEmployeeTicket = new BankEmployeeTicket();
-    } 
+ 
 
 }

@@ -418,7 +418,7 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
             int SelectedRow = tblCause.getSelectedRow();            
             DefaultTableModel m2 = (DefaultTableModel)tblCause.getModel();
             Cause SelectedRecords = (Cause) m2.getValueAt(SelectedRow, 0);            
-            ArrayList<CauseTicket> trackCauses = causeTicketDirectory.trackCauseReceiver(receiverID);
+            ArrayList<CauseTicket> trackCauses = causeTicketDirectory.trackCauseReceiver(SelectedRecords.getCauseId());
             for(CauseTicket causetix : trackCauses){
                 if(causetix.getMoneyReceiverCountry()!=null && Integer.valueOf(causetix.getCauseId())==Integer.valueOf(SelectedRecords.getCauseId())){
                     int dId = Integer.valueOf(causetix.getCauseId());

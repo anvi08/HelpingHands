@@ -364,7 +364,12 @@ public class DonorAssignCause extends javax.swing.JPanel {
         try {
             popDonorTable(donorDirectory.popDonorTable(cause1));
             allReceivers = serviceProviderDirectory.getService2(cause1);
-            lblReqSub.setText(allReceivers.get(0).getFirstName().split(" ")[0].trim());
+            try {
+                lblReqSub.setText(allReceivers.get(0).getFirstName().split(" ")[0].trim());
+            } catch (Exception e) {
+                
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(DonorAssignCause.class.getName()).log(Level.SEVERE, null, ex);
         }

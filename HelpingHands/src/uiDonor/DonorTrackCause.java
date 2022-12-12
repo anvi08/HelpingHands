@@ -205,9 +205,9 @@ public class DonorTrackCause extends javax.swing.JPanel {
                     .addComponent(txtDate4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addComponent(panelJudiciary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addContainerGap(196, Short.MAX_VALUE))
         );
 
         txtTrackerLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtDate1, txtDate2, txtDate3, txtDate4});
@@ -321,6 +321,7 @@ public class DonorTrackCause extends javax.swing.JPanel {
     private void btnTrackCauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrackCauseActionPerformed
         // TODO add your handling code here:
         int SelectedRow = tblCause.getSelectedRow();
+        panelJudiciary.setVisible(false);
         if(SelectedRow<0){
             JOptionPane.showMessageDialog(this, "Please Select a row");
         }else{

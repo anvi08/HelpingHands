@@ -113,10 +113,11 @@ public class CauseTicketDirectory {
             String dCountry = resultSet.getString("Donor_Country");
             String rCountry = resultSet.getString("Receiving_Country");
             int amount = Integer.valueOf(resultSet.getString("Amount"));
+            int causeTicketId = Integer.valueOf(resultSet.getString("SNo"));
 
             
             CauseTicket causeticket = new CauseTicket(donorId,receiverId,causeId,createdDate,moneyDonorCountry,moneyReceivingCountry,moneyReceived,dCountry,rCountry,amount);
-            
+            causeticket.setTktId(causeTicketId);
             tracker.add(causeticket);    
         }
         

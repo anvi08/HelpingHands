@@ -470,7 +470,6 @@
                                       <Component id="lblJusticeStatus" min="-2" pref="184" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="btnTrackCause" min="-2" pref="154" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="assignedTicketEmpPanel" min="-2" max="-2" attributes="0"/>
@@ -514,9 +513,7 @@
                                       <Component id="jLabel12" min="-2" pref="34" max="-2" attributes="0"/>
                                       <Component id="lblJusticeCreatedon" linkSize="5" min="-2" pref="34" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnTrackCause" min="-2" pref="31" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                                  <EmptySpace min="56" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -707,14 +704,6 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="btnTrackCause">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="TRACK CAUSE"/>
-                  </Properties>
-                </Component>
               </SubComponents>
             </Container>
           </SubComponents>

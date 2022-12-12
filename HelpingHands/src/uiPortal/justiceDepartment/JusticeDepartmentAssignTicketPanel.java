@@ -267,7 +267,6 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
         txtAssignedLastName = new javax.swing.JTextField();
         txtAssignedFirstName = new javax.swing.JTextField();
         txtAssignedEmail = new javax.swing.JTextField();
-        btnTrackCause = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -383,7 +382,6 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
         panelAssignTickets.setLayout(panelAssignTicketsLayout);
         panelAssignTicketsLayout.setHorizontalGroup(
             panelAssignTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-
             .addGroup(panelAssignTicketsLayout.createSequentialGroup()
                 .addGroup(panelAssignTicketsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnAssignTickets, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -512,9 +510,6 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18))
         );
 
-        btnTrackCause.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnTrackCause.setText("TRACK CAUSE");
-
         javax.swing.GroupLayout panelTrackDetailsLayout = new javax.swing.GroupLayout(panelTrackDetails);
         panelTrackDetails.setLayout(panelTrackDetailsLayout);
         panelTrackDetailsLayout.setHorizontalGroup(
@@ -534,8 +529,7 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblJusticeUpdatedOn, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblJusticeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnTrackCause, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblJusticeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(assignedTicketEmpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -568,9 +562,7 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
                         .addGroup(panelTrackDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblJusticeCreatedon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTrackCause, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         panelTrackDetailsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblJusticeCreatedon, lblJusticeStatus, lblJusticeUpdatedOn});
@@ -590,7 +582,7 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
         updateDetailsPanelLayout.setHorizontalGroup(
             updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panelCardLayout, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(panelCardLayout, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
             .addGroup(updateDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(updateDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -985,7 +977,6 @@ public class JusticeDepartmentAssignTicketPanel extends javax.swing.JPanel {
     private javax.swing.JPanel assignedTicketEmpPanel;
     private javax.swing.JButton btnAssignTickets;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnTrackCause;
     private javax.swing.JButton btnViewAssignedTkts;
     private javax.swing.JButton btnViewDetails;
     private javax.swing.JButton btnViewUnassignedTkts;

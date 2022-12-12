@@ -18,12 +18,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.causeBankTrack.BankEmployeeTicket;
+import model.causeBankTrack.BankEmployeeTicketDirectory;
 import model.causes.Cause;
 import model.causes.CauseDirectory;
 import model.causeticket.CauseTicket;
 import model.causeticket.CauseTicketDirectory;
 import profile.Receiver.Receiver;
 import profile.Receiver.ReceiverDirectory;
+import profile.bank.BankPerson;
 import profile.donor.Donor;
 import profile.donor.DonorDirectory;
 import utilities.Constants;
@@ -42,6 +45,8 @@ public class DonorAssignCause extends javax.swing.JPanel {
     CauseTicket causeTicket;
     ReceiverDirectory receiverDirectory;
     Receiver receiver;
+    BankEmployeeTicket bankEmployeeTicket;
+    
     /**
      * Creates new form DonorAssignCause
      */
@@ -379,6 +384,13 @@ public class DonorAssignCause extends javax.swing.JPanel {
                             CauseTicket assignCause = new CauseTicket(donorId, receiverId, causeId, createdDate,moneyDonorCountry,moneyReceiverCountry,moneyReceived,dCountry, rCountry,amount);
                             CauseTicketDirectory causeTicketDirectory = new CauseTicketDirectory(assignCause);
                             causeTicketDirectory.addTicket();
+                            
+                            BankPerson bankPerson = null;
+                            
+                            BankEmployeeTicket bankEmployeeTicket = new BankEmployeeTicket(assignCause, null); 
+                            
+                            BankEmployeeTicketDirectory bankEmployeeTicketDirectory = new BankEmployeeTicketDirectory(bankEmployeeTicket);
+                            bankEmployeeTicketDirectory.addBankEmployeeTicket(bankEmployeeTicket);
                             txtFirstName.setText("");
                             txtLastName.setText("");
                             txtEmail.setText("");

@@ -4,6 +4,11 @@
  */
 package uiPortal.Bank;
 
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import model.causeBankTrack.BankAssignTicket;
+import model.causeBankTrack.BankAssignTicketDirectory;
+
 /**
  *
  * @author HP
@@ -13,8 +18,17 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
     /**
      * Creates new form BankAssignTicket
      */
+    
+    BankAssignTicketDirectory bankAssignTicketDirectory;
+    BankAssignTicket bankAssignTicket;
+    ArrayList<BankAssignTicket> allBankAssignTicket;
+    String loggedInUserCountry = "";
     public BankAssignTicketPanel() {
         initComponents();
+        
+        this.bankAssignTicketDirectory = new BankAssignTicketDirectory(bankAssignTicket);
+        allBankAssignTicket = new ArrayList<BankAssignTicket>();
+        populateBankAssignTable();
     }
 
     /**
@@ -24,8 +38,18 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     
-    public void populateBankAssigntbl(){
+    public void populateBankAssignTable(){
         
+        DefaultTableModel model = (DefaultTableModel)tblAssignTicket.getModel();
+        model.setRowCount(0);
+        ArrayList<BankAssignTicket> allBankAssignTicket1;
+        allBankAssignTicket1 = bankAssignTicketDirectory.getAllBankAssignTicket();
+        for(BankAssignTicket bankAssignTicket: allBankAssignTicket1){
+            Object[] row = new Object[2];
+            row[0] = bankAssignTicket.getCauseName();
+            row[1] = bankAssignTicket.getCreateDate();
+            model.addRow(row);
+        }
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -43,6 +67,7 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
         txtCreateDate = new javax.swing.JTextField();
         dropDownEmp = new javax.swing.JComboBox<>();
         btnAssign = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -120,28 +145,38 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
                 .addContainerGap(194, Short.MAX_VALUE))
         );
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Assign Tickets to Bank Employees");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 727, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addGap(31, 31, 31))
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(209, 209, 209))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -150,7 +185,7 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -161,6 +196,7 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

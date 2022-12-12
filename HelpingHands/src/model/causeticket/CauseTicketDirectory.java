@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
+import model.causeBankTrack.BankEmployeeTicket;
 
 /**
  *
@@ -26,6 +27,8 @@ public class CauseTicketDirectory {
     private String moneyDonorCountry1;
     private String moneyReceived1;
     private String moneyReceiverCountry1;
+    private BankEmployeeTicket bankEmployeeTicket; 
+    
     public CauseTicketDirectory(CauseTicket causeTicket){
         
         this.causeTicket = causeTicket;
@@ -154,4 +157,8 @@ public class CauseTicketDirectory {
         }
         return causeTicket;
     }
+    
+    public void populateBankEmployeeTicketTable(){
+        BankEmployeeTicket bankEmployeeTicket = new BankEmployeeTicket();
+    } 
 }

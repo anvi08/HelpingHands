@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
+import model.causeBankTrack.BankEmployeeTicket;
 import static utilities.DbConnection.query;
 
 /**
@@ -27,6 +28,8 @@ public class CauseTicketDirectory {
     private String moneyDonorCountry1;
     private String moneyReceived1;
     private String moneyReceiverCountry1;
+    private BankEmployeeTicket bankEmployeeTicket; 
+    
     public CauseTicketDirectory(CauseTicket causeTicket){
         
         this.causeTicket = causeTicket;
@@ -113,10 +116,11 @@ public class CauseTicketDirectory {
             String dCountry = resultSet.getString("Donor_Country");
             String rCountry = resultSet.getString("Receiving_Country");
             int amount = Integer.valueOf(resultSet.getString("Amount"));
+            int causeTicketId = Integer.valueOf(resultSet.getString("SNo"));
 
             
             CauseTicket causeticket = new CauseTicket(donorId,receiverId,causeId,createdDate,moneyDonorCountry,moneyReceivingCountry,moneyReceived,dCountry,rCountry,amount);
-            
+            causeticket.setTktId(causeTicketId);
             tracker.add(causeticket);    
         }
         
@@ -167,5 +171,10 @@ public class CauseTicketDirectory {
         }
         return causeTicket;
     }
+
+    
+    public void populateBankEmployeeTicketTable(){
+        BankEmployeeTicket bankEmployeeTicket = new BankEmployeeTicket();
+    } 
 
 }

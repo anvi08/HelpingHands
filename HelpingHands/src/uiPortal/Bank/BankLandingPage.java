@@ -42,6 +42,7 @@ public class BankLandingPage extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         btnCreateBankUser = new javax.swing.JButton();
         btnViewBankUser = new javax.swing.JButton();
+        btnAssignTicket = new javax.swing.JButton();
         bankCardLayoutPanel = new javax.swing.JPanel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -60,16 +61,25 @@ public class BankLandingPage extends javax.swing.JPanel {
             }
         });
 
+        btnAssignTicket.setText("Assign Tickets");
+        btnAssignTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAssignTicketActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(340, Short.MAX_VALUE)
+                .addContainerGap(319, Short.MAX_VALUE)
                 .addComponent(btnCreateBankUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnViewBankUser)
-                .addGap(103, 103, 103))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAssignTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -77,7 +87,8 @@ public class BankLandingPage extends javax.swing.JPanel {
                 .addContainerGap(37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreateBankUser)
-                    .addComponent(btnViewBankUser))
+                    .addComponent(btnViewBankUser)
+                    .addComponent(btnAssignTicket))
                 .addContainerGap())
         );
 
@@ -148,9 +159,19 @@ public class BankLandingPage extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnViewBankUserActionPerformed
 
+    private void btnAssignTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAssignTicketActionPerformed
+        // TODO add your handling code here:
+        BankAssignTicketPanel bankAssignTicketPanel = new BankAssignTicketPanel();
+        bankCardLayoutPanel.removeAll();
+        bankCardLayoutPanel.add(bankAssignTicketPanel);
+        bankCardLayoutPanel.repaint();
+        bankCardLayoutPanel.revalidate();
+    }//GEN-LAST:event_btnAssignTicketActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bankCardLayoutPanel;
+    private javax.swing.JButton btnAssignTicket;
     private javax.swing.JButton btnCreateBankUser;
     private javax.swing.JButton btnViewBankUser;
     private javax.swing.JPanel jPanel1;

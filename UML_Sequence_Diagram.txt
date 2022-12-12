@@ -1,0 +1,97 @@
+
+//https://www.ibm.com/docs/en/rhapsody/8.3.1?topic=diagrams-drawing-create-arrow
+title Financial Aid Management System
+
+actor System Admin
+
+actor Healthcare NGO
+actor Education NGO
+actor Natural Disaster NGO
+participant NGO
+
+
+participant Service Provider
+actor Shelter
+actor Books
+actor Medicines
+actor Donor
+
+participant Donor Country Bank
+actor Bank Employee Admin
+actor Bank employee
+participant Donor Country Justice Department
+actor Justice Dept Admin
+actor Justice employee
+
+participant Receiving Country Bank
+actor Receiving Country Bank Employee Admin
+actor Receiving Country Bank employee
+participant Receiving Country Justice Department
+actor Receiving Country Justice Dept Admin
+actor Receiving Country Justice employee
+
+actor Receiver
+
+
+note over System Admin:Logs In as NGO\n& **CAUSE** Created\nat NGO Level
+activate NGO
+System Admin -->NGO :Creates Cause
+Healthcare NGO -->NGO:Health related Cause
+Education NGO -->NGO:Education related Cause
+Natural Disaster NGO -->NGO:Disaster related Cause
+
+
+
+Receiver --> NGO: Individuals can register to a cause
+NGO --> Shelter: Comunities can Request for Shelters
+NGO --> Books: Communities can Request for Books
+NGO --> Medicines: Communities can Request for Medicines
+
+note over Donor: Donors can Register to Donate
+Donor --> NGO: Donor can View and Assign to Causes
+deactivate NGO
+
+note over Donor: Donors make their donations
+activate Donor Country Bank
+Donor --> Donor Country Bank: Donors Bank Receives Funds
+Donor Country Bank -->Bank Employee Admin: Admin Sees Ticket
+Bank Employee Admin -->Bank employee: Admin assigns tickets to employee
+Bank employee -->Receiving Country Bank: Employee sends to Receiving Countrys Bank
+deactivate Donor Country Bank
+
+activate Receiving Country Bank
+Receiving Country Bank -->Receiving Country Bank Employee Admin: Bank receives overses transfer
+Receiving Country Bank Employee Admin -->Receiving Country Bank employee:Admin assigns tickets to employees
+Receiving Country Bank employee -->Receiver: Employee allows receiver to confirm funds transfer
+deactivate Receiving Country Bank
+note over Receiver:Receiver can be\n **Individual** or \n **Community**
+activate Receiver
+note over Receiver:Logs In as Receiver\nFunds Received
+deactivate Receiver
+
+
+activate Receiver
+note over Receiver:10 Days Delay in Fund transfer
+Receiver --> Receiving Country Justice Department: Red Flag Raised
+deactivate Receiver
+
+activate Receiving Country Justice Department
+note over Receiving Country Justice Department: Activates Justice ticket
+
+activate Donor
+note over Donor:10 Day Delay in Notification of Fund Transfer
+Donor -->Donor Country Justice Department: 
+deactivate Donor
+
+activate Donor Country Justice Department
+note over Donor Country Justice Department:Updates Justice Tickets\nStatus: \nNew\nAssigned\nWIP\nReceived 
+Donor Country Justice Department -->Receiver:
+
+activate Receiving Country Justice Department
+note over Receiving Country Justice Department:Updates Justice Tickets\nStatus: \nNew\nAssigned\nWIP\nReceived 
+Receiving Country Justice Department -->Receiver:
+
+
+
+
+

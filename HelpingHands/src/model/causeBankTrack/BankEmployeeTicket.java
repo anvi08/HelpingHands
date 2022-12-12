@@ -17,20 +17,29 @@ import profile.bank.BankPersonDirectory;
 public class BankEmployeeTicket {
     private Cause cause;
     private CauseTicket causeTicket;
-    private BankPerson bankPerson;
-    private BankPersonDirectory bankPersonDirectory;
+    private BankTicket bankTicket;
     private int bk_tk_no;
     
     //public ArrayList<BankEmployeeTicket> allBankEmployeeTicket;
     
-    public BankEmployeeTicket() {
-    }
-
-    public BankEmployeeTicket(CauseTicket causeTicket, BankPerson bankPerson) {
-        this.causeTicket = causeTicket;
-        this.bankPerson = bankPerson;
+    public BankEmployeeTicket(BankTicket bankTcket) {
+        this.bankTicket = bankTcket;
+        this.cause = null;
+        this.causeTicket = null;
+        
     }
     
+        public BankEmployeeTicket(CauseTicket causeTicket) {
+        this.causeTicket = causeTicket;
+        
+    }
+    public BankTicket getBankTicket() {
+        return bankTicket;
+    }
+
+    public void setBankTicket(BankTicket bankTicket) {
+        this.bankTicket = bankTicket;
+    }
     
     
     public Cause getCause() {
@@ -41,21 +50,6 @@ public class BankEmployeeTicket {
         this.cause = cause;
     }
 
-    public BankPerson getBankPerson() {
-        return bankPerson;
-    }
-
-    public void setBankPerson(BankPerson bankPerson) {
-        this.bankPerson = bankPerson;
-    }
-
-    public BankPersonDirectory getBankPersonDirectory() {
-        return bankPersonDirectory;
-    }
-
-    public void setBankPersonDirectory(BankPersonDirectory bankPersonDirectory) {
-        this.bankPersonDirectory = bankPersonDirectory;
-    }
 
     public int getBk_tk_no() {
         return bk_tk_no;
@@ -71,6 +65,11 @@ public class BankEmployeeTicket {
 
     public void setCauseTicket(CauseTicket causeTicket) {
         this.causeTicket = causeTicket;
+    }
+
+    @Override
+    public String toString() {
+        return getCause().getCauseName();
     }
     
     

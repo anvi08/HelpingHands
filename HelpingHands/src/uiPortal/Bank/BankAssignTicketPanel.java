@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import model.causeBankTrack.BankAssignTicket;
 import model.causeBankTrack.BankAssignTicketDirectory;
+import model.causeBankTrack.BankEmployeeTicket;
+import model.causeBankTrack.BankTicket;
+import model.causeBankTrack.BankTicketDirectory;
+import model.causes.Cause;
+import model.causes.CauseDirectory;
+import model.causeticket.CauseTicket;
+import model.causeticket.CauseTicketDirectory;
 
 /**
  *
@@ -22,6 +29,8 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
     BankAssignTicketDirectory bankAssignTicketDirectory;
     BankAssignTicket bankAssignTicket;
     ArrayList<BankAssignTicket> allBankAssignTicket;
+    ArrayList<BankEmployeeTicket> bankEmpTktList;
+    
     String loggedInUserCountry = "";
     public BankAssignTicketPanel() {
         initComponents();
@@ -29,6 +38,8 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
         this.bankAssignTicketDirectory = new BankAssignTicketDirectory(bankAssignTicket);
         allBankAssignTicket = new ArrayList<BankAssignTicket>();
         populateBankAssignTable();
+        bankEmpTktList = new ArrayList<BankEmployeeTicket>();
+        fetchBankEmpTicketData();
     }
 
     /**
@@ -42,14 +53,15 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
         
         DefaultTableModel model = (DefaultTableModel)tblAssignTicket.getModel();
         model.setRowCount(0);
-        ArrayList<BankAssignTicket> allBankAssignTicket1;
-        allBankAssignTicket1 = bankAssignTicketDirectory.getAllBankAssignTicket();
-        for(BankAssignTicket bankAssignTicket: allBankAssignTicket1){
+        if (bankEmpTktList != null && !bankEmpTktList.isEmpty()) {
+          for(BankEmployeeTicket bnkEmpTkt: bankEmpTktList){
             Object[] row = new Object[2];
-            row[0] = bankAssignTicket.getCauseName();
-            row[1] = bankAssignTicket.getCreateDate();
+            row[0] = bnkEmpTkt;
+            row[1] = bnkEmpTkt.getCauseTicket().getCreatedDate();
             model.addRow(row);
+        } 
         }
+
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -188,7 +200,55 @@ public class BankAssignTicketPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    private void fetchBankEmpTicketData(){
+        BankTicketDirectory bnkDirectory = new BankTicketDirectory(null);
+        ArrayList<BankTicket> allBankTickets = new ArrayList<BankTicket>();
+        try {
+            allBankTickets = bnkDirectory.fetchBankTicket();
+            if(allBankTickets != null && !allBankTickets.isEmpty()) {
+               bankEmpTktList = new ArrayList<BankEmployeeTicket>(); 
+               for(BankTicket bnkTkt : allBankTickets) {
+                   BankEmployeeTicket bnkEmpTkt = new BankEmployeeTicket(bnkTkt);
+                   CauseTicket causeTicket = fetchCauseTicketData(bnkTkt.getCauseTkId());
+                   if (causeTicket != null) {
+                       bnkEmpTkt.setCauseTicket(causeTicket);
+                       Cause cause = fetchCauseData(causeTicket.getCauseId());
+                       if (cause != null) {
+                           bnkEmpTkt.setCause(cause);
+                       }
+                   }
+                   bankEmpTktList.add(bnkEmpTkt);
+               }
+               
+               populateBankAssignTable();
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        
+    }
+    
+        private Cause fetchCauseData(int causeId) {
+        Cause cause = null;
+        try {
+           CauseDirectory causeDirectory =  new CauseDirectory(null); 
+           cause = causeDirectory.fetchCauseById(causeId);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return cause;
+    }
+    
+        private CauseTicket fetchCauseTicketData(int causeTicketId) {
+        CauseTicket causeTicket= null;
+        try {
+            CauseTicketDirectory causeTicketDirectory = new CauseTicketDirectory(null);
+            causeTicket = causeTicketDirectory.fetchCauseTicketData(causeTicketId);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return causeTicket;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAssign;

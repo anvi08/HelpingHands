@@ -31,6 +31,7 @@ import profile.donor.Donor;
 import profile.donor.DonorDirectory;
 import profile.justiceDepartment.JusticeDepartmentEmployee;
 import profile.justiceDepartment.JusticeDepartmentEmployeeDirectory;
+import twofa.EmailNotification;
 import utilities.Constants;
 
 /**
@@ -257,6 +258,11 @@ public class DonorTrackCause extends javax.swing.JPanel {
         });
 
         btnOrangeFlag.setText("Raise Orange Flag");
+        btnOrangeFlag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrangeFlagActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -436,7 +442,29 @@ public class DonorTrackCause extends javax.swing.JPanel {
         // TODO add your handling code here:
         setJusticeTicketData();
     }//GEN-LAST:event_btnTrackJusticeTktActionPerformed
-    
+
+    private void btnOrangeFlagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrangeFlagActionPerformed
+        // TODO add your handling code here:
+              if (justiceCauseTicket != null) {
+            Receiver receiver = fetchReceiverData();
+            if (donor != null) {
+                EmailNotification.SendEmail("abcd", donor.getEmail());
+            }
+        }
+    }//GEN-LAST:event_btnOrangeFlagActionPerformed
+    private Receiver fetchReceiverData() {
+        Receiver receiver = null;
+         if (justiceCauseTicket != null && justiceCauseTicket.getDonorId() > 0) {
+                try {
+                    ReceiverDirectory receiverDirectory = new ReceiverDirectory(null); 
+                    receiver = receiverDirectory.fetchReceiverById(justiceCauseTicket.getReceiverId());
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+                
+            }
+        return receiver;
+    }
     private void setJusticeTicketData() {
         if (justiceCauseTicket != null) {
             JusticeTicket jtkt  = checkIfJusticeTicketExist(justiceCauseTicket);

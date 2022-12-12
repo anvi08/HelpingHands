@@ -110,7 +110,10 @@ public class ServiceProviderAssign extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         txtRequirement = new javax.swing.JTextField();
 
-        btnAssignCause.setText("Assign Cause");
+        btnAssignCause.setBackground(new java.awt.Color(0, 102, 0));
+        btnAssignCause.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAssignCause.setForeground(new java.awt.Color(255, 255, 255));
+        btnAssignCause.setText("ASSIGN CAUSE");
         btnAssignCause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAssignCauseActionPerformed(evt);
@@ -130,7 +133,9 @@ public class ServiceProviderAssign extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tblCause);
 
-        btnSearch.setText("Search Cause");
+        btnSearch.setBackground(new java.awt.Color(0, 51, 102));
+        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearch.setText("SEARCH CAUSE");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);
@@ -177,7 +182,7 @@ public class ServiceProviderAssign extends javax.swing.JPanel {
                                 .addComponent(txtRequirement, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(31, 31, 31)
                                 .addComponent(btnAssignCause)))
-                        .addGap(0, 245, Short.MAX_VALUE))
+                        .addGap(0, 229, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );

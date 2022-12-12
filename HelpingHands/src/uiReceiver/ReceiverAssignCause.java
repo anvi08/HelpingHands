@@ -105,7 +105,10 @@ public class ReceiverAssignCause extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tblCause);
 
-        btnAssignCause.setText("Assign Cause");
+        btnAssignCause.setBackground(new java.awt.Color(0, 51, 102));
+        btnAssignCause.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAssignCause.setForeground(new java.awt.Color(255, 255, 255));
+        btnAssignCause.setText("ASSIGN CAUSE");
         btnAssignCause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAssignCauseActionPerformed(evt);
@@ -114,7 +117,10 @@ public class ReceiverAssignCause extends javax.swing.JPanel {
 
         jLabel1.setText("Select Cause");
 
-        btnSearch.setText("Search Cause");
+        btnSearch.setBackground(new java.awt.Color(0, 51, 153));
+        btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearch.setText("SEARCH CAUSE");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);

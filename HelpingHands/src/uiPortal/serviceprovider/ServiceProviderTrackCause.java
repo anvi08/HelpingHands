@@ -119,10 +119,6 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
         txtDate4 = new javax.swing.JLabel();
         jProgressBar1 = new javax.swing.JProgressBar();
         panelJudiciary1 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        btnHelp2 = new javax.swing.JButton();
         txtnew = new javax.swing.JLabel();
         btnReceived = new javax.swing.JButton();
         lblReq = new javax.swing.JLabel();
@@ -141,6 +137,8 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tblCause);
 
+        btnTrack.setBackground(new java.awt.Color(0, 51, 102));
+        btnTrack.setForeground(new java.awt.Color(255, 255, 255));
         btnTrack.setText("Track Funds");
         btnTrack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,34 +158,15 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
 
         panelJudiciary1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel5.setText("jLabel1");
-
-        jLabel6.setText("jLabel2");
-
-        jLabel7.setText("jLabel3");
-
         javax.swing.GroupLayout panelJudiciary1Layout = new javax.swing.GroupLayout(panelJudiciary1);
         panelJudiciary1.setLayout(panelJudiciary1Layout);
         panelJudiciary1Layout.setHorizontalGroup(
             panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelJudiciary1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5))
-                .addContainerGap(125, Short.MAX_VALUE))
+            .addGap(0, 181, Short.MAX_VALUE)
         );
         panelJudiciary1Layout.setVerticalGroup(
             panelJudiciary1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelJudiciary1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel7)
-                .addContainerGap(47, Short.MAX_VALUE))
+            .addGap(0, 165, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelTrackerLayout = new javax.swing.GroupLayout(panelTracker);
@@ -252,13 +231,8 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
 
         panelTrackerLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCreated, txtCreated1, txtCreated2, txtCreated3});
 
-        btnHelp2.setText("Help");
-        btnHelp2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHelp2ActionPerformed(evt);
-            }
-        });
-
+        btnReceived.setBackground(new java.awt.Color(0, 51, 102));
+        btnReceived.setForeground(new java.awt.Color(255, 255, 255));
         btnReceived.setText("Funds Received");
         btnReceived.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -286,9 +260,7 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(btnReceived)
-                                .addGap(25, 25, 25)
-                                .addComponent(btnHelp2)
-                                .addGap(78, 78, 78)
+                                .addGap(175, 175, 175)
                                 .addComponent(lblReq)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtReq, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -304,7 +276,6 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnTrack)
-                            .addComponent(btnHelp2)
                             .addComponent(btnReceived)
                             .addComponent(lblReq)
                             .addComponent(txtReq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -437,10 +408,6 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnTrackActionPerformed
 
-    private void btnHelp2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelp2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnHelp2ActionPerformed
-
     private void btnReceivedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceivedActionPerformed
         if(txtReq.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Please Enter a requirement which was satisfied");
@@ -489,13 +456,9 @@ public class ServiceProviderTrackCause extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnHelp2;
     private javax.swing.JButton btnReceived;
     private javax.swing.JButton btnTrack;
     private javax.swing.JPanel chartPanel;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblReq;
